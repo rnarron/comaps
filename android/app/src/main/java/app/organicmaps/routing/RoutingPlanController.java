@@ -17,6 +17,7 @@ import app.organicmaps.MwmApplication;
 import app.organicmaps.R;
 import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.Router;
+import app.organicmaps.sdk.routing.RoutingController;
 import app.organicmaps.sdk.routing.RoutingInfo;
 import app.organicmaps.sdk.routing.RoutingOptions;
 import app.organicmaps.sdk.routing.TransitRouteInfo;
