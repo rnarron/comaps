@@ -16,19 +16,12 @@ public class Icon implements Parcelable
 {
   private static final String TAG = Icon.class.getSimpleName();
 
-  static final int BOOKMARK_ICON_TYPE_NONE = 0;
-
   @DrawableRes
   private static int[] sTypeIcons = null;
 
   @PredefinedColors.Color
   private final int mColor;
   private final int mType;
-
-  public Icon(@PredefinedColors.Color int color)
-  {
-    this(color, BOOKMARK_ICON_TYPE_NONE);
-  }
 
   public Icon(@PredefinedColors.Color int color, int type)
   {
@@ -73,6 +66,11 @@ public class Icon implements Parcelable
     // loadDefaultIcons should be called
     assert (sTypeIcons != null);
     return sTypeIcons[mType];
+  }
+
+  public int getType()
+  {
+    return mType;
   }
 
   @Override
