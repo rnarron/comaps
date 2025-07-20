@@ -7,6 +7,7 @@
 #include "base/string_utils.hpp"
 
 #include "app/organicmaps/sdk/bookmarks/data/PredefinedColors.hpp"
+#include "app/organicmaps/sdk/bookmarks/data/Icon.hpp"
 
 #include <vector>
 
@@ -69,6 +70,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM * jvm, void *)
   if (g_isAndroidLowerThan12)
   {
     if (predefined_colors::registerNativeMethods(env) != JNI_OK)
+      return JNI_ERR;
+    if (icon::registerNativeMethods(env) != JNI_OK)
       return JNI_ERR;
   }
 
