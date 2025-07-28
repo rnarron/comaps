@@ -21,6 +21,7 @@
 // #include "generator/node_mixer.hpp"
 #include "generator/restriction_writer.hpp"
 #include "generator/road_access_generator.hpp"
+#include "generator/road_penalty_generator.hpp"
 
 #include "platform/platform.hpp"
 
@@ -107,6 +108,8 @@ TranslatorCountry::TranslatorCountry(std::shared_ptr<FeatureProcessorInterface> 
       info.GetIntermediateFileName(RESTRICTIONS_FILENAME), cache->GetCache()));
   collectors->Append(std::make_shared<routing_builder::RoadAccessCollector>(
       info.GetIntermediateFileName(ROAD_ACCESS_FILENAME), cache->GetCache()));
+  collectors->Append(std::make_shared<routing_builder::RoadPenaltyCollector>(
+      info.GetIntermediateFileName(ROAD_PENALTY_FILENAME), cache->GetCache()));
   collectors->Append(std::make_shared<routing_builder::CameraCollector>(
       info.GetIntermediateFileName(CAMERAS_TO_WAYS_FILENAME), cache->GetCache()));
   collectors->Append(std::make_shared<MiniRoundaboutCollector>(info.GetIntermediateFileName(MINI_ROUNDABOUTS_FILENAME),

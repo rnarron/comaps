@@ -11,9 +11,9 @@
 #include "base/exception.hpp"
 #include "base/timer.hpp"
 
+#include "geometry/distance_on_sphere.hpp"
+
 #include <algorithm>
-#include <cstdlib>
-#include <iterator>
 #include <limits>
 #include <utility>
 
@@ -34,13 +34,22 @@ bool IsBoarding(bool prevIsFerry, bool nextIsFerry)
 }
 
 IndexGraph::IndexGraph(shared_ptr<Geometry> geometry, shared_ptr<EdgeEstimator> estimator,
-                       RoutingOptions routingOptions)
+                       RoutingOptions routingOptions, feature::RegionData const * regionData)
   : m_geometry(std::move(geometry))
   , m_estimator(std::move(estimator))
   , m_avoidRoutingOptions(routingOptions)
 {
   CHECK(m_geometry, ());
   CHECK(m_estimator, ());
+  if (regionData)
+  {
+    auto const driving_side = regionData->Get(feature::RegionData::RD_DRIVING);
+    m_isLeftHandTraffic = (driving_side == "l");
+  }
+  else
+  {
+    m_isLeftHandTraffic = false;
+  }
 }
 
 bool IndexGraph::IsJoint(RoadPoint const & roadPoint) const
@@ -229,6 +238,11 @@ void IndexGraph::SetRoadAccess(RoadAccess && roadAccess)
   m_roadAccess.SetCurrentTimeGetter(m_currentTimeGetter);
 }
 
+void IndexGraph::SetRoadPenalty(RoadPenalty && roadPenalty)
+{
+  m_roadPenalty = std::move(roadPenalty);
+}
+
 void IndexGraph::GetNeighboringEdges(astar::VertexData<Segment, RouteWeight> const & fromVertexData,
                                      RoadPoint const & rp, bool isOutgoing, bool useRoutingOptions,
                                      SegmentEdgeListT & edges, Parents<Segment> const & parents,
@@ -340,7 +354,7 @@ void IndexGraph::ReconstructJointSegment(astar::VertexData<JointSegment, RouteWe
     do
     {
       // This is optimization: we calculate accesses of road points before calculating weight of
-      // segments between these road points. Because of that we make less calculations when some
+      // segments between these road points. Because of that we make fewer calculations when some
       // points have RoadAccess::Type::No.
       // And using |weightTimeToParent| is not fair in fact, because we should calculate weight
       // until this |rp|. But we assume that segments have small length and inaccuracy will not
@@ -456,6 +470,12 @@ RouteWeight IndexGraph::GetPenalties(EdgeEstimator::Purpose purpose, Segment con
   auto const rp = u.GetRoadPoint(true /* front */);
   auto const [rpAccessType, rpConfidence] =
       prevWeight ? m_roadAccess.GetAccess(rp, *prevWeight) : m_roadAccess.GetAccessWithoutConditional(rp);
+  // Get penalty from new penalty system if MWM supports it
+  auto penalty = m_roadPenalty.GetPenalty(rp);
+  uint16_t penaltyTime = 0;
+  if (penalty)
+    penaltyTime = penalty->m_timeSeconds;
+
   switch (rpConfidence)
   {
   case RoadAccess::Confidence::Sure:
@@ -478,7 +498,7 @@ RouteWeight IndexGraph::GetPenalties(EdgeEstimator::Purpose purpose, Segment con
   if (IsBoarding(fromPenaltyData.m_isFerry, toPenaltyData.m_isFerry))
     weightPenalty += m_estimator->GetFerryLandingPenalty(purpose);
 
-  return {weightPenalty /* weight */, passThroughPenalty, accessPenalty, accessConditionalPenalties,
+  return {penaltyTime + weightPenalty /* weight */, passThroughPenalty, accessPenalty, accessConditionalPenalties,
           0.0 /* transitTime */};
 }
 
@@ -516,12 +536,30 @@ RouteWeight IndexGraph::CalculateEdgeWeight(EdgeEstimator::Purpose purpose, bool
                                             Segment const & to,
                                             std::optional<RouteWeight const> const & prevWeight) const
 {
-  auto const & segment = isOutgoing ? to : from;
-  auto const & road = GetRoadGeometry(segment.GetFeatureId());
-
-  auto const weight = RouteWeight(m_estimator->CalcSegmentWeight(segment, road, purpose));
+  auto const & to_segment = isOutgoing ? to : from;
+  auto const & from_segment = isOutgoing ? from : to;
+  auto const & to_road = GetRoadGeometry(to_segment.GetFeatureId());
+  auto const weight = RouteWeight(m_estimator->CalcSegmentWeight(to_segment, to_road, purpose));
   auto const penalties = GetPenalties(purpose, isOutgoing ? from : to, isOutgoing ? to : from, prevWeight);
+  auto const turn_penalty = getTurnPenalty(purpose, from_segment, to_segment);
+  return weight + penalties + turn_penalty;
+}
 
-  return weight + penalties;
+RouteWeight IndexGraph::getTurnPenalty(EdgeEstimator::Purpose purpose, Segment const & from, Segment const & to) const
+{
+  if (from.GetFeatureId() == to.GetFeatureId())
+    return {0, 0, 0, 0, 0};
+  auto const & to_road = GetRoadGeometry(to.GetFeatureId());
+  auto const & from_road = GetRoadGeometry(from.GetFeatureId());
+  auto v1 = ms::ToVector(GetPoint(from, true)) - ms::ToVector(GetPoint(from, false));
+  auto v2 = ms::ToVector(GetPoint(to, true)) - ms::ToVector(GetPoint(to, false));
+  auto const dotLen = v1.Length() * v2.Length();
+  if (dotLen == 0)
+    return {0, 0, 0, 0, 0};
+  auto normal = ms::ToVector(GetPoint(from, true)) + ms::ToVector(GetPoint(to, false));
+  normal = normal / normal.Length();
+  auto const signed_angle =
+      math::RadToDeg(atan2(m3::DotProduct(m3::CrossProduct(v1, v2), normal), m3::DotProduct(v1, v2)));
+  return {m_estimator->GetTurnPenalty(purpose, signed_angle, from_road, to_road, m_isLeftHandTraffic), 0, 0, 0, 0};
 }
 }  // namespace routing

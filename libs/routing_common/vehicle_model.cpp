@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <unordered_map>
 
 namespace routing
 {
@@ -377,5 +378,42 @@ string DebugPrint(HighwayType type)
   }
 
   UNREACHABLE();
+}
+
+void FromString(std::string_view s, HighwayType & highwayType)
+{
+  // Build reverse lookup from DebugPrint function
+  static std::unordered_map<std::string, HighwayType> const stringToEnum = []()
+  {
+    std::unordered_map<std::string, HighwayType> map;
+
+    // All possible HighwayType values
+    constexpr HighwayType allTypes[] = {
+        HighwayType::HighwayResidential,   HighwayType::HighwayService,    HighwayType::HighwayUnclassified,
+        HighwayType::HighwayFootway,       HighwayType::HighwayTrack,      HighwayType::HighwayTertiary,
+        HighwayType::HighwaySecondary,     HighwayType::HighwayPath,       HighwayType::HighwayPrimary,
+        HighwayType::HighwayRoad,          HighwayType::HighwayCycleway,   HighwayType::HighwayMotorwayLink,
+        HighwayType::HighwayLivingStreet,  HighwayType::HighwayMotorway,   HighwayType::HighwaySteps,
+        HighwayType::HighwayTrunk,         HighwayType::HighwayPedestrian, HighwayType::HighwayTrunkLink,
+        HighwayType::HighwayPrimaryLink,   HighwayType::ManMadePier,       HighwayType::HighwayBridleway,
+        HighwayType::HighwaySecondaryLink, HighwayType::RouteFerry,        HighwayType::HighwayTertiaryLink,
+        HighwayType::HighwayBusway,        HighwayType::RouteShuttleTrain};
+
+    for (auto type : allTypes)
+      map[DebugPrint(type)] = type;
+
+    return map;
+  }();
+
+  auto it = stringToEnum.find(std::string(s));
+  if (it != stringToEnum.end())
+  {
+    highwayType = it->second;
+  }
+  else
+  {
+    ASSERT(false, ("Could not read HighwayType from string", s));
+    highwayType = HighwayType::HighwayResidential;  // default fallback
+  }
 }
 }  // namespace routing

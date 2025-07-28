@@ -146,6 +146,13 @@ public:
 
   void MergeInto(WaysMapper & mapper) const { mapper.m_ways.insert(m_ways.begin(), m_ways.end()); }
 
+  template <class Fn>
+  void ForEach(Fn && fn) const
+  {
+    for (auto const & [id, value] : m_ways)
+      fn(id, value);
+  }
+
   template <class Sink>
   void Serialize(Sink & sink) const
   {

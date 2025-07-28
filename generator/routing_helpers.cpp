@@ -88,9 +88,16 @@ public:
     {
       auto ft = m_featureGetter.GetFeatureByIndex(featureID);
       CHECK(ft, (featureID));
-      CHECK(ft->GetGeomType() == feature::GeomType::Line, (featureID));
 
-      // Converison should work with the same logic as in WayNodesMapper::EncodePoint.
+      // Skip non-line features (e.g., barriers on area boundaries)
+      if (ft->GetGeomType() != feature::GeomType::Line)
+      {
+        // Use LDEBUG to reduce log spam for features processed multiple times per vehicle type
+        LOG(LDEBUG, ("Skipping non-line feature", featureID, "for node penalty mapping"));
+        continue;
+      }
+
+      // Conversion should work with the same logic as in WayNodesMapper::EncodePoint.
       auto const mercatorPt = PointUToPointD(pt, kPointCoordBits, fullRect);
       double minSquareDist = 1.0E6;
 

@@ -366,4 +366,5 @@ std::string DebugPrint(SpeedFactor const & speedFactor);
 std::string DebugPrint(InOutCitySpeedKMpH const & speed);
 std::string DebugPrint(InOutCityFactor const & speedFactor);
 std::string DebugPrint(HighwayType type);
+void FromString(std::string_view s, HighwayType & highwayType);
 }  // namespace routing

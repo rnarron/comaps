@@ -21,6 +21,7 @@
 #include "generator/raw_generator.hpp"
 #include "generator/restriction_generator.hpp"
 #include "generator/road_access_generator.hpp"
+#include "generator/road_penalty_generator.hpp"
 #include "generator/routing_index_generator.hpp"
 #include "generator/routing_world_roads_generator.hpp"
 #include "generator/search_index_builder.hpp"
@@ -466,6 +467,7 @@ MAIN_WITH_ERROR_HANDLING([](int argc, char ** argv)
 
       string const restrictionsFilename = genInfo.GetIntermediateFileName(RESTRICTIONS_FILENAME);
       string const roadAccessFilename = genInfo.GetIntermediateFileName(ROAD_ACCESS_FILENAME);
+      string const roadPenaltyFilename = genInfo.GetIntermediateFileName(ROAD_PENALTY_FILENAME);
 
       BuildRoutingIndex(dataFile, country, *countryParentGetter);
       auto routingGraph = CreateIndexGraph(dataFile, country, *countryParentGetter);
@@ -475,7 +477,8 @@ MAIN_WITH_ERROR_HANDLING([](int argc, char ** argv)
 
       /// @todo CHECK return result doesn't work now for some small countries like Somalie.
       if (!BuildRoadRestrictions(*routingGraph, dataFile, restrictionsFilename, osmToFeatureFilename) ||
-          !BuildRoadAccessInfo(dataFile, roadAccessFilename, *osm2feature))
+          !BuildRoadAccessInfo(dataFile, roadAccessFilename, *osm2feature) ||
+          !BuildRoadPenalty(dataFile, roadPenaltyFilename, *osm2feature))
       {
         LOG(LERROR, ("Routing build failed for", dataFile));
       }

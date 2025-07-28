@@ -163,7 +163,7 @@ public:
   // maxSpeedKMpH doesn't matter, but should be greater then any road speed in all tests.
   // offroadSpeedKMpH doesn't matter, but should be > 0 and <= maxSpeedKMpH.
   explicit WeightedEdgeEstimator(std::map<Segment, double> const & segmentWeights)
-    : EdgeEstimator(1e10 /* maxSpeedKMpH */, 1.0 /* offroadSpeedKMpH */)
+    : EdgeEstimator(VehicleType::Count, 1e10 /* maxSpeedKMpH */, 1.0 /* offroadSpeedKMpH */)
     , m_segmentWeights(segmentWeights)
   {}
 
@@ -174,6 +174,8 @@ public:
                            EdgeEstimator::Purpose purpose) const override;
 
   double GetUTurnPenalty(Purpose purpose) const override;
+  double GetTurnPenalty(Purpose purpose, double angle, RoadGeometry const & from_road, RoadGeometry const & to_road,
+                        bool is_left_hand_traffic = false) const override;
   double GetFerryLandingPenalty(Purpose purpose) const override;
 
 private:

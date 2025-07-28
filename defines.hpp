@@ -42,6 +42,7 @@
 #define METADATA_FILE_TAG "meta"
 #define ALTITUDES_FILE_TAG "altitudes"
 #define ROAD_ACCESS_FILE_TAG "roadaccess"
+#define ROAD_PENALTY_FILE_TAG "roadpenalty"
 #define RESTRICTIONS_FILE_TAG "restrictions"
 #define ROUTING_FILE_TAG "routing"
 #define CROSS_MWM_FILE_TAG "cross_mwm"
@@ -90,6 +91,7 @@
 #define GPS_TRACK_FILENAME "gps_track.dat"
 #define RESTRICTIONS_FILENAME "restrictions.csv"
 #define ROAD_ACCESS_FILENAME "road_access.bin"
+#define ROAD_PENALTY_FILENAME "road_penalty.bin"
 
 #define METALINES_FILENAME "metalines.bin"
 #define CAMERAS_TO_WAYS_FILENAME "cameras_to_ways.bin"

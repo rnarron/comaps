@@ -212,6 +212,10 @@
 		67C79BA21E2CEE1400C40034 /* restriction_loader.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67C79BA01E2CEE1400C40034 /* restriction_loader.hpp */; };
 		67C7D42D1B4EB48F00FE41AA /* turns_sound_settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 67C7D4251B4EB48F00FE41AA /* turns_sound_settings.cpp */; };
 		67C7D42E1B4EB48F00FE41AA /* turns_sound_settings.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 67C7D4261B4EB48F00FE41AA /* turns_sound_settings.hpp */; };
+		833F71FA2E48DF27008F7617 /* road_penalty.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 833F71F82E48DF27008F7617 /* road_penalty.hpp */; };
+		833F71FB2E48DF27008F7617 /* road_penalty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 833F71F92E48DF27008F7617 /* road_penalty.cpp */; };
+		833F71FD2E48E011008F7617 /* road_penalty_serialization.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 833F71FC2E48E010008F7617 /* road_penalty_serialization.hpp */; };
+		833F71FF2E48E02E008F7617 /* road_penalty_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 833F71FE2E48E02E008F7617 /* road_penalty_test.cpp */; };
 		A120B3531B4A7C1C002F3808 /* astar_algorithm.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A120B3521B4A7C1C002F3808 /* astar_algorithm.hpp */; };
 		A1616E2B1B6B60AB003F078E /* router_delegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1616E291B6B60AB003F078E /* router_delegate.cpp */; };
 		A1616E2C1B6B60AB003F078E /* router_delegate.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A1616E2A1B6B60AB003F078E /* router_delegate.hpp */; };
@@ -498,6 +502,10 @@
 		67C79BA01E2CEE1400C40034 /* restriction_loader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = restriction_loader.hpp; sourceTree = "<group>"; };
 		67C7D4251B4EB48F00FE41AA /* turns_sound_settings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = turns_sound_settings.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		67C7D4261B4EB48F00FE41AA /* turns_sound_settings.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = turns_sound_settings.hpp; sourceTree = "<group>"; };
+		833F71F82E48DF27008F7617 /* road_penalty.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = road_penalty.hpp; sourceTree = "<group>"; };
+		833F71F92E48DF27008F7617 /* road_penalty.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = road_penalty.cpp; sourceTree = "<group>"; };
+		833F71FC2E48E010008F7617 /* road_penalty_serialization.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = road_penalty_serialization.hpp; sourceTree = "<group>"; };
+		833F71FE2E48E02E008F7617 /* road_penalty_test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = road_penalty_test.cpp; sourceTree = "<group>"; };
 		A120B3521B4A7C1C002F3808 /* astar_algorithm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = astar_algorithm.hpp; sourceTree = "<group>"; };
 		A1616E291B6B60AB003F078E /* router_delegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = router_delegate.cpp; sourceTree = "<group>"; };
 		A1616E2A1B6B60AB003F078E /* router_delegate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = router_delegate.hpp; sourceTree = "<group>"; };
@@ -618,6 +626,7 @@
 				6742ACAF1C68A0B1009CB89E /* road_graph_builder.cpp */,
 				6742ACB01C68A0B1009CB89E /* road_graph_builder.hpp */,
 				6742ACB11C68A0B1009CB89E /* road_graph_nearest_edges_test.cpp */,
+				833F71FE2E48E02E008F7617 /* road_penalty_test.cpp */,
 				6742ACB21C68A0B1009CB89E /* route_tests.cpp */,
 				56290B85206A3231003892E0 /* routing_algorithm.cpp */,
 				56290B86206A3231003892E0 /* routing_algorithm.hpp */,
@@ -694,6 +703,7 @@
 				671F58BA1B874EA20032311E /* base */,
 				5694723F2418C8220013CD21 /* car_directions.hpp */,
 				569472402418C8220013CD21 /* car_directions.cpp */,
+				5670595B1F3AF97F0062672D /* checkpoint_predictor.cpp */,
 				5670595C1F3AF97F0062672D /* checkpoint_predictor.hpp */,
 				5670595B1F3AF97F0062672D /* checkpoint_predictor.cpp */,
 				0C15B8011F02A61B0058E253 /* checkpoints.hpp */,
@@ -792,6 +802,9 @@
 				674F9BC41B0A580E00704FFA /* road_graph.cpp */,
 				0C5FEC671DDE193F0017688C /* road_index.hpp */,
 				0C5FEC661DDE193F0017688C /* road_index.cpp */,
+				833F71F82E48DF27008F7617 /* road_penalty.hpp */,
+				833F71F92E48DF27008F7617 /* road_penalty.cpp */,
+				833F71FC2E48E010008F7617 /* road_penalty_serialization.hpp */,
 				0C5FEC681DDE193F0017688C /* road_point.hpp */,
 				6753440E1A3F644F00A0A8C3 /* route.hpp */,
 				6753440D1A3F644F00A0A8C3 /* route.cpp */,
@@ -941,6 +954,7 @@
 				44642D2D29CDA44700F8813A /* ruler_router.hpp in Headers */,
 				56CBED5522E9CE2600D51AF7 /* position_accumulator.hpp in Headers */,
 				5694CECB1EBA25F7004576D3 /* road_access_serialization.hpp in Headers */,
+				833F71FA2E48DF27008F7617 /* road_penalty.hpp in Headers */,
 				0C08AA371DF8324D004195DD /* vehicle_mask.hpp in Headers */,
 				6753441D1A3F644F00A0A8C3 /* router.hpp in Headers */,
 				A1616E2E1B6B60B3003F078E /* astar_progress.hpp in Headers */,
@@ -972,6 +986,7 @@
 				4443DC3822789793000C8E32 /* leaps_postprocessor.hpp in Headers */,
 				0C62BFE61E8ADC3100055A79 /* coding.hpp in Headers */,
 				674F9BD51B0A580E00704FFA /* road_graph.hpp in Headers */,
+				833F71FD2E48E011008F7617 /* road_penalty_serialization.hpp in Headers */,
 				562BDE2020D14860008EFF6F /* routing_callbacks.hpp in Headers */,
 				567F81952154D6FF0093C25B /* city_roads.hpp in Headers */,
 				D5C9497C2525C855001E45E2 /* directions_engine_helpers.hpp in Headers */,
@@ -1179,6 +1194,7 @@
 				6742AD371C68A9DF009CB89E /* turns_tts_text_tests.cpp in Sources */,
 				6742AD2C1C68A9DF009CB89E /* followed_polyline_test.cpp in Sources */,
 				FAA838AC26BB4B3D002E54C6 /* coding_test.cpp in Sources */,
+				833F71FF2E48E02E008F7617 /* road_penalty_test.cpp in Sources */,
 				FAA8389D26BB4ADD002E54C6 /* guides_tests.cpp in Sources */,
 				56CBED5822E9CFB600D51AF7 /* position_accumulator_tests.cpp in Sources */,
 				FAA838A826BB4B21002E54C6 /* routing_helpers_tests.cpp in Sources */,
@@ -1233,6 +1249,7 @@
 				6741AA9C1BF35331002C974C /* turns_notification_manager.cpp in Sources */,
 				0C0DF9211DE898B70055A22F /* index_graph_starter.cpp in Sources */,
 				56C439281E93BF8C00998E29 /* cross_mwm_graph.cpp in Sources */,
+				833F71FB2E48DF27008F7617 /* road_penalty.cpp in Sources */,
 				670EE5731B664796001E8064 /* pedestrian_directions.cpp in Sources */,
 				567F81942154D6FF0093C25B /* city_roads.cpp in Sources */,
 				6753441B1A3F644F00A0A8C3 /* route.cpp in Sources */,

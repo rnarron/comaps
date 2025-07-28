@@ -26,4 +26,13 @@ double DistanceOnEarth(LatLon const & ll1, LatLon const & ll2)
 {
   return DistanceOnEarth(ll1.m_lat, ll1.m_lon, ll2.m_lat, ll2.m_lon);
 }
+
+m3::Point<double> ToVector(LatLon const & ll)
+{
+  double const lat = math::DegToRad(ll.m_lat);
+  double const lon = math::DegToRad(ll.m_lon);
+  return {kEarthRadiusMeters * cos(lat) * cos(lon), kEarthRadiusMeters * cos(lat) * sin(lon),
+          kEarthRadiusMeters * sin(lat)};
+}
+
 }  // namespace ms

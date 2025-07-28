@@ -11,9 +11,12 @@
 #include "routing/restrictions_serialization.hpp"
 #include "routing/road_access.hpp"
 #include "routing/road_index.hpp"
+#include "routing/road_penalty.hpp"
 #include "routing/road_point.hpp"
 #include "routing/routing_options.hpp"
 #include "routing/segment.hpp"
+
+#include "indexer/feature_meta.hpp"
 
 #include "geometry/point2d.hpp"
 
@@ -49,7 +52,7 @@ public:
 
   IndexGraph() = default;
   IndexGraph(std::shared_ptr<Geometry> geometry, std::shared_ptr<EdgeEstimator> estimator,
-             RoutingOptions routingOptions = RoutingOptions());
+             RoutingOptions routingOptions = RoutingOptions(), feature::RegionData const * regionData = nullptr);
 
   // Put outgoing (or ingoing) egdes for segment to the 'edges' vector.
   void GetEdgeList(astar::VertexData<Segment, RouteWeight> const & vertexData, bool isOutgoing, bool useRoutingOptions,
@@ -89,6 +92,7 @@ public:
   void SetRestrictions(RestrictionVec && restrictions);
   void SetUTurnRestrictions(std::vector<RestrictionUTurn> && noUTurnRestrictions);
   void SetRoadAccess(RoadAccess && roadAccess);
+  void SetRoadPenalty(RoadPenalty && roadPenalty);
 
   void PushFromSerializer(Joint::Id jointId, RoadPoint const & rp) { m_roadIndex.PushFromSerializer(jointId, rp); }
 
@@ -186,10 +190,8 @@ private:
   std::shared_ptr<EdgeEstimator> m_estimator;
   RoadIndex m_roadIndex;
   JointIndex m_jointIndex;
-
   Restrictions m_restrictionsForward;
   Restrictions m_restrictionsBackward;
-
   // u_turn can be in both sides of feature.
   struct UTurnEnding
   {
@@ -202,11 +204,13 @@ private:
   // If m_noUTurnRestrictions.count(featureId) == 0, that means, that there are no any
   // no_u_turn restriction at the feature with id = featureId.
   std::unordered_map<uint32_t, UTurnEnding> m_noUTurnRestrictions;
-
   RoadAccess m_roadAccess;
+  RoadPenalty m_roadPenalty;
   RoutingOptions m_avoidRoutingOptions;
+  bool m_isLeftHandTraffic;
 
   std::function<time_t()> m_currentTimeGetter = []() { return GetCurrentTimestamp(); };
+  RouteWeight getTurnPenalty(EdgeEstimator::Purpose purpose, Segment const & from, Segment const & to) const;
 };
 
 template <typename AccessPositionType>

@@ -18,7 +18,7 @@ HighwayBasedFactors const kHighwayBasedFactors = {
 
     // Tier 2:
     {HighwayType::HighwayPrimary,
-     InOutCityFactor(SpeedFactor{0.85 /* weight */, 0.80 /* eta */} /* in city */, 0.85 /* out city */)},
+     InOutCityFactor(SpeedFactor{0.95 /* weight */, 0.90 /* eta */} /* in city */, 0.85 /* out city */)},
     {HighwayType::HighwayPrimaryLink, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},  // 0.10 less
     {HighwayType::HighwaySecondary, InOutCityFactor(0.80 /* in city */, 0.85 /* out city */)},
     {HighwayType::HighwaySecondaryLink, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},  // 0.10 less

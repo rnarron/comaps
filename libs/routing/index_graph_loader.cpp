@@ -5,6 +5,8 @@
 #include "routing/restriction_loader.hpp"
 #include "routing/road_access.hpp"
 #include "routing/road_access_serialization.hpp"
+#include "routing/road_penalty.hpp"
+#include "routing/road_penalty_serialization.hpp"
 #include "routing/route.hpp"
 #include "routing/speed_camera_ser_des.hpp"
 
@@ -138,7 +140,7 @@ IndexGraphLoaderImpl::GraphPtrT IndexGraphLoaderImpl::CreateIndexGraph(NumMwmId 
       geometry = make_shared<Geometry>(GeometryLoader::Create(handle, std::move(vehicleModel), m_loadAltitudes));
     }
 
-    auto graph = make_unique<IndexGraph>(geometry, m_estimator, m_avoidRoutingOptions);
+    auto graph = make_unique<IndexGraph>(geometry, m_estimator, m_avoidRoutingOptions, &value->GetRegionData());
     graph->SetCurrentTimeGetter(m_currentTimeGetter);
     DeserializeIndexGraph(*value, m_vehicleType, *graph);
 
@@ -209,6 +211,40 @@ bool ReadRoadAccessFromMwm(MwmValue const & mwmValue, VehicleType vehicleType, R
   return false;
 }
 
+bool ReadRoadPenaltyFromMwm(MwmValue const & mwmValue, VehicleType vehicleType, RoadPenalty & roadPenalty)
+{
+  try
+  {
+    auto const reader = mwmValue.m_cont.GetReader(ROAD_PENALTY_FILE_TAG);
+    ReaderSource src(reader);
+
+    // Read number of vehicle types
+    uint32_t numVehicleTypes = ReadPrimitiveFromSource<uint32_t>(src);
+    CHECK_EQUAL(numVehicleTypes, static_cast<uint32_t>(VehicleType::Count), ());
+
+    // Skip to the correct vehicle type
+    for (uint32_t i = 0; i < static_cast<uint32_t>(vehicleType); ++i)
+    {
+      RoadPenalty dummy;
+      RoadPenaltySerializer::Deserialize(src, dummy, static_cast<VehicleType>(i));
+    }
+
+    // Read the penalty data for this vehicle type
+    RoadPenaltySerializer::Deserialize(src, roadPenalty, vehicleType);
+    return true;
+  }
+  catch (Reader::OpenException const &)
+  {
+    // This is expected for older mwm files - not an error
+    LOG(LDEBUG, (ROAD_PENALTY_FILE_TAG, "section not found - using legacy penalty system"));
+  }
+  catch (Reader::Exception const & e)
+  {
+    LOG(LERROR, ("Error while reading", ROAD_PENALTY_FILE_TAG, "section.", e.Msg()));
+  }
+  return false;
+}
+
 // static
 unique_ptr<IndexGraphLoader> IndexGraphLoader::Create(VehicleType vehicleType, bool loadAltitudes,
                                                       shared_ptr<VehicleModelFactoryInterface> vehicleModelFactory,
@@ -244,6 +280,10 @@ void DeserializeIndexGraph(MwmValue const & mwmValue, VehicleType vehicleType, I
   RoadAccess roadAccess;
   if (ReadRoadAccessFromMwm(mwmValue, vehicleType, roadAccess))
     graph.SetRoadAccess(std::move(roadAccess));
+
+  RoadPenalty roadPenalty;
+  if (ReadRoadPenaltyFromMwm(mwmValue, vehicleType, roadPenalty))
+    graph.SetRoadPenalty(std::move(roadPenalty));
 }
 
 uint32_t DeserializeIndexGraphNumRoads(MwmValue const & mwmValue, VehicleType vehicleType)

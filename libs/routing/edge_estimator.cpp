@@ -1,5 +1,4 @@
 #include "routing/edge_estimator.hpp"
-
 #include "routing/geometry.hpp"
 #include "routing/latlon_with_altitude.hpp"
 #include "routing/routing_helpers.hpp"
@@ -10,10 +9,11 @@
 #include "geometry/distance_on_sphere.hpp"
 #include "geometry/point_with_altitude.hpp"
 
-#include "base/assert.hpp"
+#include "coding/csv_reader.hpp"
 
-#include <algorithm>
-#include <unordered_map>
+#include "base/assert.hpp"
+#include "base/logging.hpp"
+#include "platform/platform.hpp"
 
 namespace routing
 {
@@ -166,10 +166,12 @@ double GetCarClimbPenalty(EdgeEstimator::Purpose, double, geometry::Altitude)
 }
 
 // EdgeEstimator -----------------------------------------------------------------------------------
-EdgeEstimator::EdgeEstimator(double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH,
+EdgeEstimator::EdgeEstimator(VehicleType vehicleType, double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH,
                              DataSource * /*dataSourcePtr*/, std::shared_ptr<NumMwmIds> /*numMwmIds*/)
-  : m_maxWeightSpeedMpS(KmphToMps(maxWeightSpeedKMpH))
+  : m_vehicleType(vehicleType)
+  , m_maxWeightSpeedMpS(KmphToMps(maxWeightSpeedKMpH))
   , m_offroadSpeedKMpH(offroadSpeedKMpH)
+
 //, m_dataSourcePtr(dataSourcePtr)
 //, m_numMwmIds(numMwmIds)
 {
@@ -179,6 +181,204 @@ EdgeEstimator::EdgeEstimator(double maxWeightSpeedKMpH, SpeedKMpH const & offroa
 
   if (m_offroadSpeedKMpH.m_eta != kNotUsed)
     CHECK_GREATER_OR_EQUAL(m_maxWeightSpeedMpS, KmphToMps(m_offroadSpeedKMpH.m_eta), ());
+
+  LOG(LINFO, ("Loading turn penalties for vehicle type:", static_cast<int>(vehicleType)));
+
+  struct TurnPenaltyMatrix
+  {
+    int road;
+    VehicleType vehicleType;
+    double penalty;
+  };
+
+  struct TurnPenalty
+  {
+    HighwayType fromRoadType;
+    HighwayType toRoadType;
+    VehicleType vehicleType;
+    double penalty;
+  };
+
+#define N 144
+
+  static auto constexpr kTurnPenaltyMatrix = []
+  {
+    array<TurnPenalty, N> constexpr kTable = {{
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.07},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayPrimary, VehicleType::Car, 0.09},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayResidential, VehicleType::Car, 0.07},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwaySecondary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayService, VehicleType::Car, 0.07},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayTrunk, VehicleType::Car, 0.09},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayLivingStreet, HighwayType::HighwayUnclassified, VehicleType::Car, 0.07},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.11},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayPrimary, VehicleType::Car, 0.06},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.06},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayResidential, VehicleType::Car, 0.1},
+        {HighwayType::HighwayPrimary, HighwayType::HighwaySecondary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayPrimary, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayService, VehicleType::Car, 0.1},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayTertiary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayTrunk, VehicleType::Car, 0.04},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.04},
+        {HighwayType::HighwayPrimary, HighwayType::HighwayUnclassified, VehicleType::Car, 0.1},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.1},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayPrimary, VehicleType::Car, 0.06},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.06},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayResidential, VehicleType::Car, 0.1},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwaySecondary, VehicleType::Car, 0.06},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.06},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayService, VehicleType::Car, 0.09},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayTertiary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayTrunk, VehicleType::Car, 0.07},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayPrimaryLink, HighwayType::HighwayUnclassified, VehicleType::Car, 0.1},
+        {HighwayType::HighwayResidential, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.07},
+        {HighwayType::HighwayResidential, HighwayType::HighwayPrimary, VehicleType::Car, 0.09},
+        {HighwayType::HighwayResidential, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayResidential, HighwayType::HighwayResidential, VehicleType::Car, 0.08},
+        {HighwayType::HighwayResidential, HighwayType::HighwaySecondary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayResidential, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwayResidential, HighwayType::HighwayService, VehicleType::Car, 0.07},
+        {HighwayType::HighwayResidential, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayResidential, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayResidential, HighwayType::HighwayTrunk, VehicleType::Car, 0.09},
+        {HighwayType::HighwayResidential, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayResidential, HighwayType::HighwayUnclassified, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.1},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayPrimary, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayResidential, VehicleType::Car, 0.1},
+        {HighwayType::HighwaySecondary, HighwayType::HighwaySecondary, VehicleType::Car, 0.08},
+        {HighwayType::HighwaySecondary, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayService, VehicleType::Car, 0.08},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayTrunk, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.06},
+        {HighwayType::HighwaySecondary, HighwayType::HighwayUnclassified, VehicleType::Car, 0.08},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayPrimary, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayResidential, VehicleType::Car, 0.07},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwaySecondary, VehicleType::Car, 0.05},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.05},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayService, VehicleType::Car, 0.06},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayTertiary, VehicleType::Car, 0.05},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.05},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayTrunk, VehicleType::Car, 0.08},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwaySecondaryLink, HighwayType::HighwayUnclassified, VehicleType::Car, 0.06},
+        {HighwayType::HighwayService, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayPrimary, VehicleType::Car, 0.09},
+        {HighwayType::HighwayService, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayService, HighwayType::HighwayResidential, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwaySecondary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayService, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayTrunk, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayService, HighwayType::HighwayUnclassified, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayPrimary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayResidential, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTertiary, HighwayType::HighwaySecondary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayService, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayTrunk, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiary, HighwayType::HighwayUnclassified, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayPrimary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayResidential, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwaySecondary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayService, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayTrunk, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTertiaryLink, HighwayType::HighwayUnclassified, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.1},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayPrimary, VehicleType::Car, 0.05},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.03},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayResidential, VehicleType::Car, 0.09},
+        {HighwayType::HighwayTrunk, HighwayType::HighwaySecondary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTrunk, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayService, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayTertiary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayTrunk, VehicleType::Car, 0.01},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.01},
+        {HighwayType::HighwayTrunk, HighwayType::HighwayUnclassified, VehicleType::Car, 0.08},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.11},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayPrimary, VehicleType::Car, 0.04},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.04},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayResidential, VehicleType::Car, 0.1},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwaySecondary, VehicleType::Car, 0.04},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.04},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayService, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayTertiary, VehicleType::Car, 0.06},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.06},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayTrunk, VehicleType::Car, 0.07},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.02},
+        {HighwayType::HighwayTrunkLink, HighwayType::HighwayUnclassified, VehicleType::Car, 0.1},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayLivingStreet, VehicleType::Car, 0.07},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayPrimary, VehicleType::Car, 0.09},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayPrimaryLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayResidential, VehicleType::Car, 0.07},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwaySecondary, VehicleType::Car, 0.08},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwaySecondaryLink, VehicleType::Car, 0.08},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayService, VehicleType::Car, 0.08},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayTertiary, VehicleType::Car, 0.07},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayTertiaryLink, VehicleType::Car, 0.07},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayTrunk, VehicleType::Car, 0.09},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayTrunkLink, VehicleType::Car, 0.09},
+        {HighwayType::HighwayUnclassified, HighwayType::HighwayUnclassified, VehicleType::Car, 0.08},
+    }};
+
+    array<TurnPenaltyMatrix, N> result{};
+
+    for (size_t i = 0; i < N; ++i)
+      result[i] = {static_cast<int>(kTable[i].fromRoadType) * 65535 + static_cast<int>(kTable[i].toRoadType),
+                   kTable[i].vehicleType, kTable[i].penalty};
+
+    return result;
+  }();
+
+  double totalPenalty = 0;
+
+  for (TurnPenaltyMatrix const & row : kTurnPenaltyMatrix)
+  {
+    if (row.vehicleType != vehicleType)
+      continue;
+
+    m_turnPenaltyMap[row.road] += row.penalty;
+    totalPenalty += row.penalty;
+  }
+
+  if (!m_turnPenaltyMap.empty())
+  {
+    m_defaultPenalty = totalPenalty / m_turnPenaltyMap.size();
+    LOG(LINFO, ("Loaded", m_turnPenaltyMap.size(), "turn penalties with default:", m_defaultPenalty));
+  }
+  else
+  {
+    LOG(LWARNING, ("No turn penalties loaded for vehicle type:", static_cast<int>(vehicleType)));
+  }
 }
 
 double EdgeEstimator::CalcHeuristic(ms::LatLon const & from, ms::LatLon const & to) const
@@ -265,11 +465,18 @@ class PedestrianEstimator final : public EdgeEstimator
 {
 public:
   PedestrianEstimator(double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH)
-    : EdgeEstimator(maxWeightSpeedKMpH, offroadSpeedKMpH)
+    : EdgeEstimator(VehicleType::Pedestrian, maxWeightSpeedKMpH, offroadSpeedKMpH)
   {}
 
   // EdgeEstimator overrides:
   double GetUTurnPenalty(Purpose /* purpose */) const override { return 0.0 /* seconds */; }
+
+  double GetTurnPenalty(Purpose purpose, double angle, RoadGeometry const & from_road, RoadGeometry const & to_road,
+                        bool is_left_hand_traffic = false) const override
+  {
+    return 0;
+  }
+
   double GetFerryLandingPenalty(Purpose purpose) const override
   {
     switch (purpose)
@@ -293,11 +500,18 @@ class BicycleEstimator final : public EdgeEstimator
 {
 public:
   BicycleEstimator(double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH)
-    : EdgeEstimator(maxWeightSpeedKMpH, offroadSpeedKMpH)
+    : EdgeEstimator(VehicleType::Bicycle, maxWeightSpeedKMpH, offroadSpeedKMpH)
   {}
 
   // EdgeEstimator overrides:
   double GetUTurnPenalty(Purpose /* purpose */) const override { return 20.0 /* seconds */; }
+
+  double GetTurnPenalty(Purpose purpose, double angle, RoadGeometry const & from_road, RoadGeometry const & to_road,
+                        bool is_left_hand_traffic = false) const override
+  {
+    return 0;
+  }
+
   double GetFerryLandingPenalty(Purpose purpose) const override
   {
     switch (purpose)
@@ -349,20 +563,15 @@ class CarEstimator final : public EdgeEstimator
 public:
   CarEstimator(DataSource * dataSourcePtr, std::shared_ptr<NumMwmIds> numMwmIds, shared_ptr<TrafficStash> trafficStash,
                double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH)
-    : EdgeEstimator(maxWeightSpeedKMpH, offroadSpeedKMpH, dataSourcePtr, numMwmIds)
+    : EdgeEstimator(VehicleType::Car, maxWeightSpeedKMpH, offroadSpeedKMpH, dataSourcePtr, numMwmIds)
     , m_trafficStash(std::move(trafficStash))
   {}
 
   // EdgeEstimator overrides:
   double CalcSegmentWeight(Segment const & segment, RoadGeometry const & road, Purpose purpose) const override;
-  double GetUTurnPenalty(Purpose /* purpose */) const override
-  {
-    // Adds 2 minutes penalty for U-turn. The value is quite arbitrary
-    // and needs to be properly selected after a number of real-world
-    // experiments.
-    return 2 * 60;  // seconds
-  }
-
+  double GetUTurnPenalty(Purpose /* purpose */) const override;
+  double GetTurnPenalty(Purpose purpose, double angle, RoadGeometry const & from_road, RoadGeometry const & to_road,
+                        bool is_left_hand_traffic = false) const override;
   double GetFerryLandingPenalty(Purpose purpose) const override
   {
     switch (purpose)
@@ -374,8 +583,46 @@ public:
   }
 
 private:
-  shared_ptr<TrafficStash> m_trafficStash;
+  std::shared_ptr<TrafficStash> m_trafficStash;
 };
+
+double CarEstimator::GetUTurnPenalty(Purpose /* purpose */) const
+{
+  // Adds 2 minutes penalty for U-turn. The value is quite arbitrary
+  // and needs to be properly selected after a number of real-world
+  // experiments.
+  return 2 * 60;  // seconds
+}
+
+double CarEstimator::GetTurnPenalty(Purpose purpose, double angle, RoadGeometry const & from_road,
+                                    RoadGeometry const & to_road, bool is_left_hand_traffic) const
+{
+  auto penalty = m_defaultPenalty;
+
+  if (from_road.GetHighwayType().has_value() && to_road.GetHighwayType().has_value())
+  {
+    int const from_road_idx = static_cast<int>(from_road.GetHighwayType().value());
+    int const to_road_idx = static_cast<int>(to_road.GetHighwayType().value());
+    auto const pen = m_turnPenaltyMap.find(from_road_idx * 65535 + to_road_idx);
+    if (pen != m_turnPenaltyMap.end())
+      penalty = pen->second;
+  }
+
+  // Determine if turn crosses traffic based on driving side
+  // @TODO We should really account for oneway roads etc.
+
+  bool turn_crosses_traffic;
+  if (is_left_hand_traffic)
+    turn_crosses_traffic = angle < 0;
+  else
+    turn_crosses_traffic = angle > 0;
+
+  // Twice as long to turn across traffic than not to
+  auto const extra_penalty = turn_crosses_traffic ? 2.0 : 1.0;
+  auto const result = fabs(angle) * penalty * extra_penalty;
+
+  return result;
+}
 
 double CarEstimator::CalcSegmentWeight(Segment const & segment, RoadGeometry const & road, Purpose purpose) const
 {

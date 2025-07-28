@@ -10,6 +10,7 @@
 #include "geometry/point_with_altitude.hpp"
 
 #include <memory>
+#include <unordered_map>
 
 class DataSource;
 
@@ -27,8 +28,8 @@ public:
     ETA
   };
 
-  EdgeEstimator(double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH, DataSource * dataSourcePtr = nullptr,
-                std::shared_ptr<NumMwmIds> numMwmIds = nullptr);
+  EdgeEstimator(VehicleType vehicleType, double maxWeightSpeedKMpH, SpeedKMpH const & offroadSpeedKMpH,
+                DataSource * dataSourcePtr = nullptr, std::shared_ptr<NumMwmIds> numMwmIds = nullptr);
   virtual ~EdgeEstimator() = default;
 
   double CalcHeuristic(ms::LatLon const & from, ms::LatLon const & to) const;
@@ -47,6 +48,8 @@ public:
 
   virtual double CalcSegmentWeight(Segment const & segment, RoadGeometry const & road, Purpose purpose) const = 0;
   virtual double GetUTurnPenalty(Purpose purpose) const = 0;
+  virtual double GetTurnPenalty(Purpose purpose, double angle, RoadGeometry const & from_road,
+                                RoadGeometry const & to_road, bool is_left_hand_traffic = false) const = 0;
   virtual double GetFerryLandingPenalty(Purpose purpose) const = 0;
 
   static std::shared_ptr<EdgeEstimator> Create(VehicleType vehicleType, double maxWeighSpeedKMpH,
@@ -57,6 +60,11 @@ public:
   static std::shared_ptr<EdgeEstimator> Create(VehicleType vehicleType, VehicleModelInterface const & vehicleModel,
                                                std::shared_ptr<TrafficStash> trafficStash, DataSource * dataSourcePtr,
                                                std::shared_ptr<NumMwmIds> numMwmIds);
+
+protected:
+  VehicleType const m_vehicleType;
+  double m_defaultPenalty = 0.0;
+  std::unordered_map<int, double> m_turnPenaltyMap;
 
 private:
   double const m_maxWeightSpeedMpS;

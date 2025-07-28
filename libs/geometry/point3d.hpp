@@ -14,6 +14,12 @@ class Point
 public:
   Point() = default;
   constexpr Point(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
+  Point<T> operator+(Point<T> const & obj) { return {x + obj.x, y + obj.y, z + obj.z}; }
+  Point<T> operator-(Point<T> const & obj) { return {x - obj.x, y - obj.y, z - obj.z}; }
+
+  Point<T> operator*(T const & obj) { return {x * obj, y * obj, z * obj}; }
+
+  Point<T> operator/(T const & obj) { return {x / obj, y / obj, z / obj}; }
 
   T Length() const { return std::sqrt(x * x + y * y + z * z); }
 
