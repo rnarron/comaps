@@ -890,4 +890,11 @@ UNIT_TEST(Norway_FauxOneway_MotorVehicleBackward_No)
                                    {0., 0.}, FromLatLon(59.921042, 10.759302), 210);
 }
 
+// https://github.com/organicmaps/organicmaps/issues/9620
+UNIT_TEST(Germany_Avoid_Agricultural)
+{
+  CalculateRouteAndTestRouteLength(GetVehicleComponents(VehicleType::Car), FromLatLon(47.6584463, 11.038139), {0., 0.},
+                                   FromLatLon(47.6580109, 11.0432625), 1096.11);
+}
+
 }  // namespace route_test
