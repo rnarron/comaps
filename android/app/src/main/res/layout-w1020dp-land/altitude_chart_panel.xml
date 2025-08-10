@@ -40,7 +40,7 @@
           android:layout_gravity="center_horizontal"
           android:textAppearance="@style/MwmTextAppearance.Body3"
           android:fontFamily="@string/robotoMedium"
-          android:textColor="?colorAccent"
+          android:textColor="?colorSecondary"
           android:gravity="center"
           tools:text="↗ 43 m ↘ 88 m"
           tools:visibility="visible" />

@@ -13,7 +13,7 @@
         <item name="android:textColorPrimaryInverse">@color/text_dark</item>
         <item name="android:textColorSecondary">@color/text_light_subtitle</item>
         <item name="android:windowBackground">?windowBackgroundForced</item>
-        <item name="android:colorPrimaryDark">@color/bg_primary_dark_night</item>
+        <item name="colorPrimaryVariant">@color/bg_primary_dark_night</item>
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
         <item name="android:fontFamily">@string/robotoRegular</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -30,7 +30,7 @@
         <item name="fullscreenDialogTheme">@style/MwmTheme.DialogFragment.Fullscreen.Night</item>
         <item name="colorPrimary">@color/bg_primary_night</item>
         <item name="colorControlNormal">?secondary</item>
-        <item name="colorAccent">@color/base_accent_night</item>
+        <item name="colorSecondary">@color/base_accent_night</item>
         <item name="colorAccentTransparent">@color/base_accent_transparent</item>
         <item name="colorBtnHighlight">@color/white_24</item>
         <item name="panel">@color/bg_panel_night</item>
@@ -132,7 +132,7 @@
 
     <!-- Theme is overridden in v27 folder to handle cutouts -->
     <style name="MwmTheme.Night.MainActivity">
-        <item name="android:colorPrimaryDark">@android:color/black</item>
+        <item name="colorPrimaryVariant">@android:color/black</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
@@ -147,7 +147,7 @@
     </style>
 
     <style name="MwmTheme.Night.AlertDialog" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="colorAccent">?buttonDialogTextColor</item>
+        <item name="colorSecondary">?buttonDialogTextColor</item>
         <item name="colorPrimary">?buttonDialogTextColor</item>
         <item name="android:background">?cardBackground</item>
         <!-- Used for the message in the dialog -->
@@ -163,8 +163,8 @@
 
     <style name="MwmTheme.DialogFragment.Fullscreen.Night" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/bg_primary_night</item>
-        <item name="android:colorPrimaryDark">?statusBar</item>
-        <item name="colorAccent">@color/base_accent_night</item>
+        <item name="colorPrimaryVariant">?statusBar</item>
+        <item name="colorSecondary">@color/base_accent_night</item>
         <item name="clickableBackground">?selectableItemBackground</item>
         <item name="colorControlNormal">@color/text_dark_hint</item>
         <item name="android:windowIsFloating">false</item>
@@ -182,7 +182,7 @@
     </style>
 
     <style name="MwmMain.DialogFragment.TimePicker.Night" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="colorAccent">@color/base_accent_night</item>
+        <item name="colorSecondary">@color/base_accent_night</item>
         <item name="colorPrimary">?buttonDialogTextColor</item>
         <item name="android:fontFamily">@string/robotoMedium</item>
         <item name="android:windowBackground">@color/bg_cards_night</item>

@@ -215,7 +215,7 @@ public class SearchWheel implements View.OnClickListener
     final SearchOption searchOption = mMapButtonsViewModel.getSearchOption().getValue();
     mSearchButton.setImageDrawable(Graphics.tint(
         mSearchButton.getContext(), searchOption == null ? R.drawable.ic_routing_search_off : searchOption.mDrawableOff,
-        androidx.appcompat.R.attr.colorAccent));
+        com.google.android.material.R.attr.colorSecondary));
   }
 
   @Override

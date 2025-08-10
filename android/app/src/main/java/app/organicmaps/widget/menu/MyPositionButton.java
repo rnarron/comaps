@@ -52,7 +52,7 @@ public class MyPositionButton
     if (mode == LocationState.FOLLOW || mode == LocationState.FOLLOW_AND_ROTATE
         || mode == LocationState.PENDING_POSITION)
     {
-      colorAttr = androidx.appcompat.R.attr.colorAccent;
+      colorAttr = com.google.android.material.R.attr.colorSecondary;
       if (mode == LocationState.PENDING_POSITION)
         sizeDimen = R.dimen.map_button_size;
       else

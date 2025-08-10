@@ -48,7 +48,7 @@
               android:layout_marginStart="@dimen/routing_selector_wheel_margin"
               android:contentDescription="@string/vehicle"
               tools:button="@drawable/ic_car"
-              tools:buttonTint="?colorAccent" />
+              tools:buttonTint="?colorSecondary" />
 
           <app.organicmaps.widget.RoutingToolbarButton
               android:id="@+id/pedestrian"

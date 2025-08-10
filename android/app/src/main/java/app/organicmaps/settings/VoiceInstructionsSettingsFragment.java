@@ -328,7 +328,7 @@ public class VoiceInstructionsSettingsFragment extends BaseXmlSettingsFragment
     // Set link color.
     link.setSpan(
         new ForegroundColorSpan(ContextCompat.getColor(
-            requireContext(), UiUtils.getStyledResourceId(requireContext(), androidx.appcompat.R.attr.colorAccent))),
+            requireContext(), UiUtils.getStyledResourceId(requireContext(), com.google.android.material.R.attr.colorSecondary))),
         0, ttsLinkText.length(), 0);
     ttsLangInfoLink.setSummary(link);
 

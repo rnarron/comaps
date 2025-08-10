@@ -13,7 +13,7 @@
     <item name="android:textColorPrimaryInverse">@color/text_light</item>
     <item name="android:textColorSecondary">@color/text_dark_subtitle</item>
     <item name="android:windowBackground">?windowBackgroundForced</item>
-    <item name="android:colorPrimaryDark">@color/bg_primary_dark</item>
+    <item name="colorPrimaryVariant">@color/bg_primary_dark</item>
     <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     <item name="android:fontFamily">@string/robotoRegular</item>
     <item name="android:colorBackgroundCacheHint">@null</item>
@@ -28,7 +28,7 @@
     <item name="fullscreenDialogTheme">@style/MwmTheme.DialogFragment.Fullscreen</item>
     <item name="colorPrimary">@color/bg_primary</item>
     <item name="colorControlNormal">?secondary</item>
-    <item name="colorAccent">@color/base_accent</item>
+    <item name="colorSecondary">@color/base_accent</item>
     <item name="colorAccentTransparent">@color/base_accent_transparent</item>
     <item name="colorBtnHighlight">@color/white_38</item>
     <item name="panel">@color/bg_panel</item>
@@ -146,7 +146,7 @@
 
   <!-- Theme is overridden in v27 folder to handle cutouts -->
   <style name="MwmTheme.MainActivity">
-    <item name="android:colorPrimaryDark">@android:color/black</item>
+    <item name="colorPrimaryVariant">@android:color/black</item>
     <item name="android:windowBackground">@null</item>
     <item name="android:windowTranslucentNavigation">false</item>
   </style>
@@ -165,7 +165,7 @@
   </style>
 
   <style name="MwmTheme.AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-    <item name="colorAccent">?buttonDialogTextColor</item>
+    <item name="colorSecondary">?buttonDialogTextColor</item>
     <item name="colorPrimary">?buttonDialogTextColor</item>
     <item name="android:background">?cardBackground</item>
     <item name="android:textColorPrimary">?textDialogTheme</item>
@@ -184,8 +184,8 @@
 
   <style name="MwmTheme.DialogFragment.Fullscreen" parent="Theme.AppCompat.Light">
     <item name="colorPrimary">@color/bg_primary</item>
-    <item name="android:colorPrimaryDark">?statusBar</item>
-    <item name="colorAccent">@color/base_accent</item>
+    <item name="colorPrimaryVariant">?statusBar</item>
+    <item name="colorSecondary">@color/base_accent</item>
     <item name="clickableBackground">?selectableItemBackground</item>
     <item name="colorControlNormal">@color/text_light_hint</item>
     <item name="android:windowIsFloating">false</item>
@@ -203,14 +203,14 @@
   </style>
 
   <style name="MwmTheme.DialogFragment.Fullscreen.Translucent">
-    <item name="android:colorPrimaryDark">@android:color/black</item>
+    <item name="colorPrimaryVariant">@android:color/black</item>
     <item name="android:windowBackground">@color/bg_dialog_translucent</item>
     <item name="android:windowIsTranslucent">true</item>
     <item name="android:navigationBarColor">@android:color/transparent</item>
   </style>
 
   <style name="MwmMain.DialogFragment.TimePicker" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-    <item name="colorAccent">@color/base_accent</item>
+    <item name="colorSecondary">@color/base_accent</item>
     <item name="colorPrimary">?buttonDialogTextColor</item>
     <item name="android:fontFamily">@string/robotoMedium</item>
     <item name="android:windowBackground">@color/bg_cards</item>

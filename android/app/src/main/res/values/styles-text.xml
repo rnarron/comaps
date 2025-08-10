@@ -95,7 +95,7 @@
 
   <style name="MwmTextAppearance.Button">
     <item name="android:textSize">@dimen/text_size_button</item>
-    <item name="android:textColor">?colorAccent</item>
+    <item name="android:textColor">?colorSecondary</item>
     <item name="android:textAllCaps">true</item>
   </style>
 
@@ -133,7 +133,7 @@
 
   <style name="MwmTextAppearance.NavMenu.Time">
     <item name="android:textSize">@dimen/text_size_nav_menu_number</item>
-    <item name="android:textColor">?colorAccent</item>
+    <item name="android:textColor">?colorSecondary</item>
   </style>
 
   <style name="MwmTextAppearance.NavMenu.Time.Dimension">
@@ -180,7 +180,7 @@
   <style name="MwmTextAppearance.PlacePage" parent="MwmTextAppearance.Body1"/>
 
   <style name="MwmTextAppearance.PlacePage.Accent">
-    <item name="android:textColor">?colorAccent</item>
+    <item name="android:textColor">?colorSecondary</item>
   </style>
 
   <style name="MwmTextAppearance.Tab" parent="MwmTextAppearance.Body3">

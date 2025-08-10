@@ -118,7 +118,7 @@
       app:layout_constraintTop_toBottomOf="@id/street_frame"
       app:lanesActiveLaneTintColor="?navLaneArrowActiveColor"
       app:lanesInactiveLaneTintColor="?navLaneArrowInactiveColor"
-      app:lanesBackgroundColor="?colorAccent"
+      app:lanesBackgroundColor="?colorSecondary"
       app:lanesCornerRadius="@dimen/margin_quarter"
       app:lanesEditModeLanesCount="10"
       tools:visibility="visible" />

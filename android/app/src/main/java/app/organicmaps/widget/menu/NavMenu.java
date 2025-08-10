@@ -167,7 +167,7 @@ public class NavMenu
   public void refreshTts()
   {
     mTts.setImageDrawable(TtsPlayer.isEnabled()
-                              ? Graphics.tint(mActivity, R.drawable.ic_voice_on, androidx.appcompat.R.attr.colorAccent)
+                              ? Graphics.tint(mActivity, R.drawable.ic_voice_on, com.google.android.material.R.attr.colorSecondary)
                               : Graphics.tint(mActivity, R.drawable.ic_voice_off));
   }
 

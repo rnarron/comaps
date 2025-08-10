@@ -13,7 +13,7 @@
     android:layout_marginStart="@dimen/margin_base"
     android:text="@string/download_country_ask"
     android:textAppearance="?fontBody2"
-    app:buttonTint="?colorAccent"
+    app:buttonTint="?colorSecondary"
     android:visibility="gone"
     tools:visibility="visible"/>
   <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -26,7 +26,7 @@
     android:layout_marginEnd="@dimen/margin_base_plus"
     android:layout_marginBottom="@dimen/margin_base"
     android:indeterminate="false"
-    app:indicatorColor="?android:colorAccent"
+    app:indicatorColor="?colorSecondary"
     app:trackColor="@color/bg_routing_progress"/>
   <com.google.android.material.button.MaterialButton
     android:id="@+id/btn_download_resources"
