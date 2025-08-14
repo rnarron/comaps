@@ -42,6 +42,9 @@ using namespace storage;
     [MWMRouter stopRouting];
   }
 
+  [MWMSearch clear];
+  [[[MapViewController sharedController] searchManager] close];
+
   if ([MWMMapOverlayManager transitEnabled]) {
     [MWMRouter setType:MWMRouterTypePublicTransport];
   }
