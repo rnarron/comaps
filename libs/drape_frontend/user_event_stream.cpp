@@ -15,6 +15,8 @@
 
 #include "base/macros.hpp"
 
+#include "std/target_os.hpp"
+
 #include <cmath>
 
 #ifdef DEBUG
@@ -1245,8 +1247,13 @@ void UserEventStream::UpdateDoubleTapAndHold(Touch const & touch)
   TEST_CALL(DOUBLE_TAP_AND_HOLD);
   ASSERT_EQUAL(m_state, STATE_DOUBLE_TAP_HOLD, ());
   float const kPowerModifier = 10.0f;
+#if defined(OMIM_OS_IPHONE) || defined(OMIM_OS_MAC)
+  int const kPlatformScaleModifier = -1;
+#else
+  int const kPlatformScaleModifier = 1;
+#endif
   double const scaleFactor = exp(kPowerModifier * (touch.m_location.y - m_startDoubleTapAndHold.y) /
-                                 GetCurrentScreen().PixelRectIn3d().SizeY());
+                                 GetCurrentScreen().PixelRectIn3d().SizeY() * kPlatformScaleModifier);
   m_startDoubleTapAndHold = touch.m_location;
 
   m2::PointD scaleCenter = m_startDragOrg;
