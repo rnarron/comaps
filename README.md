@@ -140,7 +140,7 @@ There is a dedicated [Zulip](https://codeberg.org/comaps/Governance/src/branch/m
 
 ## 💸 Funding
 
-CoMaps is free. To stay that way, it relies on your support.  
+CoMaps is free. To fund development, we rely on your voluntary support ♥️
 Donate via [OpenCollective](https://opencollective.com/comaps/donate) or [Liberapay](https://liberapay.com/CoMaps).  
 The project's financial information is completely open and transparent at [our Open Collective](https://opencollective.com/comaps).
 
