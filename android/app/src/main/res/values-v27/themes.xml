@@ -2,6 +2,7 @@
 <!-- Cutouts API is available for API >= 27 -->
 <resources>
   <style name="MwmTheme.MainActivity">
+    <item name="android:colorPrimaryDark">@android:color/black</item>
     <item name="colorPrimaryVariant">@android:color/black</item>
     <item name="android:windowBackground">@null</item>
     <item name="android:windowTranslucentNavigation">false</item>

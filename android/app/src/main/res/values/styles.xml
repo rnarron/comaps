@@ -144,17 +144,20 @@
 
   <style name="MwmWidget.ToolbarTheme" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
     <item name="android:gravity">center_vertical</item>
+    <item name="colorAccent">@android:color/white</item>
     <item name="colorSecondary">@android:color/white</item>
     <item name="iconTint">@color/white_primary</item>
   </style>
 
   <style name="MwmWidget.ToolbarTheme.Light" parent="MwmWidget.ToolbarTheme">
     <item name="android:gravity">center_vertical</item>
+    <item name="colorAccent">@android:color/white</item>
     <item name="colorSecondary">@color/bg_window_night</item>
   </style>
 
   <style name="MwmWidget.ToolbarTheme.Transparent" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
     <item name="android:gravity">center_vertical</item>
+    <item name="colorAccent">@android:color/white</item>
     <item name="colorSecondary">@android:color/white</item>
     <item name="android:windowActionBarOverlay">true</item>
     <item name="windowActionBarOverlay">true</item>
@@ -164,6 +167,7 @@
     name="MwmWidget.ToolbarTheme.DownButton"
     parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
     <item name="android:gravity">center_vertical</item>
+    <item name="colorAccent">@android:color/white</item>
     <item name="colorSecondary">@android:color/white</item>
     <item name="android:homeAsUpIndicator">@drawable/ic_down</item>
   </style>
@@ -352,12 +356,8 @@
     <item name="android:minWidth">30dp</item>
     <item name="android:paddingTop">7dp</item>
     <item name="android:paddingBottom">7dp</item>
-    <item name="android:paddingStart" >
-      12dp
-    </item>
-    <item name="android:paddingEnd" >
-      12dp
-    </item>
+    <item name="android:paddingStart">12dp</item>
+    <item name="android:paddingEnd">12dp</item>
     <item name="android:paddingLeft">12dp</item>
     <item name="android:paddingRight">12dp</item>
     <item name="iconPadding">4dp</item>
