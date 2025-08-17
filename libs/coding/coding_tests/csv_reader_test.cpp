@@ -144,7 +144,8 @@ UNIT_TEST(CSVReaderForEachRow)
   FileReader fileReader(sf.GetFullPath());
   auto reader = coding::CSVReader(fileReader);
   size_t index = 0;
-  reader.ForEachRow([&](auto const & row) {
+  reader.ForEachRow([&](auto const & row)
+  {
     TEST_EQUAL(row, answer[index], ());
     ++index;
   });
@@ -202,10 +203,12 @@ UNIT_TEST(CSVReaderEmptyColumns)
 
 UNIT_TEST(CSVReaderQuotes)
 {
-  auto const kContentWithQuotes = R"(noquotes, "" , "with space","with, comma","""double"" quotes","""double,"", commas", """""",)";
+  auto const kContentWithQuotes =
+      R"(noquotes, "" , "with space","with, comma","""double"" quotes","""double,"", commas", """""",)";
   auto const fileName = "test.csv";
   ScopedFile sf(fileName, kContentWithQuotes);
-  Rows const answer = {{"noquotes", "", "with space", "with, comma", "\"double\" quotes", "\"double,\", commas","\"\"", ""}};
+  Rows const answer = {
+      {"noquotes", "", "with space", "with, comma", "\"double\" quotes", "\"double,\", commas", "\"\"", ""}};
   coding::CSVReader reader(sf.GetFullPath());
   size_t index = 0;
   while (auto const optionalRow = reader.ReadRow())

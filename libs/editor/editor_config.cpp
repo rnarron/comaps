@@ -57,15 +57,15 @@ bool TypeDescriptionFromXml(pugi::xml_node const & root, pugi::xml_node const & 
   if (!node || strcmp(node.attribute("editable").value(), "no") == 0)
     return false;
 
-  auto const handleField = [&outDesc](std::string const & fieldName) {
+  auto const handleField = [&outDesc](std::string const & fieldName)
+  {
     if (fieldName == "name")
     {
       outDesc.m_name = true;
       return;
     }
 
-    if (fieldName == "street" || fieldName == "housenumber" || fieldName == "housename" ||
-        fieldName == "postcode")
+    if (fieldName == "street" || fieldName == "housenumber" || fieldName == "housename" || fieldName == "postcode")
     {
       outDesc.m_address = true;
       return;
@@ -118,16 +118,16 @@ std::vector<pugi::xml_node> GetPrioritizedTypes(pugi::xml_node const & node)
   std::vector<pugi::xml_node> result;
   for (auto const & xNode : node.select_nodes("/comaps/editor/types/type[@id]"))
     result.push_back(xNode.node());
-  stable_sort(begin(result), end(result),
-              [](pugi::xml_node const & lhs, pugi::xml_node const & rhs) {
-                auto const lhsWeight = kPriorityWeights.find(lhs.attribute("priority").value());
-                auto const rhsWeight = kPriorityWeights.find(rhs.attribute("priority").value());
+  stable_sort(begin(result), end(result), [](pugi::xml_node const & lhs, pugi::xml_node const & rhs)
+  {
+    auto const lhsWeight = kPriorityWeights.find(lhs.attribute("priority").value());
+    auto const rhsWeight = kPriorityWeights.find(rhs.attribute("priority").value());
 
-                CHECK(lhsWeight != kPriorityWeights.end(), (""));
-                CHECK(rhsWeight != kPriorityWeights.end(), (""));
+    CHECK(lhsWeight != kPriorityWeights.end(), (""));
+    CHECK(rhsWeight != kPriorityWeights.end(), (""));
 
-                return lhsWeight->second < rhsWeight->second;
-              });
+    return lhsWeight->second < rhsWeight->second;
+  });
   return result;
 }
 }  // namespace
@@ -158,9 +158,7 @@ bool EditorConfig::GetTypeDescription(std::vector<std::string> classificatorType
 
   auto const typeNodes = GetPrioritizedTypes(m_document);
   auto const it = base::FindIf(typeNodes, [&classificatorTypes](pugi::xml_node const & node)
-  {
-    return base::IsExist(classificatorTypes, node.attribute("id").value());
-  });
+  { return base::IsExist(classificatorTypes, node.attribute("id").value()); });
   if (it == end(typeNodes))
     return isBuilding;
 
@@ -169,8 +167,7 @@ bool EditorConfig::GetTypeDescription(std::vector<std::string> classificatorType
 
 std::vector<std::string> EditorConfig::GetTypesThatCanBeAdded() const
 {
-  auto const xpathResult =
-      m_document.select_nodes("/comaps/editor/types/type[not(@can_add='no' or @editable='no')]");
+  auto const xpathResult = m_document.select_nodes("/comaps/editor/types/type[not(@can_add='no' or @editable='no')]");
 
   std::vector<std::string> result;
   for (auto const & xNode : xpathResult)
@@ -178,5 +175,8 @@ std::vector<std::string> EditorConfig::GetTypesThatCanBeAdded() const
   return result;
 }
 
-void EditorConfig::SetConfig(pugi::xml_document const & doc) { m_document.reset(doc); }
+void EditorConfig::SetConfig(pugi::xml_document const & doc)
+{
+  m_document.reset(doc);
+}
 }  // namespace editor

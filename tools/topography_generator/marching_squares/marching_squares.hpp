@@ -13,9 +13,8 @@ template <typename ValueType>
 class MarchingSquares
 {
 public:
-  MarchingSquares(ms::LatLon const & leftBottom, ms::LatLon const & rightTop,
-                  double step, ValueType valueStep, ValuesProvider<ValueType> & valuesProvider,
-                  std::string const & debugId)
+  MarchingSquares(ms::LatLon const & leftBottom, ms::LatLon const & rightTop, double step, ValueType valueStep,
+                  ValuesProvider<ValueType> & valuesProvider, std::string const & debugId)
     : m_leftBottom(leftBottom)
     , m_rightTop(rightTop)
     , m_step(step)
@@ -58,18 +57,17 @@ public:
         // This point should be calculated _exact_ the same way as in ScanValuesInRect.
         // leftBottom + m_step doesn't work due to different floating results.
 
-        square.Init(
-            m_leftBottom.m_lon + m_step * j,        // Left
-            m_leftBottom.m_lat + m_step * i,        // Bottom
-            m_leftBottom.m_lon + m_step * (j + 1),  // Right
-            m_leftBottom.m_lat + m_step * (i + 1),  // Top
+        square.Init(m_leftBottom.m_lon + m_step * j,        // Left
+                    m_leftBottom.m_lat + m_step * i,        // Bottom
+                    m_leftBottom.m_lon + m_step * (j + 1),  // Right
+                    m_leftBottom.m_lat + m_step * (i + 1),  // Top
 
-            grid[Idx(i, j)],          // LB
-            grid[Idx(i, j + 1)],      // RB
-            grid[Idx(i + 1, j)],      // LT
-            grid[Idx(i + 1, j + 1)],  // RT
+                    grid[Idx(i, j)],          // LB
+                    grid[Idx(i, j + 1)],      // RB
+                    grid[Idx(i + 1, j)],      // LT
+                    grid[Idx(i + 1, j + 1)],  // RT
 
-            m_valuesProvider.GetInvalidValue());
+                    m_valuesProvider.GetInvalidValue());
 
         square.GenerateSegments(contoursBuilder);
       }

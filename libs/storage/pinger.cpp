@@ -8,7 +8,6 @@
 
 #include <chrono>
 
-
 namespace pinger
 {
 auto constexpr kTimeoutInSeconds = 4.0;
@@ -35,12 +34,13 @@ int64_t DoPing(std::string const & url)
   }
   else
   {
-    LOG(LWARNING, ("Ping to server", url, "failed with code =", request.ErrorCode(), "; wasRedirected =", request.WasRedirected()));
+    LOG(LWARNING, ("Ping to server", url, "failed with code =", request.ErrorCode(),
+                   "; wasRedirected =", request.WasRedirected()));
   }
 
   return kInvalidPing;
 }
-} // namespace pinger
+}  // namespace pinger
 
 namespace storage
 {
@@ -55,25 +55,15 @@ Pinger::Endpoints Pinger::ExcludeUnavailableAndSortEndpoints(Endpoints const & u
   {
     base::DelayedThreadPool pool(size, base::DelayedThreadPool::Exit::ExecPending);
     for (size_t i = 0; i < size; ++i)
-    {
-      pool.Push([&urls, &timeUrls, i]
-      {
-        timeUrls[i] = { pinger::DoPing(urls[i]), i };
-      });
-    }
+      pool.Push([&urls, &timeUrls, i] { timeUrls[i] = {pinger::DoPing(urls[i]), i}; });
   }
 
-  std::sort(timeUrls.begin(), timeUrls.end(), [](EntryT const & e1, EntryT const & e2)
-  {
-    return e1.first < e2.first;
-  });
+  std::sort(timeUrls.begin(), timeUrls.end(), [](EntryT const & e1, EntryT const & e2) { return e1.first < e2.first; });
 
   Endpoints readyUrls;
   for (auto const & [ping, index] : timeUrls)
-  {
     if (ping >= 0)
       readyUrls.push_back(urls[index]);
-  }
 
   return readyUrls;
 }

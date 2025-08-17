@@ -5,11 +5,9 @@
 
 namespace
 {
-dp::Color const colorList[] = {
-    {255, 0, 0, 255},   {0, 255, 0, 255},   {0, 0, 255, 255},
-    {255, 255, 0, 255}, {0, 255, 255, 255}, {255, 0, 255, 255},
-    {100, 0, 0, 255},   {0, 100, 0, 255},   {0, 0, 100, 255},
-    {100, 100, 0, 255}, {0, 100, 100, 255}, {100, 0, 100, 255}};
+dp::Color const colorList[] = {{255, 0, 0, 255},   {0, 255, 0, 255},   {0, 0, 255, 255},   {255, 255, 0, 255},
+                               {0, 255, 255, 255}, {255, 0, 255, 255}, {100, 0, 0, 255},   {0, 100, 0, 255},
+                               {0, 0, 100, 255},   {100, 100, 0, 255}, {0, 100, 100, 255}, {100, 0, 100, 255}};
 
 dp::Color const cityBoundaryBBColor{255, 0, 0, 255};
 dp::Color const cityBoundaryCBColor{0, 255, 0, 255};
@@ -22,11 +20,13 @@ void DrawLine(Box const & box, dp::Color const & color, df::DrapeApi & drapeApi,
   CHECK(!points.empty(), ());
   points.push_back(points.front());
 
-  points.erase(unique(points.begin(), points.end(), [](m2::PointD const & p1, m2::PointD const & p2)
+  points.erase(unique(points.begin(), points.end(),
+                      [](m2::PointD const & p1, m2::PointD const & p2)
   {
     m2::PointD const delta = p2 - p1;
     return delta.IsAlmostZero();
-  }), points.end());
+  }),
+               points.end());
 
   if (points.size() <= 1)
     return;
@@ -125,7 +125,6 @@ void Framework::VisualizeCityRoadsInRect(m2::RectD const & rect)
 
     if (cityRoads[mwmId]->IsCityRoad(ft.GetID().m_index))
       VisualizeFeatureInRect(rect, ft, m_drapeApi);
-
   }, rect, scales::GetUpperScale());
 }
 
@@ -182,6 +181,5 @@ void Framework::VisualizeCrossMwmTransitionsInRect(m2::RectD const & rect)
         ++segIdx;
       }, scales::GetUpperScale());
     }
-
   }, rect, scales::GetUpperScale());
 }

@@ -29,10 +29,7 @@ struct Less<true, T, C>
 
   bool operator()(C const & lhs, C const & rhs) const { return lhs.*m_p < rhs.*m_p; }
 
-  bool operator()(C const * const lhs, C const * const rhs) const
-  {
-    return lhs->*m_p < rhs->*m_p;
-  }
+  bool operator()(C const * const lhs, C const * const rhs) const { return lhs->*m_p < rhs->*m_p; }
 
   T C::* m_p;
 };
@@ -44,10 +41,7 @@ struct Less<false, T, C>
 
   bool operator()(C const & lhs, C const & rhs) const { return (lhs.*m_p)() < (rhs.*m_p)(); }
 
-  bool operator()(C const * const lhs, C const * const rhs) const
-  {
-    return (lhs->*m_p)() < (rhs->*m_p)();
-  }
+  bool operator()(C const * const lhs, C const * const rhs) const { return (lhs->*m_p)() < (rhs->*m_p)(); }
 
   T (C::*m_p)() const;
 };
@@ -62,10 +56,7 @@ struct Equals<true, T, C>
 
   bool operator()(C const & lhs, C const & rhs) const { return lhs.*m_p == rhs.*m_p; }
 
-  bool operator()(C const * const lhs, C const * const rhs) const
-  {
-    return lhs->*m_p == rhs->*m_p;
-  }
+  bool operator()(C const * const lhs, C const * const rhs) const { return lhs->*m_p == rhs->*m_p; }
 
   T C::* m_p;
 };
@@ -77,10 +68,7 @@ struct Equals<false, T, C>
 
   bool operator()(C const & lhs, C const & rhs) const { return (lhs.*m_p)() == (rhs.*m_p)(); }
 
-  bool operator()(C const * const lhs, C const * const rhs) const
-  {
-    return (lhs->*m_p)() == (rhs->*m_p)();
-  }
+  bool operator()(C const * const lhs, C const * const rhs) const { return (lhs->*m_p)() == (rhs->*m_p)(); }
 
   T (C::*m_p)() const;
 };
@@ -89,9 +77,7 @@ template <typename Container, typename Deletor>
 class DeleteRangeFunctor
 {
 public:
-  DeleteRangeFunctor(Container & cont, Deletor const & deletor) : m_cont(cont), m_deletor(deletor)
-  {
-  }
+  DeleteRangeFunctor(Container & cont, Deletor const & deletor) : m_cont(cont), m_deletor(deletor) {}
 
   void operator()()
   {
@@ -227,10 +213,11 @@ class IgnoreFirstArgument
 {
 public:
   template <typename Gn>
-  explicit IgnoreFirstArgument(Gn && gn) : m_fn(std::forward<Gn>(gn)) {}
+  explicit IgnoreFirstArgument(Gn && gn) : m_fn(std::forward<Gn>(gn))
+  {}
 
   template <typename Arg, typename... Args>
-  std::invoke_result_t<Fn, Args&&...> operator()(Arg &&, Args &&... args)
+  std::invoke_result_t<Fn, Args &&...> operator()(Arg &&, Args &&... args)
   {
     return m_fn(std::forward<Args>(args)...);
   }
@@ -246,28 +233,22 @@ IgnoreFirstArgument<Fn> MakeIgnoreFirstArgument(Fn && fn)
 }
 
 template <size_t I = 0, typename Fn, typename... Tp>
-std::enable_if_t<I == sizeof...(Tp), void>
-for_each_in_tuple(std::tuple<Tp...> &, Fn &&)
-{
-}
+std::enable_if_t<I == sizeof...(Tp), void> for_each_in_tuple(std::tuple<Tp...> &, Fn &&)
+{}
 
 template <size_t I = 0, typename Fn, typename... Tp>
-std::enable_if_t<I != sizeof...(Tp), void>
-for_each_in_tuple(std::tuple<Tp...> & t, Fn && fn)
+std::enable_if_t<I != sizeof...(Tp), void> for_each_in_tuple(std::tuple<Tp...> & t, Fn && fn)
 {
   fn(I, std::get<I>(t));
   for_each_in_tuple<I + 1, Fn, Tp...>(t, std::forward<Fn>(fn));
 }
 
 template <size_t I = 0, typename Fn, typename... Tp>
-std::enable_if_t<I == sizeof...(Tp), void>
-for_each_in_tuple_const(std::tuple<Tp...> const &, Fn &&)
-{
-}
+std::enable_if_t<I == sizeof...(Tp), void> for_each_in_tuple_const(std::tuple<Tp...> const &, Fn &&)
+{}
 
 template <size_t I = 0, typename Fn, typename... Tp>
-std::enable_if_t<I != sizeof...(Tp), void>
-for_each_in_tuple_const(std::tuple<Tp...> const & t, Fn && fn)
+std::enable_if_t<I != sizeof...(Tp), void> for_each_in_tuple_const(std::tuple<Tp...> const & t, Fn && fn)
 {
   fn(I, std::get<I>(t));
   for_each_in_tuple_const<I + 1, Fn, Tp...>(t, std::forward<Fn>(fn));
@@ -278,7 +259,11 @@ class BackInsertFunctor
 {
 public:
   explicit BackInsertFunctor(Container & container) : m_Container(container) {}
-  template <class T> void operator()(T && t) const { m_Container.push_back(std::forward<T>(t)); }
+  template <class T>
+  void operator()(T && t) const
+  {
+    m_Container.push_back(std::forward<T>(t));
+  }
 
 private:
   Container & m_Container;
@@ -295,10 +280,7 @@ class InsertFunctor
 {
 public:
   explicit InsertFunctor(Container & container) : m_Container(container) {}
-  void operator()(typename Container::value_type const & t) const
-  {
-    m_Container.insert(end(m_Container), t);
-  }
+  void operator()(typename Container::value_type const & t) const { m_Container.insert(end(m_Container), t); }
 
 private:
   Container & m_Container;
@@ -317,10 +299,8 @@ bool IsSortedAndUnique(Iter beg, Iter end, Compare comp)
     return true;
   Iter prev = beg;
   for (++beg; beg != end; ++beg, ++prev)
-  {
     if (!comp(*prev, *beg))
       return false;
-  }
   return true;
 }
 
@@ -364,8 +344,7 @@ struct DeleteFunctor
 };
 
 template <typename Container, typename Deletor>
-impl::DeleteRangeFunctor<Container, Deletor> GetRangeDeletor(Container & cont,
-                                                             Deletor const & deletor)
+impl::DeleteRangeFunctor<Container, Deletor> GetRangeDeletor(Container & cont, Deletor const & deletor)
 {
   return impl::DeleteRangeFunctor<Container, Deletor>(cont, deletor);
 }
@@ -473,7 +452,7 @@ void AccumulateIntervals1With2(Iter1 b1, Iter1 e1, Iter2 b2, Iter2 e2, InsertIte
 
 struct EnumClassHash
 {
-  template<typename T, std::enable_if_t<std::is_enum<T>::value> * = nullptr>
+  template <typename T, std::enable_if_t<std::is_enum<T>::value> * = nullptr>
   size_t operator()(T const & t) const noexcept
   {
     return static_cast<size_t>(t);

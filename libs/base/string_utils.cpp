@@ -10,8 +10,8 @@
 #include <iomanip>
 #include <iterator>
 
-#include <boost/algorithm/string/trim.hpp>
 #include <fast_double_parser.h>
+#include <boost/algorithm/string/trim.hpp>
 
 namespace strings
 {
@@ -75,7 +75,10 @@ SimpleDelimiter::SimpleDelimiter(char const * delims)
     m_delims.push_back(utf8::unchecked::next(it));
 }
 
-SimpleDelimiter::SimpleDelimiter(char delim) { m_delims.push_back(delim); }
+SimpleDelimiter::SimpleDelimiter(char delim)
+{
+  m_delims.push_back(delim);
+}
 
 bool SimpleDelimiter::operator()(UniChar c) const
 {
@@ -220,7 +223,7 @@ void AsciiToUpper(std::string & s)
     if (in >= 'a' && in <= 'z')
       return char(in - diff);
     return in;
- });
+  });
 }
 
 void Trim(std::string & s)
@@ -278,21 +281,13 @@ bool Truncate(std::string & utf8, size_t const maxTextLengthPlus1)
         uint8_t bytesInCodepoint = 1;
 
         if ((byte & 0x80) == 0x00)
-        {
           bytesInCodepoint = 1;
-        }
         else if ((byte & 0xE0) == 0xC0)
-        {
           bytesInCodepoint = 2;
-        }
         else if ((byte & 0xF0) == 0xE0)
-        {
           bytesInCodepoint = 3;
-        }
         else if ((byte & 0xF8) == 0xF0)
-        {
           bytesInCodepoint = 4;
-        }
 
         utf8.resize(i + bytesInCodepoint);
         return true;
@@ -351,21 +346,25 @@ std::u16string ToUtf16(std::string_view utf8)
 bool IsASCIIString(std::string_view sv)
 {
   for (auto c : sv)
-  {
     if (c & 0x80)
       return false;
-  }
   return true;
 }
 
-bool IsASCIIDigit(UniChar c) { return c >= '0' && c <= '9'; }
+bool IsASCIIDigit(UniChar c)
+{
+  return c >= '0' && c <= '9';
+}
 
 bool IsASCIISpace(UniChar c)
 {
   return c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v';
 }
 
-bool IsASCIILatin(UniChar c) { return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'); }
+bool IsASCIILatin(UniChar c)
+{
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
 
 bool StartsWith(UniString const & s, UniString const & p)
 {
@@ -460,8 +459,7 @@ bool AlmostEqual(std::string const & str1, std::string const & str2, size_t mism
 
   for (size_t i = 0; i <= mismatchedCount; ++i)
   {
-    auto const end =
-        mis.first + std::min(distance(mis.first, str1End), distance(mis.second, str2End));
+    auto const end = mis.first + std::min(distance(mis.first, str1End), distance(mis.second, str2End));
     mis = mismatch(mis.first, end, mis.second);
     if (mis.first == str1End && mis.second == str2End)
       return true;
@@ -499,7 +497,9 @@ void ParseCSVRow(std::string const & row, char const delimiter, std::vector<std:
   target.clear();
 
   std::string prevColumns;
-  for (TokenizeIterator<SimpleDelimiter, std::string::const_iterator, true /* KeepEmptyTokens */> it {row.begin(), row.end(), delimiter}; it; ++it)
+  for (TokenizeIterator<SimpleDelimiter, std::string::const_iterator, true /* KeepEmptyTokens */> it{
+           row.begin(), row.end(), delimiter};
+       it; ++it)
   {
     std::string_view column = *it;
     size_t const quotesCount = std::count(column.begin(), column.end(), '"');
@@ -512,7 +512,7 @@ void ParseCSVRow(std::string const & row, char const delimiter, std::vector<std:
           target.emplace_back(column);
         else
         {
-          std::string strColumn {column};
+          std::string strColumn{column};
           target.push_back(UnescapeCSVColumn(strColumn));
         }
       }

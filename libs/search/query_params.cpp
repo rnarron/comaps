@@ -839,7 +839,9 @@ map<string, vector<string>> const kSynonyms = {
     {"płk", {"pułkownika (pułkownik)"}},
     {"pln", {"plaine", "plein"}},
     {"pln", {"plein"}},
-    {"pl", {"placu", "plaça", "platz", "plain", "placem", "planta", "plass", "place", "plaza", "plassen", "plains", "plats", "platsen", "plac"}},
+    {"pl",
+     {"placu", "plaça", "platz", "plain", "placem", "planta", "plass", "place", "plaza", "plassen", "plains", "plats",
+      "platsen", "plac"}},
     {"plt", {"plateau", "plateaux"}},
     {"plut", {"plutonowego", "plutonowy"}},
     {"plza", {"plaza"}},
@@ -1081,7 +1083,9 @@ map<string, vector<string>> const kSynonyms = {
     {"s:t", {"sankt"}},
     /// @todo Should not duplicate Street synonyms defined in StreetsSynonymsHolder (avoid useless double queries).
     /// Remove "street" and "avenue" here, but should update GetNameScore.
-    {"st", {"santo", "sant", "sint", "saint", "stara", "street", "stary", "stora", "sankt", "store", "stare", "stig", "stigen"}},
+    {"st",
+     {"santo", "sant", "sint", "saint", "stara", "street", "stary", "stora", "sankt", "store", "stare", "stig",
+      "stigen"}},
     {"št", {"šent"}},
     {"stwg", {"steenweg"}},
     {"subdiv", {"subdivision"}},
@@ -1208,7 +1212,9 @@ map<string, vector<string>> const kSynonyms = {
     {"vst", {"vista"}},
     {"vs", {"volksschule"}},
     {"vte", {"vieille route"}},
-    {"v", {"västra", "vei", "von", "velike", "veliko", "väg", "via", "quinta", "velikem", "veliki", "vegen", "veien", "veg", "vägen", "quinto", "velika", "van"}},
+    {"v",
+     {"västra", "vei", "von", "velike", "veliko", "väg", "via", "quinta", "velikem", "veliki", "vegen", "veien", "veg",
+      "vägen", "quinto", "velika", "van"}},
     {"vvdas", {"viviendas"}},
     {"vv", {"vivenda"}},
     {"vw", {"view"}},
@@ -1462,8 +1468,8 @@ void QueryParams::Token::AddSynonym(String const & s)
 string DebugPrint(QueryParams::Token const & token)
 {
   ostringstream os;
-  os << "Token [ m_original=" << DebugPrint(token.GetOriginal())
-     << ", m_synonyms=" << DebugPrint(token.m_synonyms) << " ]";
+  os << "Token [ m_original=" << DebugPrint(token.GetOriginal()) << ", m_synonyms=" << DebugPrint(token.m_synonyms)
+     << " ]";
   return os.str();
 }
 
@@ -1473,14 +1479,15 @@ void QueryParams::ClearStreetIndices()
   class AdditionalCommonTokens
   {
     set<String> m_strings;
+
   public:
     AdditionalCommonTokens()
     {
       char const * arr[] = {
-        "the",                      // English
-        "der", "zum", "und", "auf", // German
-        "del", "les",               // Spanish
-        "в", "на"                   // Cyrillic
+          "the",                       // English
+          "der", "zum", "und", "auf",  // German
+          "del", "les",                // Spanish
+          "в",   "на"                  // Cyrillic
       };
       for (char const * s : arr)
         m_strings.insert(NormalizeAndSimplifyString(s));
@@ -1515,7 +1522,10 @@ void QueryParams::Clear()
   m_langs.Clear();
 }
 
-bool QueryParams::IsCategorySynonym(size_t i) const { return !GetTypeIndices(i).empty(); }
+bool QueryParams::IsCategorySynonym(size_t i) const
+{
+  return !GetTypeIndices(i).empty();
+}
 
 QueryParams::TypeIndices & QueryParams::GetTypeIndices(size_t i)
 {
@@ -1558,10 +1568,8 @@ bool QueryParams::IsNumberTokens(TokenRange const & range) const
   ASSERT_LESS_OR_EQUAL(range.End(), GetNumTokens(), ());
 
   for (size_t i : range)
-  {
     if (!GetToken(i).AnyOfOriginalOrSynonyms([](String const & s) { return strings::IsASCIINumeric(s); }))
       return false;
-  }
 
   return true;
 }
@@ -1588,20 +1596,16 @@ void QueryParams::AddSynonyms()
     string const ss = ToUtf8(MakeLowerCase(token.GetOriginal()));
     auto const it = kSynonyms.find(ss);
     if (it != kSynonyms.end())
-    {
       for (auto const & synonym : it->second)
         token.AddSynonym(synonym);
-    }
   }
   if (m_hasPrefix)
   {
     string const ss = ToUtf8(MakeLowerCase(m_prefixToken.GetOriginal()));
     auto const it = kSynonyms.find(ss);
     if (it != kSynonyms.end())
-    {
       for (auto const & synonym : it->second)
         m_prefixToken.AddSynonym(synonym);
-    }
   }
 }
 
@@ -1609,12 +1613,9 @@ string DebugPrint(QueryParams const & params)
 {
   ostringstream os;
   os << boolalpha << "QueryParams "
-     << "{ m_tokens: " << ::DebugPrint(params.m_tokens)
-     << ", m_prefixToken: " << DebugPrint(params.m_prefixToken)
-     << ", m_typeIndices: " << ::DebugPrint(params.m_typeIndices)
-     << ", m_langs: " << DebugPrint(params.m_langs)
-     << ", m_isCommonToken: " << ::DebugPrint(params.m_isCommonToken)
-     << " }";
+     << "{ m_tokens: " << ::DebugPrint(params.m_tokens) << ", m_prefixToken: " << DebugPrint(params.m_prefixToken)
+     << ", m_typeIndices: " << ::DebugPrint(params.m_typeIndices) << ", m_langs: " << DebugPrint(params.m_langs)
+     << ", m_isCommonToken: " << ::DebugPrint(params.m_isCommonToken) << " }";
   return os.str();
 }
 }  // namespace search

@@ -50,8 +50,7 @@ bool IsReversedIntervals(size_t fromDst, size_t toDst, size_t fromSrc, size_t to
   return (fromDst > toDst) != (fromSrc > toSrc);
 }
 
-std::vector<m2::PointD> AppendPointsWithAnyDirection(std::vector<MarkedPoint> const & copyFrom,
-                                                     size_t from, size_t to)
+std::vector<m2::PointD> AppendPointsWithAnyDirection(std::vector<MarkedPoint> const & copyFrom, size_t from, size_t to)
 {
   std::vector<m2::PointD> result;
   if (from > to)
@@ -63,16 +62,14 @@ std::vector<m2::PointD> AppendPointsWithAnyDirection(std::vector<MarkedPoint> co
   return result;
 }
 
-double AbsAreaDiff(std::vector<m2::PointD> const & firstPolygon,
-                   std::vector<m2::PointD> const & secondPolygon)
+double AbsAreaDiff(std::vector<m2::PointD> const & firstPolygon, std::vector<m2::PointD> const & secondPolygon)
 {
   auto const firstArea = generator::AreaOnEarth(firstPolygon);
   auto const secondArea = generator::AreaOnEarth(secondPolygon);
   return std::abs(secondArea - firstArea);
 }
 
-bool NeedReplace(std::vector<m2::PointD> const & curSubpolygon,
-                 std::vector<m2::PointD> const & anotherSubpolygon)
+bool NeedReplace(std::vector<m2::PointD> const & curSubpolygon, std::vector<m2::PointD> const & anotherSubpolygon)
 {
   auto const areaDiff = AbsAreaDiff(curSubpolygon, anotherSubpolygon);
   double constexpr kMaxAreaDiffMetersSquared = 20000.0;
@@ -195,7 +192,7 @@ void BordersData::Init(std::string const & bordersDir)
 void BordersData::DumpPolyFiles(std::string const & targetDir)
 {
   size_t n = m_bordersPolygons.size();
-  for (size_t i = 0; i < n; )
+  for (size_t i = 0; i < n;)
   {
     // Russia_Moscow.poly1 -> Russia_Moscow.poly
     auto name = RemoveIndexFromMwmName(m_indexToPolyFileName.at(i));
@@ -270,11 +267,9 @@ void BordersData::PrintDiff()
   CHECK_NOT_EQUAL(allNumberBeforeCount, 0, ("Empty input?"));
   std::cout << "Number of removed points: " << m_removedPointsCount << std::endl
             << "Removed duplicate point: " << m_duplicatedPointsCount << std::endl
-            << "Total removed points: " << m_removedPointsCount + m_duplicatedPointsCount
-            << std::endl;
+            << "Total removed points: " << m_removedPointsCount + m_duplicatedPointsCount << std::endl;
   std::cout << "Points number before processing: " << allNumberBeforeCount << ", remove( "
-            << static_cast<double>(m_removedPointsCount + m_duplicatedPointsCount) /
-                   allNumberBeforeCount * 100.0
+            << static_cast<double>(m_removedPointsCount + m_duplicatedPointsCount) / allNumberBeforeCount * 100.0
             << "% )" << std::endl;
 }
 
@@ -298,8 +293,8 @@ void BordersData::RemoveEmptySpaceBetweenBorders()
       size_t constexpr kMaxLookAhead = 5;
       for (size_t shift = 1; shift <= kMaxLookAhead; ++shift)
       {
-        if (TryToReplace(curBorderId, curPointId /* curLeftPointId */,
-                         curPointId + shift /* curRightPointId */) == base::ControlFlow::Break)
+        if (TryToReplace(curBorderId, curPointId /* curLeftPointId */, curPointId + shift /* curRightPointId */) ==
+            base::ControlFlow::Break)
         {
           break;
         }
@@ -310,8 +305,7 @@ void BordersData::RemoveEmptySpaceBetweenBorders()
   DoReplace();
 }
 
-base::ControlFlow BordersData::TryToReplace(size_t curBorderId, size_t & curLeftPointId,
-                                            size_t curRightPointId)
+base::ControlFlow BordersData::TryToReplace(size_t curBorderId, size_t & curLeftPointId, size_t curRightPointId)
 {
   auto & curPolygon = m_bordersPolygons[curBorderId];
   if (curRightPointId >= curPolygon.m_points.size())
@@ -348,10 +342,9 @@ base::ControlFlow BordersData::TryToReplace(size_t curBorderId, size_t & curLeft
   }
 
   auto const anotherSubpolygon =
-     AppendPointsWithAnyDirection(anotherPolygon.m_points, anotherLeftPointId, anotherRightPointId);
+      AppendPointsWithAnyDirection(anotherPolygon.m_points, anotherLeftPointId, anotherRightPointId);
 
-  auto const curSubpolygon =
-     AppendPointsWithAnyDirection(curPolygon.m_points, curLeftPointId, curRightPointId);
+  auto const curSubpolygon = AppendPointsWithAnyDirection(curPolygon.m_points, curLeftPointId, curRightPointId);
 
   if (!NeedReplace(curSubpolygon, anotherSubpolygon))
     return base::ControlFlow::Break;
@@ -361,26 +354,25 @@ base::ControlFlow BordersData::TryToReplace(size_t curBorderId, size_t & curLeft
   bool const curLenIsLess = curSubpolygon.size() < anotherSubpolygon.size();
 
   size_t dstFrom = curLenIsLess ? anotherLeftPointId : curLeftPointId;
-  size_t dstTo   = curLenIsLess ? anotherRightPointId : curRightPointId;
+  size_t dstTo = curLenIsLess ? anotherRightPointId : curRightPointId;
 
-  size_t srcFrom = curLenIsLess ? curLeftPointId  : anotherLeftPointId;
-  size_t srcTo   = curLenIsLess ? curRightPointId : anotherRightPointId;
+  size_t srcFrom = curLenIsLess ? curLeftPointId : anotherLeftPointId;
+  size_t srcTo = curLenIsLess ? curRightPointId : anotherRightPointId;
 
   size_t const borderIdWhereAreaWillBeChanged = curLenIsLess ? anotherBorderId : curBorderId;
   size_t const srcBorderId = curLenIsLess ? curBorderId : anotherBorderId;
 
   bool const reversed = IsReversedIntervals(dstFrom, dstTo, srcFrom, srcTo);
 
-  m_additionalAreaMetersSqr[borderIdWhereAreaWillBeChanged] +=
-      AbsAreaDiff(curSubpolygon, anotherSubpolygon);
+  m_additionalAreaMetersSqr[borderIdWhereAreaWillBeChanged] += AbsAreaDiff(curSubpolygon, anotherSubpolygon);
 
   SwapIfNeeded(dstFrom, dstTo);
   SwapIfNeeded(srcFrom, srcTo);
 
   // Save info for |borderIdWhereAreaWillBeChanged| - where from it should gets info about
   // replacement.
-  m_bordersPolygons[borderIdWhereAreaWillBeChanged].AddReplaceInfo(
-      dstFrom, dstTo, srcFrom, srcTo, srcBorderId, reversed);
+  m_bordersPolygons[borderIdWhereAreaWillBeChanged].AddReplaceInfo(dstFrom, dstTo, srcFrom, srcTo, srcBorderId,
+                                                                   reversed);
 
   // And say for |srcBorderId| that points in segment: [srcFrom, srcTo] are frozen and cannot
   // be used anywhere (because we use them to replace points in segment: [dstFrom, dstTo]).

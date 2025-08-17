@@ -31,14 +31,15 @@ struct Link
 /// \note Using next semantic here: [replaceFrom, replaceTo], [replaceFromSrc, replaceToSrc].
 struct ReplaceData
 {
-  ReplaceData(size_t replaceFrom, size_t replaceTo, size_t replaceFromSrc, size_t replaceToSrc,
-              size_t borderIdSrc, bool reversed)
+  ReplaceData(size_t replaceFrom, size_t replaceTo, size_t replaceFromSrc, size_t replaceToSrc, size_t borderIdSrc,
+              bool reversed)
     : m_dstFrom(replaceFrom)
     , m_dstTo(replaceTo)
     , m_srcReplaceFrom(replaceFromSrc)
     , m_srcReplaceTo(replaceToSrc)
     , m_srcBorderId(borderIdSrc)
-    , m_reversed(reversed) {}
+    , m_reversed(reversed)
+  {}
 
   bool operator<(ReplaceData const & rhs) const;
 
@@ -62,10 +63,7 @@ struct MarkedPoint
 
   std::optional<Link> GetLink(size_t curBorderId) const;
 
-  bool EqualDxDy(MarkedPoint const & p, double eps) const
-  {
-    return m_point.EqualDxDy(p.m_point, eps);
-  }
+  bool EqualDxDy(MarkedPoint const & p, double eps) const { return m_point.EqualDxDy(p.m_point, eps); }
 
   m2::PointD m_point;
   std::set<Link> m_links;
@@ -78,10 +76,7 @@ struct Polygon
   {
     m_points.assign(points.begin(), points.end());
   }
-  Polygon(m2::RectD const & rect, std::vector<MarkedPoint> && points)
-    : m_rect(rect), m_points(std::move(points))
-  {
-  }
+  Polygon(m2::RectD const & rect, std::vector<MarkedPoint> && points) : m_rect(rect), m_points(std::move(points)) {}
 
   Polygon(Polygon &&) = default;
   Polygon & operator=(Polygon &&) noexcept = default;
@@ -93,9 +88,8 @@ struct Polygon
   // @}
 
   // [replaceFrom, replaceTo], [replaceFromSrc, replaceToSrc]
-  void AddReplaceInfo(size_t replaceFrom, size_t replaceTo,
-                      size_t replaceFromSrc, size_t replaceToSrc, size_t borderIdSrc,
-                      bool reversed);
+  void AddReplaceInfo(size_t replaceFrom, size_t replaceTo, size_t replaceFromSrc, size_t replaceToSrc,
+                      size_t borderIdSrc, bool reversed);
 
   std::set<ReplaceData>::const_iterator FindReplaceData(size_t index);
 

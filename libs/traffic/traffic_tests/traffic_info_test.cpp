@@ -33,10 +33,7 @@ protected:
     return info;
   }
 
-  unique_ptr<MwmValue> CreateValue(MwmInfo & info) const override
-  {
-    return make_unique<MwmValue>(info.GetLocalFile());
-  }
+  unique_ptr<MwmValue> CreateValue(MwmInfo & info) const override { return make_unique<MwmValue>(info.GetLocalFile()); }
 };
 }  // namespace
 
@@ -123,15 +120,20 @@ UNIT_TEST(TrafficInfo_UpdateTrafficData)
   vector<TrafficInfo::RoadSegmentId> const keys = {
       TrafficInfo::RoadSegmentId(0, 0, 0),
 
-      TrafficInfo::RoadSegmentId(1, 0, 0), TrafficInfo::RoadSegmentId(1, 0, 1),
+      TrafficInfo::RoadSegmentId(1, 0, 0),
+      TrafficInfo::RoadSegmentId(1, 0, 1),
   };
 
   vector<SpeedGroup> const values1 = {
-      SpeedGroup::G1, SpeedGroup::G2, SpeedGroup::G3,
+      SpeedGroup::G1,
+      SpeedGroup::G2,
+      SpeedGroup::G3,
   };
 
   vector<SpeedGroup> const values2 = {
-      SpeedGroup::G4, SpeedGroup::G5, SpeedGroup::Unknown,
+      SpeedGroup::G4,
+      SpeedGroup::G5,
+      SpeedGroup::Unknown,
   };
 
   TrafficInfo info;

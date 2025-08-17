@@ -50,8 +50,7 @@ public:
   Data GetContentsByPrefix(Key const & prefix) const
   {
     Data data;
-    m_trie.ForEachInSubtree(prefix,
-                            [&data](Key const & k, Value const & v) { data.emplace_back(k, v); });
+    m_trie.ForEachInSubtree(prefix, [&data](Key const & k, Value const & v) { data.emplace_back(k, v); });
     sort(data.begin(), data.end());
     return data;
   }

@@ -84,4 +84,4 @@ private:
   OsmOAuth m_auth;
 };
 
-} // namespace osm
+}  // namespace osm

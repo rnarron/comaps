@@ -14,16 +14,18 @@ HighwayBasedFactors const kHighwayBasedFactors = {
     // See XXX_KeepMotorway integration tests.
     {HighwayType::HighwayMotorwayLink, InOutCityFactor(0.75)},  // 0.20 less
     {HighwayType::HighwayTrunk, InOutCityFactor(0.90)},
-    {HighwayType::HighwayTrunkLink, InOutCityFactor(0.80)},     // 0.15 less
+    {HighwayType::HighwayTrunkLink, InOutCityFactor(0.80)},  // 0.15 less
 
     // Tier 2:
-    {HighwayType::HighwayPrimary, InOutCityFactor(SpeedFactor{0.85 /* weight */, 0.80 /* eta */} /* in city */, 0.85 /* out city */)},
-    {HighwayType::HighwayPrimaryLink, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},   // 0.10 less
+    {HighwayType::HighwayPrimary,
+     InOutCityFactor(SpeedFactor{0.85 /* weight */, 0.80 /* eta */} /* in city */, 0.85 /* out city */)},
+    {HighwayType::HighwayPrimaryLink, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},  // 0.10 less
     {HighwayType::HighwaySecondary, InOutCityFactor(0.80 /* in city */, 0.85 /* out city */)},
-    {HighwayType::HighwaySecondaryLink, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)}, // 0.10 less
+    {HighwayType::HighwaySecondaryLink, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},  // 0.10 less
 
     // Tier 3:
-    {HighwayType::HighwayTertiary, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},      // 0.10 less than Secondary
+    {HighwayType::HighwayTertiary,
+     InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},  // 0.10 less than Secondary
     {HighwayType::HighwayTertiaryLink, InOutCityFactor(0.60 /* in city */, 0.65 /* out city */)},  // 0.10 less
     {HighwayType::HighwayUnclassified, InOutCityFactor(0.70 /* in city */, 0.75 /* out city */)},
 

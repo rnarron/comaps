@@ -119,10 +119,11 @@ final class RoutingBottomMenuController implements View.OnClickListener
 
   private RoutingBottomMenuController(@NonNull Activity context, @NonNull View altitudeChartFrame,
                                       @NonNull View timeElevationLine, @NonNull View transitFrame,
-                                      @NonNull MaterialTextView error, @NonNull Button start, @NonNull ImageView altitudeChart,
-                                      @NonNull MaterialTextView time, @NonNull MaterialTextView altitudeDifference,
-                                      @NonNull TextView timeVehicle, @Nullable MaterialTextView arrival,
-                                      @NonNull View actionFrame, @Nullable RoutingBottomMenuListener listener)
+                                      @NonNull MaterialTextView error, @NonNull Button start,
+                                      @NonNull ImageView altitudeChart, @NonNull MaterialTextView time,
+                                      @NonNull MaterialTextView altitudeDifference, @NonNull TextView timeVehicle,
+                                      @Nullable MaterialTextView arrival, @NonNull View actionFrame,
+                                      @Nullable RoutingBottomMenuListener listener)
   {
     mContext = context;
     mAltitudeChartFrame = altitudeChartFrame;

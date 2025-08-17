@@ -159,7 +159,7 @@ UNIT_TEST(Triangle_PointInsidePoint)
 UNIT_TEST(PolygonSelfIntersections_IntersectSmoke)
 {
   {
-    P arr[] = { P(0, 1), P(2, -1), P(2, 1), P(0, -1) };
+    P arr[] = {P(0, 1), P(2, -1), P(2, 1), P(0, -1)};
     CheckSelfIntersections(&arr[0], arr + ARRAY_SIZE(arr), true);
   }
 }
@@ -167,12 +167,12 @@ UNIT_TEST(PolygonSelfIntersections_IntersectSmoke)
 UNIT_TEST(PolygonSelfIntersections_TangentSmoke)
 {
   {
-    P arr[] = { P(0, 1), P(1, 0), P(2, 1), P(2, -1), P(1, 0), P(0, -1) };
+    P arr[] = {P(0, 1), P(1, 0), P(2, 1), P(2, -1), P(1, 0), P(0, -1)};
     CheckSelfIntersections(&arr[0], arr + ARRAY_SIZE(arr), false);
   }
 
   {
-    P arr[] = { P(0, 0), P(2, 0), P(2, 1), P(1, 0), P(0, 1) };
+    P arr[] = {P(0, 0), P(2, 0), P(2, 1), P(1, 0), P(0, 1)};
     CheckSelfIntersections(&arr[0], arr + ARRAY_SIZE(arr), false);
   }
 }

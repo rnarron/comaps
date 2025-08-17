@@ -30,9 +30,7 @@ UNIT_TEST(RoutingQuality_Sokol2Mayakovskaya)
   Params params(VehicleType::Car, {55.80432, 37.51603} /* start */, {55.77019, 37.59558} /* finish */);
 
   // All points lie on the alternate so the result should be 0.
-  ReferenceRoutes waypoints = {{
-    {55.79599, 37.54114}, {55.78142, 37.57364}, {55.77863, 37.57989}
-  }};
+  ReferenceRoutes waypoints = {{{55.79599, 37.54114}, {55.78142, 37.57364}, {55.77863, 37.57989}}};
 
   TEST_EQUAL(CheckWaypoints(params, std::move(waypoints)), 0.0, ());
 }

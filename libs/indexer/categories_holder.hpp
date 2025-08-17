@@ -31,10 +31,7 @@ public:
 
     std::vector<Name> m_synonyms;
 
-    void Swap(Category & r)
-    {
-      m_synonyms.swap(r.m_synonyms);
-    }
+    void Swap(Category & r) { m_synonyms.swap(r.m_synonyms); }
   };
 
   struct Mapping
@@ -137,20 +134,16 @@ public:
   void ForEachName(ToDo && toDo) const
   {
     for (auto const & p : m_type2cat)
-    {
       for (auto const & synonym : p.second->m_synonyms)
         toDo(synonym);
-    }
   }
 
   template <class ToDo>
   void ForEachNameAndType(ToDo && toDo) const
   {
     for (auto const & p : m_type2cat)
-    {
       for (auto const & synonym : p.second->m_synonyms)
         toDo(synonym, p.first);
-    }
   }
 
   template <class ToDo>

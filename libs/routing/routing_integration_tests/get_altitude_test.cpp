@@ -57,8 +57,7 @@ public:
   MwmValue const * GetValue() { return m_handle.GetValue(); }
 };
 
-void TestAltitudeOfAllMwmFeatures(string const & countryId,
-                                  Altitude const altitudeLowerBoundMeters,
+void TestAltitudeOfAllMwmFeatures(string const & countryId, Altitude const altitudeLowerBoundMeters,
                                   Altitude const altitudeUpperBoundMeters)
 {
   FeaturesGuard features(countryId);
@@ -89,8 +88,7 @@ UNIT_TEST(GetAltitude_AllMwmFeaturesTest)
 {
   classificator::Load();
 
-  TestAltitudeOfAllMwmFeatures("Russia_Moscow", 50 /* altitudeLowerBoundMeters */,
-                               300 /* altitudeUpperBoundMeters */);
+  TestAltitudeOfAllMwmFeatures("Russia_Moscow", 50 /* altitudeLowerBoundMeters */, 300 /* altitudeUpperBoundMeters */);
   TestAltitudeOfAllMwmFeatures("Nepal_Kathmandu", 250 /* altitudeLowerBoundMeters */,
                                6000 /* altitudeUpperBoundMeters */);
   TestAltitudeOfAllMwmFeatures("Netherlands_North Holland_Amsterdam", -25 /* altitudeLowerBoundMeters */,

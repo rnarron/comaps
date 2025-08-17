@@ -58,7 +58,7 @@ public:
    * @param[in]  url        Final url part like "index.json" or "maps/210415/countries.txt".
    * @param[in]  forceReset True - force reset current request, if any.
    */
-  void DownloadAsString(std::string url, std::function<bool (std::string const &)> && callback, bool forceReset = false);
+  void DownloadAsString(std::string url, std::function<bool(std::string const &)> && callback, bool forceReset = false);
 
   // Used in tests only.
   void SetServersList(ServersList const & serversList);
@@ -68,7 +68,7 @@ public:
 
   /// @name Legacy functions for Android resources downloading routine (initial World download).
   /// @{
-  void EnsureMetaConfigReady(std::function<void ()> && callback);
+  void EnsureMetaConfigReady(std::function<void()> && callback);
   std::vector<std::string> MakeUrlListLegacy(std::string const & fileName) const;
   /// @}
 

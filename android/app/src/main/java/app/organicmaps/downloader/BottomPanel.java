@@ -115,15 +115,15 @@ class BottomPanel
       {
         switch (status)
         {
-          case STATUS_UPDATABLE ->
-          {
-            UpdateInfo info = MapManager.nativeGetUpdateInfo(root);
-            setUpdateAllState(info);
-          } // Special case for "Countries" node when no maps currently downloaded.
-          case STATUS_DOWNLOADABLE, STATUS_DONE, STATUS_PARTLY -> show = false;
-          case STATUS_PROGRESS, STATUS_APPLYING, STATUS_ENQUEUED -> setCancelState();
-          case STATUS_FAILED -> setRetryFailedStates();
-          default -> throw new IllegalArgumentException("Inappropriate status for \"" + root + "\": " + status);
+        case STATUS_UPDATABLE ->
+        {
+          UpdateInfo info = MapManager.nativeGetUpdateInfo(root);
+          setUpdateAllState(info);
+        } // Special case for "Countries" node when no maps currently downloaded.
+        case STATUS_DOWNLOADABLE, STATUS_DONE, STATUS_PARTLY -> show = false;
+        case STATUS_PROGRESS, STATUS_APPLYING, STATUS_ENQUEUED -> setCancelState();
+        case STATUS_FAILED -> setRetryFailedStates();
+        default -> throw new IllegalArgumentException("Inappropriate status for \"" + root + "\": " + status);
         }
       }
       else
@@ -133,15 +133,15 @@ class BottomPanel
         {
           switch (status)
           {
-            case STATUS_UPDATABLE ->
-            {
-              UpdateInfo info = MapManager.nativeGetUpdateInfo(root);
-              setUpdateAllState(info);
-            }
-            case STATUS_DONE -> show = false;
-            case STATUS_PROGRESS, STATUS_APPLYING, STATUS_ENQUEUED -> setCancelState();
-            case STATUS_FAILED -> setRetryFailedStates();
-            default -> setDownloadAllState();
+          case STATUS_UPDATABLE ->
+          {
+            UpdateInfo info = MapManager.nativeGetUpdateInfo(root);
+            setUpdateAllState(info);
+          }
+          case STATUS_DONE -> show = false;
+          case STATUS_PROGRESS, STATUS_APPLYING, STATUS_ENQUEUED -> setCancelState();
+          case STATUS_FAILED -> setRetryFailedStates();
+          default -> setDownloadAllState();
           }
         }
       }

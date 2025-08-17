@@ -11,9 +11,7 @@ class LruCacheTest
 public:
   using Loader = std::function<void(Key const & key, Value & value)>;
 
-  LruCacheTest(size_t maxCacheSize, Loader const & loader) : m_cache(maxCacheSize), m_loader(loader)
-  {
-  }
+  LruCacheTest(size_t maxCacheSize, Loader const & loader) : m_cache(maxCacheSize), m_loader(loader) {}
 
   Value const & GetValue(Key const & key)
   {
@@ -42,17 +40,16 @@ public:
   bool IsValid() const { return m_keyAge.IsValidForTesting(); }
 
   size_t GetAge() const { return m_keyAge.m_age; }
-  std::map<size_t, Key> const & GetAgeToKey() const { return m_keyAge.m_ageToKey; };
-  std::unordered_map<Key, size_t> const & GetKeyToAge() const { return m_keyAge.m_keyToAge; };
+  std::map<size_t, Key> const & GetAgeToKey() const { return m_keyAge.m_ageToKey; }
+  std::unordered_map<Key, size_t> const & GetKeyToAge() const { return m_keyAge.m_keyToAge; }
 
 private:
   typename LruCache<Key, Value>::KeyAge m_keyAge;
 };
 
 template <typename Key, typename Value>
-void TestAge(LruCacheKeyAgeTest<Key, Value> const & keyAge,
-             size_t expectedAge, std::map<size_t, Key> const & expectedAgeToKey,
-             std::unordered_map<Key, size_t> const & expectedKeyToAge)
+void TestAge(LruCacheKeyAgeTest<Key, Value> const & keyAge, size_t expectedAge,
+             std::map<size_t, Key> const & expectedAgeToKey, std::unordered_map<Key, size_t> const & expectedKeyToAge)
 {
   TEST(keyAge.IsValid(), ());
   TEST_EQUAL(keyAge.GetAge(), expectedAge, ());
@@ -151,7 +148,8 @@ UNIT_TEST(LruCacheLoaderCallsTest)
   using Key = int;
   using Value = int;
   bool shouldLoadBeCalled = true;
-  auto loader = [&shouldLoadBeCalled](Key k, Value & v) {
+  auto loader = [&shouldLoadBeCalled](Key k, Value & v)
+  {
     TEST(shouldLoadBeCalled, ());
     v = k;
   };

@@ -478,8 +478,9 @@ public class PlacePageView extends Fragment
       MaterialTextView mTvAddPlace = mAddPlace.findViewById(R.id.tv__editor);
       final int editPlaceButtonColor =
           Editor.nativeShouldEnableEditPlace()
-              ? ContextCompat.getColor(getContext(),
-                                       UiUtils.getStyledResourceId(getContext(), com.google.android.material.R.attr.colorSecondary))
+              ? ContextCompat.getColor(
+                    getContext(),
+                    UiUtils.getStyledResourceId(getContext(), com.google.android.material.R.attr.colorSecondary))
               : getResources().getColor(R.color.button_accent_text_disabled);
       mTvEditPlace.setTextColor(editPlaceButtonColor);
       mTvAddBusiness.setTextColor(editPlaceButtonColor);

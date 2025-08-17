@@ -32,12 +32,11 @@ template <typename Cont>
 Entries GetEntries(Cont const & cont)
 {
   Entries res;
-  cont.ForEachEntry([&res](uint32_t const fid, base::GeoObjectId const & gid) {
-    res.emplace_back(std::make_pair(fid, gid));
-  });
+  cont.ForEachEntry([&res](uint32_t const fid, base::GeoObjectId const & gid)
+  { res.emplace_back(std::make_pair(fid, gid)); });
   std::sort(res.begin(), res.end());
   return res;
-};
+}
 
 class FeatureIdToGeoObjectIdTest : public TestWithCustomMwms
 {

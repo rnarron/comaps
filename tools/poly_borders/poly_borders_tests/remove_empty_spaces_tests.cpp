@@ -40,8 +40,7 @@ bool ConsistsOf(Polygon const & polygon, vector<m2::PointD> const & points)
     for (size_t i = 0; i < polygon.m_points.size(); ++i)
     {
       static double constexpr kEps = 1e-5;
-      if (AlmostEqualAbs(point, polygon.m_points[i].m_point, kEps) &&
-          used.count(i) == 0)
+      if (AlmostEqualAbs(point, polygon.m_points[i].m_point, kEps) && used.count(i) == 0)
       {
         used.emplace(i);
         break;
@@ -63,13 +62,9 @@ UNIT_TEST(PolyBordersPostprocessor_RemoveEmptySpaces_1)
   m2::PointD d(3.0, 0.0);
   m2::PointD e(4.0, 0.0);
 
-  vector<vector<m2::PointD>> polygons1 = {
-    {a, b, c, d, e}
-  };
+  vector<vector<m2::PointD>> polygons1 = {{a, b, c, d, e}};
 
-  vector<vector<m2::PointD>> polygons2 = {
-    {a, b, c, d, e}
-  };
+  vector<vector<m2::PointD>> polygons2 = {{a, b, c, d, e}};
 
   vector<shared_ptr<ScopedFile>> files;
   files.emplace_back(CreatePolyBorderFileByPolygon(kTestDir, "First", polygons1));
@@ -99,13 +94,9 @@ UNIT_TEST(PolyBordersPostprocessor_RemoveEmptySpaces_2)
   m2::PointD e(4.0, 0.0);
 
   // Point |c| is absent from polygons2, algorithm should remove |c| from polygon1.
-  vector<vector<m2::PointD>> polygons1 = {
-      {a, b, c, d, e}
-  };
+  vector<vector<m2::PointD>> polygons1 = {{a, b, c, d, e}};
 
-  vector<vector<m2::PointD>> polygons2 = {
-      {a, b, d, e}
-  };
+  vector<vector<m2::PointD>> polygons2 = {{a, b, d, e}};
 
   vector<shared_ptr<ScopedFile>> files;
   files.emplace_back(CreatePolyBorderFileByPolygon(kTestDir, "First", polygons1));
@@ -138,13 +129,9 @@ UNIT_TEST(PolyBordersPostprocessor_RemoveEmptySpaces_3)
   m2::PointD f(5.0, 0.0);
 
   // Point |c| and |d| is absent from polygons2, algorithm should remove |c| from polygon1.
-  vector<vector<m2::PointD>> polygons1 = {
-      {a, b, c, d, e, f}
-  };
+  vector<vector<m2::PointD>> polygons1 = {{a, b, c, d, e, f}};
 
-  vector<vector<m2::PointD>> polygons2 = {
-      {a, b, e, f}
-  };
+  vector<vector<m2::PointD>> polygons2 = {{a, b, e, f}};
 
   vector<shared_ptr<ScopedFile>> files;
   files.emplace_back(CreatePolyBorderFileByPolygon(kTestDir, "First", polygons1));
@@ -172,13 +159,9 @@ UNIT_TEST(PolyBordersPostprocessor_RemoveEmptySpaces_4)
   m2::PointD d(4.0, 0.0);
   m2::PointD e(5.0, 0.0);
 
-  vector<vector<m2::PointD>> polygons1 = {
-      {a, b, c, d, e}
-  };
+  vector<vector<m2::PointD>> polygons1 = {{a, b, c, d, e}};
 
-  vector<vector<m2::PointD>> polygons2 = {
-      {a, b, d, e}
-  };
+  vector<vector<m2::PointD>> polygons2 = {{a, b, d, e}};
 
   vector<shared_ptr<ScopedFile>> files;
   files.emplace_back(CreatePolyBorderFileByPolygon(kTestDir, "First", polygons1));
@@ -210,13 +193,9 @@ UNIT_TEST(PolyBordersPostprocessor_RemoveEmptySpaces_5)
   m2::PointD c2(c1 + kSmallPointShift);
   m2::PointD d2(d1 + kSmallPointShift);
 
-  vector<vector<m2::PointD>> polygons1 = {
-      {a, c1, d1, e1, b}
-  };
+  vector<vector<m2::PointD>> polygons1 = {{a, c1, d1, e1, b}};
 
-  vector<vector<m2::PointD>> polygons2 = {
-      {a, c2, d2, b}
-  };
+  vector<vector<m2::PointD>> polygons2 = {{a, c2, d2, b}};
 
   vector<shared_ptr<ScopedFile>> files;
   files.emplace_back(CreatePolyBorderFileByPolygon(kTestDir, "First", polygons1));
@@ -244,13 +223,9 @@ UNIT_TEST(PolyBordersPostprocessor_RemoveEmptySpaces_6)
   m2::PointD d(4.0, 0.0);
   m2::PointD e(5.0, 0.0);
 
-  vector<vector<m2::PointD>> polygons1 = {
-      {a, b, c, d, d, d, e, e, e}
-  };
+  vector<vector<m2::PointD>> polygons1 = {{a, b, c, d, d, d, e, e, e}};
 
-  vector<vector<m2::PointD>> polygons2 = {
-      {a, d, d, d, e}
-  };
+  vector<vector<m2::PointD>> polygons2 = {{a, d, d, d, e}};
 
   vector<shared_ptr<ScopedFile>> files;
   files.emplace_back(CreatePolyBorderFileByPolygon(kTestDir, "First", polygons1));

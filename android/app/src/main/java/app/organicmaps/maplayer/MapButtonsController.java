@@ -230,21 +230,21 @@ public class MapButtonsController extends Fragment
       return;
     switch (button)
     {
-      case zoom: UiUtils.showIf(show && Config.showZoomButtons(), buttonView); break;
-      case toggleMapLayer:
-        if (mToggleMapLayerButton != null)
-          UiUtils.showIf(show && !isInNavigationMode(), mToggleMapLayerButton);
-        break;
-      case myPosition:
-        if (mNavMyPosition != null)
-          mNavMyPosition.showButton(show);
-        break;
-      case search: mSearchWheel.show(show);
-      case bookmarks:
-      case menu: UiUtils.showIf(show, buttonView); break;
-      case trackRecordingStatus:
-        UiUtils.showIf(show, buttonView);
-        animateIconBlinking(show, (FloatingActionButton) buttonView);
+    case zoom: UiUtils.showIf(show && Config.showZoomButtons(), buttonView); break;
+    case toggleMapLayer:
+      if (mToggleMapLayerButton != null)
+        UiUtils.showIf(show && !isInNavigationMode(), mToggleMapLayerButton);
+      break;
+    case myPosition:
+      if (mNavMyPosition != null)
+        mNavMyPosition.showButton(show);
+      break;
+    case search: mSearchWheel.show(show);
+    case bookmarks:
+    case menu: UiUtils.showIf(show, buttonView); break;
+    case trackRecordingStatus:
+      UiUtils.showIf(show, buttonView);
+      animateIconBlinking(show, (FloatingActionButton) buttonView);
     }
   }
 

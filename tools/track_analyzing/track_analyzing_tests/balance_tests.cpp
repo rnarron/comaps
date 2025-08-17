@@ -13,7 +13,8 @@ namespace
 using namespace std;
 using namespace track_analyzing;
 
-string const csv =  R"(user,mwm,hw type,surface type,maxspeed km/h,is city road,is one way,is day,lat lon,distance,time,mean speed km/h,turn from smaller to bigger,turn from bigger to smaller,from link,to link,intersection with big,intersection with small,intersection with link
+string const csv =
+    R"(user,mwm,hw type,surface type,maxspeed km/h,is city road,is one way,is day,lat lon,distance,time,mean speed km/h,turn from smaller to bigger,turn from bigger to smaller,from link,to link,intersection with big,intersection with small,intersection with link
 I:D923B4DC-09E0-4B0B-B7F8-153965396B55,New Zealand,highway-trunk,psurface-paved_good,80,0,0,1,-41.4832 173.844,163.984,6,98.3902,0,0,0,0,0,1,0
 I:D923B4DC-09E0-4B0B-B7F8-153965396B55,New Zealand,highway-trunk,psurface-paved_good,80,0,0,1,-41.4831 173.845,2274.59,108,75.8196,0,0,0,0,0,4,0
 A:b6e31294-5c90-4105-9f7b-51a382eabfa0,Poland,highway-primary,psurface-paved_good,50,0,0,0,53.8524 21.3061,1199.34,60,71.9604,0,0,0,0,0,10,0)";
@@ -48,15 +49,12 @@ UNIT_TEST(FillTableTest)
   MwmToDataPoints const expectedMatchedDataPoints = {{"New Zealand", 2 /* data points */},
                                                      {"Poland", 1 /* data points */}};
   std::vector<TableRow> expectedTable = {
-      {"I:D923B4DC-09E0-4B0B-B7F8-153965396B55", "New Zealand", "highway-trunk",
-       "psurface-paved_good", "80", "0", "0", "1", "-41.4832 173.844", "163.984", "6", "98.3902",
-       "0", "0", "0", "0", "0", "1", "0"},
-      {"I:D923B4DC-09E0-4B0B-B7F8-153965396B55", "New Zealand", "highway-trunk",
-       "psurface-paved_good", "80", "0", "0", "1", "-41.4831 173.845", "2274.59", "108", "75.8196",
-       "0", "0", "0", "0", "0", "4", "0"},
-      {"A:b6e31294-5c90-4105-9f7b-51a382eabfa0", "Poland", "highway-primary", "psurface-paved_good",
-       "50", "0", "0", "0", "53.8524 21.3061", "1199.34", "60", "71.9604", "0", "0", "0", "0", "0",
-       "10", "0"}};
+      {"I:D923B4DC-09E0-4B0B-B7F8-153965396B55", "New Zealand", "highway-trunk", "psurface-paved_good", "80", "0", "0",
+       "1", "-41.4832 173.844", "163.984", "6", "98.3902", "0", "0", "0", "0", "0", "1", "0"},
+      {"I:D923B4DC-09E0-4B0B-B7F8-153965396B55", "New Zealand", "highway-trunk", "psurface-paved_good", "80", "0", "0",
+       "1", "-41.4831 173.845", "2274.59", "108", "75.8196", "0", "0", "0", "0", "0", "4", "0"},
+      {"A:b6e31294-5c90-4105-9f7b-51a382eabfa0", "Poland", "highway-primary", "psurface-paved_good", "50", "0", "0",
+       "0", "53.8524 21.3061", "1199.34", "60", "71.9604", "0", "0", "0", "0", "0", "10", "0"}};
 
   TEST_EQUAL(matchedDataPoints, expectedMatchedDataPoints, ());
   TEST_EQUAL(table, expectedTable, ());
@@ -69,10 +67,8 @@ UNIT_TEST(AreKeysEqualEmptyMapsTest)
 
 UNIT_TEST(AreKeysEqualTest)
 {
-  MwmToDataPoints const map1 = {{"Russia_Moscow", 5 /* data points */},
-                                {"San Marino", 7 /* data points */}};
-  MwmToDataPoints map2 = {{"Russia_Moscow", 7 /* data points*/},
-                          {"San Marino", 9 /* data points */}};
+  MwmToDataPoints const map1 = {{"Russia_Moscow", 5 /* data points */}, {"San Marino", 7 /* data points */}};
+  MwmToDataPoints map2 = {{"Russia_Moscow", 7 /* data points*/}, {"San Marino", 9 /* data points */}};
   TEST(AreKeysEqual(map1, map2), ());
 
   map2["Slovakia"] = 3;
@@ -90,10 +86,8 @@ UNIT_TEST(RemoveKeysSmallValueEmptyTest)
 
 UNIT_TEST(RemoveKeysSmallValueTest)
 {
-  MwmToDataPoints checkedMap = {{"Russia_Moscow", 3 /* data points */},
-                                {"San Marino", 5 /* data points */}};
-  MwmToDataPoints additionalMap = {{"Russia_Moscow", 7 /* data points*/},
-                                   {"San Marino", 9 /* data points */}};
+  MwmToDataPoints checkedMap = {{"Russia_Moscow", 3 /* data points */}, {"San Marino", 5 /* data points */}};
+  MwmToDataPoints additionalMap = {{"Russia_Moscow", 7 /* data points*/}, {"San Marino", 9 /* data points */}};
   RemoveKeysSmallValue(checkedMap, additionalMap, 4 /* ignoreDataPointNumber */);
 
   MwmToDataPoints expectedCheckedMap = {{"San Marino", 5 /* data points */}};
@@ -110,9 +104,8 @@ UNIT_TEST(GetMwmToDataPointFractionTest)
                                          {"Slovakia", 50 /* data points */}};
   auto const fractionMapping = GetMwmToDataPointFraction(numberMapping);
 
-  MwmToDataPointFraction expectedFractionMapping{{"Russia_Moscow", 0.5 /* fraction */},
-                                                 {"San Marino", 0.25 /* fraction */},
-                                                 {"Slovakia", 0.25 /* fraction */}};
+  MwmToDataPointFraction expectedFractionMapping{
+      {"Russia_Moscow", 0.5 /* fraction */}, {"San Marino", 0.25 /* fraction */}, {"Slovakia", 0.25 /* fraction */}};
   TEST_EQUAL(fractionMapping, expectedFractionMapping, ());
 }
 
@@ -153,9 +146,8 @@ UNIT_TEST(BalancedDataPointNumberTheSameTest)
   MwmToDataPoints const distribution = {{"Russia_Moscow", 100 /* data points */},
                                         {"San Marino", 50 /* data points */},
                                         {"Slovakia", 50 /* data points */}};
-  MwmToDataPoints const matchedDataPoints = {{"Russia_Moscow", 10 /* data points */},
-                                             {"San Marino", 5 /* data points */},
-                                             {"Slovakia", 5 /* data points */}};
+  MwmToDataPoints const matchedDataPoints = {
+      {"Russia_Moscow", 10 /* data points */}, {"San Marino", 5 /* data points */}, {"Slovakia", 5 /* data points */}};
   {
     // Case when the distribution is not changed. All mwms lose the same percent of data points.
     auto distr = distribution;
@@ -226,7 +218,8 @@ UNIT_TEST(FilterTableTest)
   ss << csv;
   FillTable(ss, matchedDataPoints, csvTable);
 
-  auto const calcRecords = [](vector<TableRow> const & t, string const & mwmName) {
+  auto const calcRecords = [](vector<TableRow> const & t, string const & mwmName)
+  {
     return count_if(t.cbegin(), t.cend(),
                     [&mwmName](TableRow const & row) { return row[kMwmNameCsvColumn] == mwmName; });
   };

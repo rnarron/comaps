@@ -43,23 +43,18 @@ public:
   virtual std::string const & GetData() const = 0;
 
   /// Response saved to memory buffer and retrieved with Data()
-  static HttpRequest * Get(std::string const & url,
-                           Callback && onFinish,
-                           Callback && onProgress = Callback());
+  static HttpRequest * Get(std::string const & url, Callback && onFinish, Callback && onProgress = Callback());
 
   /// Content-type for request is always "application/json"
-  static HttpRequest * PostJson(std::string const & url, std::string const & postData,
-                                Callback && onFinish,
+  static HttpRequest * PostJson(std::string const & url, std::string const & postData, Callback && onFinish,
                                 Callback && onProgress = Callback());
 
   /// Download file to filePath.
   /// Pulls chunks simultaneously from all available servers, 1 thread per server.
   /// @param[in]  fileSize  Correct file size (needed for resuming and reserving).
-  static HttpRequest * GetFile(std::vector<std::string> const & urls,
-                               std::string const & filePath, int64_t fileSize,
-                               Callback && onFinish,
-                               Callback && onProgress = Callback(),
-                               int64_t chunkSize = 0, // 0 for auto
+  static HttpRequest * GetFile(std::vector<std::string> const & urls, std::string const & filePath, int64_t fileSize,
+                               Callback && onFinish, Callback && onProgress = Callback(),
+                               int64_t chunkSize = 0,  // 0 for auto
                                bool doCleanOnCancel = true);
 };
-} // namespace downloader
+}  // namespace downloader

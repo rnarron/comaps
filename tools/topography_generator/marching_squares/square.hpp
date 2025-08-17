@@ -2,7 +2,6 @@
 
 #include "topography_generator/marching_squares/contours_builder.hpp"
 
-
 namespace topography_generator
 {
 template <typename ValueType>
@@ -17,8 +16,8 @@ public:
     static_assert(std::is_integral<ValueType>::value && std::is_signed<ValueType>::value);
   }
 
-  void Init(double left, double bottom, double right, double top,
-            ValueType lb, ValueType rb, ValueType lt, ValueType rt, ValueType invalid)
+  void Init(double left, double bottom, double right, double top, ValueType lb, ValueType rb, ValueType lt,
+            ValueType rt, ValueType invalid)
   {
     m_isValid = true;
 
@@ -79,7 +78,7 @@ private:
     // Shift the value slightly from the corner.
     if (val == invalid)
     {
-      //LOG(LWARNING, ("Invalid value at the position", pos, m_debugId));
+      // LOG(LWARNING, ("Invalid value at the position", pos, m_debugId));
       m_isValid = false;
       return val;
     }
@@ -92,28 +91,27 @@ private:
   void AddSegments(ValueType val, uint16_t ind, ContoursBuilder & builder) const
   {
     // Segment is a vector directed so that higher values is on the right.
-    static const std::pair<Rib, Rib> intersectedRibs[] =
-      {
-        {Rib::None, Rib::None},       // 0000
-        {Rib::Left, Rib::Bottom},     // 0001
-        {Rib::Top, Rib::Left},        // 0010
-        {Rib::Top, Rib::Bottom},      // 0011
-        {Rib::Right, Rib::Top},       // 0100
-        {Rib::Unclear, Rib::Unclear}, // 0101
-        {Rib::Right, Rib::Left},      // 0110
-        {Rib::Right, Rib::Bottom},    // 0111
-        {Rib::Bottom, Rib::Right},    // 1000
-        {Rib::Left, Rib::Right},      // 1001
-        {Rib::Unclear, Rib::Unclear}, // 1010
-        {Rib::Top, Rib::Right},       // 1011
-        {Rib::Bottom, Rib::Top},      // 1100
-        {Rib::Left, Rib::Top},        // 1101
-        {Rib::Bottom, Rib::Left},     // 1110
-        {Rib::None, Rib::None},       // 1111
-      };
+    static std::pair<Rib, Rib> const intersectedRibs[] = {
+        {Rib::None, Rib::None},        // 0000
+        {Rib::Left, Rib::Bottom},      // 0001
+        {Rib::Top, Rib::Left},         // 0010
+        {Rib::Top, Rib::Bottom},       // 0011
+        {Rib::Right, Rib::Top},        // 0100
+        {Rib::Unclear, Rib::Unclear},  // 0101
+        {Rib::Right, Rib::Left},       // 0110
+        {Rib::Right, Rib::Bottom},     // 0111
+        {Rib::Bottom, Rib::Right},     // 1000
+        {Rib::Left, Rib::Right},       // 1001
+        {Rib::Unclear, Rib::Unclear},  // 1010
+        {Rib::Top, Rib::Right},        // 1011
+        {Rib::Bottom, Rib::Top},       // 1100
+        {Rib::Left, Rib::Top},         // 1101
+        {Rib::Bottom, Rib::Left},      // 1110
+        {Rib::None, Rib::None},        // 1111
+    };
 
-    uint8_t const pattern =  (m_valueLB > val ? 1u : 0u) | ((m_valueLT > val ? 1u : 0u) << 1u) |
-      ((m_valueRT > val ? 1u : 0u) << 2u) | ((m_valueRB > val ? 1u : 0u) << 3u);
+    uint8_t const pattern = (m_valueLB > val ? 1u : 0u) | ((m_valueLT > val ? 1u : 0u) << 1u) |
+                            ((m_valueRT > val ? 1u : 0u) << 2u) | ((m_valueRB > val ? 1u : 0u) << 3u);
 
     auto const ribs = intersectedRibs[pattern];
 
@@ -145,18 +143,15 @@ private:
           builder.AddSegment(ind, topPos, rightPos);
         }
       }
+      else if (m_valueLB > val)
+      {
+        builder.AddSegment(ind, leftPos, bottomPos);
+        builder.AddSegment(ind, rightPos, topPos);
+      }
       else
       {
-        if (m_valueLB > val)
-        {
-          builder.AddSegment(ind, leftPos, bottomPos);
-          builder.AddSegment(ind, rightPos, topPos);
-        }
-        else
-        {
-          builder.AddSegment(ind, topPos, leftPos);
-          builder.AddSegment(ind, bottomPos, rightPos);
-        }
+        builder.AddSegment(ind, topPos, leftPos);
+        builder.AddSegment(ind, bottomPos, rightPos);
       }
     }
   }
@@ -190,8 +185,7 @@ private:
       val2 = static_cast<double>(m_valueRB);
       lat = m_bottom;
       break;
-    default:
-      UNREACHABLE();
+    default: UNREACHABLE();
     }
 
     CHECK_NOT_EQUAL(val, val2, (m_debugId));
@@ -200,15 +194,10 @@ private:
     switch (rib)
     {
     case Rib::Left:
-    case Rib::Right:
-      lat = (m_bottom + m_top * coeff) / (1 + coeff);
-      break;
+    case Rib::Right: lat = (m_bottom + m_top * coeff) / (1 + coeff); break;
     case Rib::Bottom:
-    case Rib::Top:
-      lon = (m_left + m_right * coeff) / (1 + coeff);
-      break;
-    default:
-      UNREACHABLE();
+    case Rib::Top: lon = (m_left + m_right * coeff) / (1 + coeff); break;
+    default: UNREACHABLE();
     }
 
     return {lat, lon};
@@ -230,4 +219,4 @@ private:
 
   bool m_isValid;
 };
-}  // topography_generator
+}  // namespace topography_generator

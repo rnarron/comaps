@@ -9,8 +9,8 @@ namespace spline_test
 {
 using namespace std;
 
-using m2::Spline;
 using m2::PointD;
+using m2::Spline;
 
 namespace
 {
@@ -36,12 +36,12 @@ void TestPointDDir(PointD const & dst, PointD const & src)
   }
   else
   {
-    TestEqual(dst.x/len1, src.x/len2);
-    TestEqual(dst.y/len1, src.y/len2);
+    TestEqual(dst.x / len1, src.x / len2);
+    TestEqual(dst.y / len1, src.y / len2);
   }
 }
 
-} // namespace
+}  // namespace
 
 UNIT_TEST(Spline_SmoothedDirections)
 {

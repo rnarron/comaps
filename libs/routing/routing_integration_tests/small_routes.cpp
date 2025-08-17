@@ -120,8 +120,10 @@ UNIT_TEST(SmallRoutes_JustNoError)
   };
 
   std::vector<std::tuple<ms::LatLon, ms::LatLon, m2::PointD, VehicleType>> routesWithDir = {
-      {{-45.433213, -72.739150}, {-45.434484, -72.738892},
-       {-1.3387623880589671899e-06, -4.2558102819612031453e-07}, VehicleType::Car}, // 1
+      {{-45.433213, -72.739150},
+       {-45.434484, -72.738892},
+       {-1.3387623880589671899e-06, -4.2558102819612031453e-07},
+       VehicleType::Car},  // 1
   };
 
   size_t number = 0;
@@ -134,12 +136,9 @@ UNIT_TEST(SmallRoutes_JustNoError)
     std::tie(start, finish, type) = route;
 
     LOG(LINFO, ("Start test without direction, number:", number));
-    TRouteResult result =
-        integration::CalculateRoute(integration::GetVehicleComponents(type),
-                                    mercator::FromLatLon(start), {0., 0.},
-                                    mercator::FromLatLon(finish));
-    TEST_EQUAL(result.second, RouterResultCode::NoError,
-               (std::get<0>(route), std::get<1>(route), std::get<2>(route)));
+    TRouteResult result = integration::CalculateRoute(
+        integration::GetVehicleComponents(type), mercator::FromLatLon(start), {0., 0.}, mercator::FromLatLon(finish));
+    TEST_EQUAL(result.second, RouterResultCode::NoError, (std::get<0>(route), std::get<1>(route), std::get<2>(route)));
   }
 
   number = 0;
@@ -153,10 +152,8 @@ UNIT_TEST(SmallRoutes_JustNoError)
     std::tie(start, finish, direction, type) = route;
 
     LOG(LINFO, ("Start test with direction, number:", number));
-    TRouteResult result =
-        integration::CalculateRoute(integration::GetVehicleComponents(type),
-                                    mercator::FromLatLon(start), direction,
-                                    mercator::FromLatLon(finish));
+    TRouteResult result = integration::CalculateRoute(
+        integration::GetVehicleComponents(type), mercator::FromLatLon(start), direction, mercator::FromLatLon(finish));
     TEST_EQUAL(result.second, RouterResultCode::NoError, ());
   }
 }

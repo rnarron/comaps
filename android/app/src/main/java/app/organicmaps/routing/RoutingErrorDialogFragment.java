@@ -13,11 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentFactory;
 import androidx.fragment.app.FragmentManager;
-import com.google.android.material.textview.MaterialTextView;
 import app.organicmaps.R;
 import app.organicmaps.sdk.downloader.CountryItem;
 import app.organicmaps.sdk.downloader.MapManager;
 import app.organicmaps.sdk.util.UiUtils;
+import com.google.android.material.textview.MaterialTextView;
 
 public class RoutingErrorDialogFragment extends BaseRoutingErrorDialogFragment
 {

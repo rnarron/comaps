@@ -2,8 +2,8 @@
 
 #include "platform/platform.hpp"
 
-#include "coding/file_writer.hpp"
 #include "coding/file_reader.hpp"
+#include "coding/file_writer.hpp"
 #include "coding/varint.hpp"
 
 #include "base/assert.hpp"
@@ -21,14 +21,13 @@ ChunksDownloadStrategy::ChunksDownloadStrategy(vector<string> const & urls)
     m_servers.push_back(ServerT(urls[i], SERVER_READY));
 }
 
-pair<ChunksDownloadStrategy::ChunkT *, int>
-ChunksDownloadStrategy::GetChunk(RangeT const & range)
+pair<ChunksDownloadStrategy::ChunkT *, int> ChunksDownloadStrategy::GetChunk(RangeT const & range)
 {
   vector<ChunkT>::iterator i = lower_bound(m_chunks.begin(), m_chunks.end(), range.first, LessChunks());
 
   if (i != m_chunks.end() && i->m_pos == range.first)
   {
-    ASSERT_EQUAL ( (i+1)->m_pos, range.second + 1, () );
+    ASSERT_EQUAL((i + 1)->m_pos, range.second + 1, ());
     return pair<ChunkT *, int>(&(*i), distance(m_chunks.begin(), i));
   }
   else
@@ -73,15 +72,15 @@ void ChunksDownloadStrategy::InitChunks(int64_t fileSize, int64_t chunkSize, Chu
 
 void ChunksDownloadStrategy::AddChunk(RangeT const & range, ChunkStatusT status)
 {
-  ASSERT_LESS_OR_EQUAL ( range.first, range.second, () );
+  ASSERT_LESS_OR_EQUAL(range.first, range.second, ());
   if (m_chunks.empty())
   {
-    ASSERT_EQUAL ( range.first, 0, () );
+    ASSERT_EQUAL(range.first, 0, ());
     m_chunks.push_back(ChunkT(range.first, status));
   }
   else
   {
-    ASSERT_EQUAL ( m_chunks.back().m_pos, range.first, () );
+    ASSERT_EQUAL(m_chunks.back().m_pos, range.first, ());
     m_chunks.back().m_status = status;
   }
 
@@ -110,10 +109,9 @@ void ChunksDownloadStrategy::SaveChunks(int64_t fileSize, string const & fName)
   UNUSED_VALUE(Platform::RemoveFileIfExists(fName));
 }
 
-int64_t ChunksDownloadStrategy::LoadOrInitChunks(string const & fName, int64_t fileSize,
-                                                 int64_t chunkSize)
+int64_t ChunksDownloadStrategy::LoadOrInitChunks(string const & fName, int64_t fileSize, int64_t chunkSize)
 {
-  ASSERT ( fileSize > 0, () );
+  ASSERT(fileSize > 0, ());
 
   if (Platform::IsFileExistsByFullPath(fName))
   {
@@ -196,8 +194,7 @@ string ChunksDownloadStrategy::ChunkFinished(bool success, RangeT const & range)
   return url;
 }
 
-ChunksDownloadStrategy::ResultT
-ChunksDownloadStrategy::NextChunk(string & outUrl, RangeT & range)
+ChunksDownloadStrategy::ResultT ChunksDownloadStrategy::NextChunk(string & outUrl, RangeT & range)
 {
   // If no servers at all.
   if (m_servers.empty())
@@ -219,7 +216,7 @@ ChunksDownloadStrategy::NextChunk(string & outUrl, RangeT & range)
   bool allChunksDownloaded = true;
 
   // Find first free chunk.
-  for (size_t i = 0; i < m_chunks.size()-1; ++i)
+  for (size_t i = 0; i < m_chunks.size() - 1; ++i)
   {
     switch (m_chunks[i].m_status)
     {
@@ -228,18 +225,16 @@ ChunksDownloadStrategy::NextChunk(string & outUrl, RangeT & range)
       outUrl = server->m_url;
 
       range.first = m_chunks[i].m_pos;
-      range.second = m_chunks[i+1].m_pos - 1;
+      range.second = m_chunks[i + 1].m_pos - 1;
 
       m_chunks[i].m_status = CHUNK_DOWNLOADING;
       LOG(LDEBUG, ("Download chunk", server->m_chunkIndex, "via", outUrl));
       return ENextChunk;
 
-    case CHUNK_DOWNLOADING:
-      allChunksDownloaded = false;
-      break;
+    case CHUNK_DOWNLOADING: allChunksDownloaded = false; break;
     }
   }
 
   return (allChunksDownloaded ? EDownloadSucceeded : ENoFreeServers);
 }
-} // namespace downloader
+}  // namespace downloader

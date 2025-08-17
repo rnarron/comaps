@@ -42,7 +42,8 @@ class TestAirport : public TestPOI
 {
 public:
   TestAirport(m2::PointD const & center, string const & name, string const & lang, string const & iata)
-    : TestPOI(center, name, lang), m_iata(iata)
+    : TestPOI(center, name, lang)
+    , m_iata(iata)
   {
     SetTypes({{"aeroway", "aerodrome"}});
   }
@@ -64,7 +65,8 @@ class TestATM : public TestPOI
 {
 public:
   TestATM(m2::PointD const & center, string const & op, string const & lang)
-    : TestPOI(center, {} /* name */, lang), m_operator(op)
+    : TestPOI(center, {} /* name */, lang)
+    , m_operator(op)
   {
     SetTypes({{"amenity", "atm"}});
   }
@@ -86,9 +88,9 @@ class TestBrandFeature : public TestCafe
 {
 public:
   TestBrandFeature(m2::PointD const & center, string const & brand, string const & lang)
-    : TestCafe(center, {} /* name */, lang), m_brand(brand)
-  {
-  }
+    : TestCafe(center, {} /* name */, lang)
+    , m_brand(brand)
+  {}
 
   // TestPOI overrides:
   void Serialize(FeatureBuilder & fb) const override
@@ -106,11 +108,12 @@ private:
 class TestAddrInterpol : public TestStreet
 {
 public:
-  TestAddrInterpol(vector<m2::PointD> const & points, feature::InterpolType interpol,
-                   string const & hnBeg, string const & hnEnd, string_view const & street = {})
-    : TestStreet(points, {}), m_street(street)
+  TestAddrInterpol(vector<m2::PointD> const & points, feature::InterpolType interpol, string const & hnBeg,
+                   string const & hnEnd, string_view const & street = {})
+    : TestStreet(points, {})
+    , m_street(street)
   {
-    SetRoadNumber(hnBeg + ":" + hnEnd); // assigned as ref
+    SetRoadNumber(hnBeg + ":" + hnEnd);  // assigned as ref
     switch (interpol)
     {
     case feature::InterpolType::Odd: SetType({"addr:interpolation", "odd"}); break;
@@ -134,7 +137,6 @@ private:
 
 using ProcessorTest = SearchTest;
 
-
 UNIT_CLASS_TEST(ProcessorTest, AddressSmoke)
 {
   string const countryName = "Address";
@@ -144,11 +146,11 @@ UNIT_CLASS_TEST(ProcessorTest, AddressSmoke)
 
   TestStreet street({{-coord, -coord}, {0, 0}, {coord, coord}}, streetName, lang);
 
-  m2::PointD p1{-coord/2, -coord/2};
-  m2::PointD p2{coord/2, coord/2};
+  m2::PointD p1{-coord / 2, -coord / 2};
+  m2::PointD p2{coord / 2, coord / 2};
 
-  TestBuilding withRef(p1, {}/* name */, "20", streetName, lang);
-  TestBuilding withoutRef(p2, {}/* name */, "40", lang);
+  TestBuilding withRef(p1, {} /* name */, "20", streetName, lang);
+  TestBuilding withoutRef(p2, {} /* name */, "40", lang);
 
   TestAddrInterpol even({p1, p2}, feature::InterpolType::Even, "20", "40", streetName);
   TestAddrInterpol odd({p1, p2}, feature::InterpolType::Odd, "21", "41", streetName);
@@ -165,7 +167,7 @@ UNIT_CLASS_TEST(ProcessorTest, AddressSmoke)
   SetViewport(m2::RectD(-coord, -coord, coord, coord));
   TEST(ResultsMatch("20 1st", {ExactMatch(wonderlandId, withRef)}), ());
   // No street defined.
-  //TEST(ResultsMatch("40 1st", {ExactMatch(wonderlandId, withoutRef)}), ());
+  // TEST(ResultsMatch("40 1st", {ExactMatch(wonderlandId, withoutRef)}), ());
   TEST(ResultsMatch("36 1st", {ExactMatch(wonderlandId, even)}), ());
   TEST(ResultsMatch("35 1st", {ExactMatch(wonderlandId, odd)}), ());
 }
@@ -176,38 +178,39 @@ UNIT_CLASS_TEST(ProcessorTest, AddressPlaceSmoke)
   m2::PointD const sm(0.005, 0.005);
 
   // 1.
-  TestVillage village1({0, 0}, "Баравая", lang, 0/* rank */);
-  TestBuilding bld1(village1.GetCenter() + sm, {}/* name */, "36", {}/* street */, lang);
+  TestVillage village1({0, 0}, "Баравая", lang, 0 /* rank */);
+  TestBuilding bld1(village1.GetCenter() + sm, {} /* name */, "36", {} /* street */, lang);
   bld1.SetPlace(village1.GetName(lang));
   // No place for it.
-  TestBuilding bld2(village1.GetCenter() - sm, {}/* name */, "36", {}/* street */, lang);
+  TestBuilding bld2(village1.GetCenter() - sm, {} /* name */, "36", {} /* street */, lang);
 
   // 2.
-  TestCity city1({0.5, 0.5}, "Mannheim", lang, 0/* rank */);
+  TestCity city1({0.5, 0.5}, "Mannheim", lang, 0 /* rank */);
   TestSuburb suburb1(city1.GetCenter() + sm, "F2", lang);
-  TestBuilding bld3(suburb1.GetCenter() + sm, {}/* name */, "4", {}/* street */, lang);
+  TestBuilding bld3(suburb1.GetCenter() + sm, {} /* name */, "4", {} /* street */, lang);
   bld3.SetPlace(suburb1.GetName(lang));
 
   // 3.
-  TestCity city2({-0.5, -0.5}, "Brno", lang, 100/* rank */);
+  TestCity city2({-0.5, -0.5}, "Brno", lang, 100 /* rank */);
   TestSuburb suburb2(city2.GetCenter() - sm, "Štýřice", lang);
   TestStreet street({city2.GetCenter() - sm, city2.GetCenter() + sm}, "Gallašova", lang);
-  TestBuilding bld4(city2.GetCenter() + sm, {}/* name */, "54/11", street.GetName(lang), lang);
+  TestBuilding bld4(city2.GetCenter() + sm, {} /* name */, "54/11", street.GetName(lang), lang);
   bld4.SetPlace(suburb2.GetName(lang));
 
   // 4.
-  TestCity city3(mercator::FromLatLon(55.9964233, 37.1985340), "Зеленоград", lang, 0/* rank */);
-  TestBuilding bld5(mercator::FromLatLon(55.9642412, 37.1897657), {}/* name */, "к2308А", {}/* street */, lang);
+  TestCity city3(mercator::FromLatLon(55.9964233, 37.1985340), "Зеленоград", lang, 0 /* rank */);
+  TestBuilding bld5(mercator::FromLatLon(55.9642412, 37.1897657), {} /* name */, "к2308А", {} /* street */, lang);
   bld5.SetPlace(city3.GetName(lang));
   // City that presents only in World to mix World and Country IDs.
-  TestCity city4(mercator::FromLatLon(50, 30), "Dummy", lang, 0/* rank */);
+  TestCity city4(mercator::FromLatLon(50, 30), "Dummy", lang, 0 /* rank */);
 
   // 5.
-  TestVillage village2(mercator::FromLatLon(53.8041415, 27.6151914), "Пашковичи", lang, 0/* rank */);
+  TestVillage village2(mercator::FromLatLon(53.8041415, 27.6151914), "Пашковичи", lang, 0 /* rank */);
   village2.SetType({"place", "hamlet"});
-  TestBuilding bld6(mercator::FromLatLon(53.8040029, 27.6091967), {}/* name */, "43А", {}/* street */, lang);
+  TestBuilding bld6(mercator::FromLatLon(53.8040029, 27.6091967), {} /* name */, "43А", {} /* street */, lang);
   bld6.SetPlace(village2.GetName(lang));
-  TestBuilding bld7(mercator::FromLatLon(53.7956458, 27.6248433), "уч. 43", {}/* house number*/, {}/* street */, lang);
+  TestBuilding bld7(mercator::FromLatLon(53.7956458, 27.6248433), "уч. 43", {} /* house number*/, {} /* street */,
+                    lang);
 
   auto const worldId = BuildWorld([&](TestMwmBuilder & builder)
   {
@@ -286,8 +289,8 @@ UNIT_CLASS_TEST(ProcessorTest, Smoke)
 
   TestBuilding feynmanHouse({10, 10}, "Feynman house", "1 unit 1", feynmanStreet.GetName("en"), "en");
   TestBuilding bohrHouse({10, 10}, "Bohr house", "1 unit 1", bohrStreet1.GetName("en"), "en");
-  TestBuilding hilbertHouse({10.0005, 10.0005, 10.0006, 10.0006},
-                            "Hilbert house", "1 unit 2", bohrStreet1.GetName("en"), "en");
+  TestBuilding hilbertHouse({10.0005, 10.0005, 10.0006, 10.0006}, "Hilbert house", "1 unit 2",
+                            bohrStreet1.GetName("en"), "en");
   TestBuilding descartesHouse({10, 10}, "Descartes house", "2", "en");
   TestBuilding bornHouse({14.999, 15}, "Born house", "8", firstAprilStreet.GetName("en"), "en");
 
@@ -355,14 +358,12 @@ UNIT_CLASS_TEST(ProcessorTest, Smoke)
     TEST(ResultsMatch("Central bus stop", rules), ());
   }
   {
-    Rules rules = {ExactMatch(wonderlandId, quantumCafe),
-                   ExactMatch(wonderlandId, quantumTeleport1),
+    Rules rules = {ExactMatch(wonderlandId, quantumCafe), ExactMatch(wonderlandId, quantumTeleport1),
                    ExactMatch(wonderlandId, quantumTeleport2)};
     TEST(ResultsMatch("quantum", rules), ());
   }
   {
-    Rules rules = {ExactMatch(wonderlandId, quantumCafe),
-                   ExactMatch(wonderlandId, quantumTeleport1)};
+    Rules rules = {ExactMatch(wonderlandId, quantumCafe), ExactMatch(wonderlandId, quantumTeleport1)};
     TEST(ResultsMatch("quantum Moscow ", rules), ());
   }
   {
@@ -381,14 +382,14 @@ UNIT_CLASS_TEST(ProcessorTest, Smoke)
     // but not lantern1 (building next to Feynman street with name 'lantern 1') because '1'
     // looks like housenumber.
     // "street 1" -> "1st April street", like Relaxed match.
-    Rules rules = { ExactMatch(wonderlandId, feynmanHouse), ExactMatch(wonderlandId, firstAprilStreet) };
+    Rules rules = {ExactMatch(wonderlandId, feynmanHouse), ExactMatch(wonderlandId, firstAprilStreet)};
     TEST(ResultsMatch("feynman street 1", rules), ());
   }
   {
     // Here we expect to find bohrHouse (building next to Bohr street with housenumber '1 unit 1')
     // but not lantern1 (building next to Bohr street with name 'lantern 1') because '1' looks like
     // housenumber.
-    Rules rules = { ExactMatch(wonderlandId, bohrHouse), ExactMatch(wonderlandId, hilbertHouse) };
+    Rules rules = {ExactMatch(wonderlandId, bohrHouse), ExactMatch(wonderlandId, hilbertHouse)};
     TEST(ResultsMatch("bohr street 1 ", rules), ());
   }
   {
@@ -466,10 +467,7 @@ UNIT_CLASS_TEST(ProcessorTest, SearchByName)
   TestPark hydePark({{0.5, 0.5}, {1.5, 0.5}, {1.5, 1.5}, {0.5, 1.5}}, "Hyde Park", "en");
   TestPOI cafe({1.0, 1.0}, "London Cafe", "en");
 
-  auto worldId = BuildWorld([&](TestMwmBuilder & builder)
-  {
-    builder.Add(london);
-  });
+  auto worldId = BuildWorld([&](TestMwmBuilder & builder) { builder.Add(london); });
   auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
   {
     builder.Add(hydePark);
@@ -576,8 +574,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestRankingInfo_Smoke)
   {
     auto request = MakeRequest("golden gate bridge ");
 
-    Rules rules = {ExactMatch(wonderlandId, goldenGateBridge),
-                   ExactMatch(wonderlandId, goldenGateStreet)};
+    Rules rules = {ExactMatch(wonderlandId, goldenGateBridge), ExactMatch(wonderlandId, goldenGateStreet)};
 
     TEST(ResultsMatch(request->Results(), rules), ());
     for (auto const & result : request->Results())
@@ -594,8 +591,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestRankingInfo_Smoke)
     auto request = MakeRequest("cafe лермонтов");
     auto const & results = request->Results();
 
-    Rules rules{ExactMatch(wonderlandId, cafe1), ExactMatch(wonderlandId, cafe2),
-                ExactMatch(wonderlandId, lermontov)};
+    Rules rules{ExactMatch(wonderlandId, cafe1), ExactMatch(wonderlandId, cafe2), ExactMatch(wonderlandId, lermontov)};
     TEST(ResultsMatch(results, rules), ());
 
     TEST_EQUAL(3, results.size(), ("Unexpected number of retrieved cafes."));
@@ -637,9 +633,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestRankingInfo_PureCategory)
   /// @todo We don't match cuisines if input query is category.
   /// Good news that "ice cream (gelato)" is the only category like this now.
   /// https://github.com/organicmaps/organicmaps/issues/2961
-  Rules const rules{ExactMatch(wonderlandId, cafe1),
-                    ExactMatch(wonderlandId, cafe2),
-                    ExactMatch(wonderlandId, cafe4)};
+  Rules const rules{ExactMatch(wonderlandId, cafe1), ExactMatch(wonderlandId, cafe2), ExactMatch(wonderlandId, cafe4)};
 
   // Pure category results should be ordered by distance, not matter about name.
   double constexpr rad = 1;
@@ -741,10 +735,7 @@ UNIT_CLASS_TEST(ProcessorTest, RankingInfo_ErrorsMade_2)
 {
   TestStreet hernandes({{-0.5, -0.5}, {0, 0}, {0.5, 0.5}}, "José Hernández", "es");
 
-  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(hernandes);
-  });
+  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(hernandes); });
 
   SetViewport(m2::RectD(-1, -1, 1, 1));
 
@@ -886,13 +877,12 @@ UNIT_CLASS_TEST(ProcessorTest, TestPostcodes)
     QueryParams params;
     {
       string const query = "141702";
-      vector<strings::UniString> const tokens = { strings::MakeUniString(query) };
+      vector<strings::UniString> const tokens = {strings::MakeUniString(query)};
       params.Init(query, tokens, false);
     }
 
     Retrieval retrieval(context, cancellable);
-    auto features = retrieval.RetrievePostcodeFeatures(
-        TokenSlice(params, TokenRange(0, params.GetNumTokens())));
+    auto features = retrieval.RetrievePostcodeFeatures(TokenSlice(params, TokenRange(0, params.GetNumTokens())));
     TEST_EQUAL(1, features.PopCount(), ());
 
     uint64_t index = 0;
@@ -916,9 +906,8 @@ UNIT_CLASS_TEST(ProcessorTest, TestPostcodes)
     TEST(ResultsMatch("Долгопрудный первомайская 28а, 141701", rules, "ru"), ());
   }
   {
-    Rules rules{ExactMatch(countryId, building28),
-                ExactMatch(countryId, building29),
-                //ExactMatch(countryId, building30),  // No street defined.
+    Rules rules{ExactMatch(countryId, building28), ExactMatch(countryId, building29),
+                // ExactMatch(countryId, building30),  // No street defined.
                 ExactMatch(countryId, street)};
     TEST(ResultsMatch("Долгопрудный первомайская 141701", rules, "ru"), ());
   }
@@ -927,8 +916,8 @@ UNIT_CLASS_TEST(ProcessorTest, TestPostcodes)
     TEST(ResultsMatch("Долгопрудный первомайская 141702", rules, "ru"), ());
   }
   {
-    Rules rules{ExactMatch(countryId, building28), ExactMatch(countryId, building29),
-                ExactMatch(countryId, building30), ExactMatch(countryId, street)};
+    Rules rules{ExactMatch(countryId, building28), ExactMatch(countryId, building29), ExactMatch(countryId, building30),
+                ExactMatch(countryId, street)};
     TEST(ResultsMatch("Долгопрудный 141701", rules, "ru"), ());
   }
   {
@@ -972,10 +961,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestCategories)
   TestPOI namedResidential({0.04, 0.04}, "Residential", "en");
   namedResidential.SetTypes({{"landuse", "residential"}});
 
-  BuildWorld([&](TestMwmBuilder & builder)
-  {
-    builder.Add(sanFrancisco);
-  });
+  BuildWorld([&](TestMwmBuilder & builder) { builder.Add(sanFrancisco); });
   auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
   {
     builder.Add(busStop);
@@ -1021,9 +1007,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestCategories)
   TEST(ResultsMatch("wi-fi", {ExactMatch(wonderlandId, cafe)}), ());
   TEST(ResultsMatch("wai-fai", {}), ());
   TEST(ResultsMatch("toilet", {ExactMatch(wonderlandId, toi)}), ());
-  TEST(ResultsMatch("beach ",
-                    {ExactMatch(wonderlandId, nonameBeach), ExactMatch(wonderlandId, namedBeach)}),
-       ());
+  TEST(ResultsMatch("beach ", {ExactMatch(wonderlandId, nonameBeach), ExactMatch(wonderlandId, namedBeach)}), ());
   TEST(ResultsMatch("district", {ExactMatch(wonderlandId, namedResidential)}), ());
   TEST(ResultsMatch("residential", {ExactMatch(wonderlandId, namedResidential)}), ());
 }
@@ -1116,8 +1100,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestCategorialSearch)
 
   {
     Rules const rules = {ExactMatch(wonderlandId, hotel1), ExactMatch(wonderlandId, hotel2),
-                         ExactMatch(wonderlandId, hotelCafe),
-                         ExactMatch(wonderlandId, hotelDeVille)};
+                         ExactMatch(wonderlandId, hotelCafe), ExactMatch(wonderlandId, hotelDeVille)};
     // It looks like a category search but we cannot tell it, so
     // even the features that match only by name are emitted.
     TEST(ResultsMatch("hotel san diego ", rules), ());
@@ -1150,10 +1133,7 @@ UNIT_CLASS_TEST(ProcessorTest, SearchDebug)
   TestPOI hotel({0, 0.01}, "", "ru");
   hotel.SetTypes({{"tourism", "hotel"}});
 
-  auto const testWorldId = BuildWorld([&](TestMwmBuilder & builder)
-  {
-    builder.Add(debugville);
-  });
+  auto const testWorldId = BuildWorld([&](TestMwmBuilder & builder) { builder.Add(debugville); });
   auto wonderlandId = BuildCountry(countryName, [&](TestMwmBuilder & builder)
   {
     builder.Add(hotel);
@@ -1191,14 +1171,12 @@ UNIT_CLASS_TEST(ProcessorTest, SearchCoordinates)
        34.770793, 32.433265},
 
       {"https://yandex.ru/maps/?ll=158.828916%2C52.931098&z=9.1", 52.931098, 158.828916},
-      {"https://yandex.ru/maps/78/petropavlovsk/?ll=158.657810%2C53.024529&z=12.99", 53.024529,
-       158.657810},
+      {"https://yandex.ru/maps/78/petropavlovsk/?ll=158.657810%2C53.024529&z=12.99", 53.024529, 158.657810},
       {"https://yandex.ru/maps/78/petropavlovsk/"
        "?ll=158.643359%2C53.018729&mode=whatshere&whatshere%5Bpoint%5D=158.643270%2C53.021174&"
        "whatshere%5Bzoom%5D=16.07&z=15.65",
        53.018729, 158.643359},
-      {"https://yandex.com.tr/harita/115707/fatih/?ll=28.967470%2C41.008857&z=10", 41.008857,
-       28.967470},
+      {"https://yandex.com.tr/harita/115707/fatih/?ll=28.967470%2C41.008857&z=10", 41.008857, 28.967470},
 
       {"http://comaps.app/kyuh76X_vf/Borgo_Maggiore", 43.941187, 12.447423},
       {"ge0://kyuh76X_vf/Borgo_Maggiore", 43.941187, 12.447423},
@@ -1273,7 +1251,7 @@ UNIT_CLASS_TEST(ProcessorTest, FuzzyMatch)
     TEST(ResultsMatch("моксва ленинргадский черчиль", rules, "ru"), ());
 
     TEST(ResultsMatch("food", rulesWithoutStreet, "ru"), ());
-    //TEST(ResultsMatch("foood", rulesWithoutStreet, "ru"), ());
+    // TEST(ResultsMatch("foood", rulesWithoutStreet, "ru"), ());
     TEST(ResultsMatch("fod", {}, "ru"), ());
 
     Rules rulesMetro = {ExactMatch(id, metro)};
@@ -1294,15 +1272,13 @@ UNIT_CLASS_TEST(ProcessorTest, SpacesInCategories)
   TestPOI nightclub({5.0, 5.0}, "Crasy daizy", "ru");
   nightclub.SetTypes({{"amenity", "nightclub"}});
 
-  BuildWorld([&](TestMwmBuilder & builder) {
+  BuildWorld([&](TestMwmBuilder & builder)
+  {
     builder.Add(country);
     builder.Add(city);
   });
 
-  auto id = BuildCountry(countryName, [&](TestMwmBuilder & builder)
-  {
-    builder.Add(nightclub);
-  });
+  auto id = BuildCountry(countryName, [&](TestMwmBuilder & builder) { builder.Add(nightclub); });
 
   {
     Rules rules = {ExactMatch(id, nightclub)};
@@ -1366,10 +1342,7 @@ UNIT_CLASS_TEST(ProcessorTest, Numerals)
   TestPOI school({0, 0}, "СШ №61", "ru");
   school.SetTypes({{"amenity", "school"}});
 
-  auto id = BuildCountry(country.GetName("ru"), [&](TestMwmBuilder & builder)
-  {
-    builder.Add(school);
-  });
+  auto id = BuildCountry(country.GetName("ru"), [&](TestMwmBuilder & builder) { builder.Add(school); });
 
   SetViewport(m2::RectD(-1.0, -1.0, 1.0, 1.0));
   {
@@ -1514,8 +1487,8 @@ UNIT_CLASS_TEST(ProcessorTest, RelaxedRetrieval)
   string const countryName = "Wonderland";
   TestCountry country({10.0, 10.0}, countryName, "en");
 
-  TestCity city({{-10.0, -10.0}, {10.0, -10.0}, {10.0, 10.0}, {-10.0, 10.0}} /* boundary */,
-                "Sick City", "en", 255 /* rank */);
+  TestCity city({{-10.0, -10.0}, {10.0, -10.0}, {10.0, 10.0}, {-10.0, 10.0}} /* boundary */, "Sick City", "en",
+                255 /* rank */);
 
   TestStreet street({{-1.0, 0.0}, {1.0, 0.0}}, "Queer Street", "en");
   TestBuilding building0({-1.0, 0.0}, "" /* name */, "0", street.GetName("en"), "en");
@@ -1603,13 +1576,12 @@ UNIT_CLASS_TEST(ProcessorTest, PathsThroughLayers)
 
   TestCountry scienceCountry({0.0, 0.0}, countryName, "en");
 
-  TestCity mathTown({{-100.0, -100.0}, {100.0, -100.0}, {100.0, 100.0}, {-100.0, 100.0}},
-                    "Math Town", "en", 100 /* rank */);
+  TestCity mathTown({{-100.0, -100.0}, {100.0, -100.0}, {100.0, 100.0}, {-100.0, 100.0}}, "Math Town", "en",
+                    100 /* rank */);
 
   TestStreet computingStreet({{-16.0, -16.0}, {0.0, 0.0}, {16.0, 16.0}}, "Computing street", "en");
 
-  TestBuilding statisticalLearningBuilding({8.0, 8.0},
-                                           "Statistical Learning Buisiness Center", "0",
+  TestBuilding statisticalLearningBuilding({8.0, 8.0}, "Statistical Learning Buisiness Center", "0",
                                            computingStreet.GetName("en"), "en");
 
   TestPOI supervisedOffice({8.0, 8.0}, "Supervised, Inc.", "en");
@@ -1634,14 +1606,11 @@ UNIT_CLASS_TEST(ProcessorTest, PathsThroughLayers)
 
   SetViewport(m2::RectD(-100.0, -100.0, 100.0, 100.0));
 
-  for (auto const mode :
-       {FeaturesLayerPathFinder::MODE_AUTO, FeaturesLayerPathFinder::MODE_TOP_DOWN,
-        FeaturesLayerPathFinder::MODE_BOTTOM_UP})
+  for (auto const mode : {FeaturesLayerPathFinder::MODE_AUTO, FeaturesLayerPathFinder::MODE_TOP_DOWN,
+                          FeaturesLayerPathFinder::MODE_BOTTOM_UP})
   {
     FeaturesLayerPathFinder::SetModeForTesting(mode);
-    SCOPE_GUARD(rollbackMode, [&] {
-      FeaturesLayerPathFinder::SetModeForTesting(FeaturesLayerPathFinder::MODE_AUTO);
-    });
+    SCOPE_GUARD(rollbackMode, [&] { FeaturesLayerPathFinder::SetModeForTesting(FeaturesLayerPathFinder::MODE_AUTO); });
 
     auto const ruleStreet = ExactMatch(countryId, computingStreet);
     auto const ruleBuilding = ExactMatch(countryId, statisticalLearningBuilding);
@@ -1699,9 +1668,8 @@ UNIT_CLASS_TEST(ProcessorTest, SelectProperName)
     TEST_EQUAL(results[0].GetString(), expectedRes, (results));
   };
 
-  TestMultilingualPOI cafe(
-      {0.0, 0.0}, "Default",
-      {{"es", "Spanish"}, {"int_name", "International"}, {"fr", "French"}, {"ru", "Russian"}});
+  TestMultilingualPOI cafe({0.0, 0.0}, "Default",
+                           {{"es", "Spanish"}, {"int_name", "International"}, {"fr", "French"}, {"ru", "Russian"}});
   cafe.SetTypes({{"amenity", "cafe"}});
 
   BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
@@ -1931,7 +1899,7 @@ UNIT_CLASS_TEST(ProcessorTest, SquareAsStreetTest)
   SetViewport(m2::RectD(0.0, 0.0, 1.0, 2.0));
 
   {
-    Rules const rules = { ExactMatch(countryId, nonameHouse) };
+    Rules const rules = {ExactMatch(countryId, nonameHouse)};
     TEST(OrderedResultsMatch("revolution square 3", rules), ());
     TEST(OrderedResultsMatch("revolution sq 3", rules), ());
   }
@@ -2083,13 +2051,13 @@ UNIT_CLASS_TEST(ProcessorTest, RemoveDuplicatingStreets)
 
   // Distance between centers should be less than 3km (0.027).
   TestStreet street1({{0.0, 0.0}, {0.0, 0.01}}, streetName, "ru");
-  street1.SetType({ "highway", "primary" });
+  street1.SetType({"highway", "primary"});
   TestStreet street2({{0.0, 0.01}, {0.0, 0.015}}, streetName, "ru");
-  street2.SetType({ "highway", "secondary" });
+  street2.SetType({"highway", "secondary"});
   TestStreet street3({{0.0, 0.015}, {0.0, 0.02}}, streetName, "ru");
-  street3.SetType({ "highway", "footway" });
+  street3.SetType({"highway", "footway"});
   TestStreet street4({{0.0, 0.02}, {0.0, 0.03}}, streetName, "ru");
-  street4.SetType({ "highway", "tertiary_link", "tunnel" });
+  street4.SetType({"highway", "tertiary_link", "tunnel"});
 
   auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
   {
@@ -2214,9 +2182,9 @@ UNIT_CLASS_TEST(ProcessorTest, StreetSynonymPrefix)
 
 UNIT_CLASS_TEST(ProcessorTest, Strasse)
 {
-  TestStreet s1({{-1.0, -1.0},{1.0, 1.0}}, "abcdstraße", "de");
+  TestStreet s1({{-1.0, -1.0}, {1.0, 1.0}}, "abcdstraße", "de");
   TestStreet s2({{1.0, -1.0}, {-1.0, 1.0}}, "xyz strasse", "de");
-  TestStreet s3({{-2.0, -2.0},{2.0, 2.0}}, "bahnhofplatz", "de");
+  TestStreet s3({{-2.0, -2.0}, {2.0, 2.0}}, "bahnhofplatz", "de");
 
   auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
   {
@@ -2426,9 +2394,11 @@ UNIT_CLASS_TEST(ProcessorTest, SynonymMisprintsTest)
   {
     Rules rules = {ExactMatch(wonderlandId, bolshaya), ExactMatch(wonderlandId, bolnaya)};
     TEST(OrderedResultsMatch("большая дмитровка",
-                             { ExactMatch(wonderlandId, bolshaya), ExactMatch(wonderlandId, bolnaya) }), ());
+                             {ExactMatch(wonderlandId, bolshaya), ExactMatch(wonderlandId, bolnaya)}),
+         ());
     TEST(OrderedResultsMatch("больная дмировка",
-                             { ExactMatch(wonderlandId, bolnaya), ExactMatch(wonderlandId, bolshaya) }), ());
+                             {ExactMatch(wonderlandId, bolnaya), ExactMatch(wonderlandId, bolshaya)}),
+         ());
   }
   {
     Rules rules = {ExactMatch(wonderlandId, bolshaya)};
@@ -2438,10 +2408,8 @@ UNIT_CLASS_TEST(ProcessorTest, SynonymMisprintsTest)
   {
     /// @todo Results are controversial here, despite 2-errors matching.
     // "southeast" and "southwest" len is 9 and Levenstein distance is 2.
-    TEST(OrderedResultsMatch("southeast street",
-                             { ExactMatch(wonderlandId, se), ExactMatch(wonderlandId, sw) }), ());
-    TEST(OrderedResultsMatch("southwest street",
-                             { ExactMatch(wonderlandId, sw), ExactMatch(wonderlandId, se) }), ());
+    TEST(OrderedResultsMatch("southeast street", {ExactMatch(wonderlandId, se), ExactMatch(wonderlandId, sw)}), ());
+    TEST(OrderedResultsMatch("southwest street", {ExactMatch(wonderlandId, sw), ExactMatch(wonderlandId, se)}), ());
   }
   {
     Rules rules = {ExactMatch(wonderlandId, sw)};
@@ -2458,9 +2426,9 @@ UNIT_CLASS_TEST(ProcessorTest, SynonymMisprintsTest)
 UNIT_CLASS_TEST(ProcessorTest, StreetsFallback)
 {
   TestStreet st1({{-0.5, -0.5}, {0.5, -0.5}}, "1st north street", "en");
-  TestStreet st2({{-0.5,  0.5}, {0.5,  0.5}}, "2nd north street", "en");
+  TestStreet st2({{-0.5, 0.5}, {0.5, 0.5}}, "2nd north street", "en");
   TestStreet rue1({{-1.5, -1.5}, {1.5, -1.5}}, "rue la foo", "fr");
-  TestStreet rue2({{-1.5,  1.5}, {1.5,  1.5}}, "avenue la bar", "fr");
+  TestStreet rue2({{-1.5, 1.5}, {1.5, 1.5}}, "avenue la bar", "fr");
 
   auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
   {
@@ -2471,19 +2439,19 @@ UNIT_CLASS_TEST(ProcessorTest, StreetsFallback)
   });
 
   {
-    TEST(ResultsMatch("1st street", { ExactMatch(wonderlandId, st1) }), ());
-    TEST(ResultsMatch("2nd street", { ExactMatch(wonderlandId, st2) }), ());
+    TEST(ResultsMatch("1st street", {ExactMatch(wonderlandId, st1)}), ());
+    TEST(ResultsMatch("2nd street", {ExactMatch(wonderlandId, st2)}), ());
 
-    TEST(ResultsMatch("rue foo", { ExactMatch(wonderlandId, rue1) }, "fr"), ());
-    TEST(ResultsMatch("rue bar", { ExactMatch(wonderlandId, rue2) }, "fr"), ());
+    TEST(ResultsMatch("rue foo", {ExactMatch(wonderlandId, rue1)}, "fr"), ());
+    TEST(ResultsMatch("rue bar", {ExactMatch(wonderlandId, rue2)}, "fr"), ());
 
-    TEST(ResultsMatch("avenue la foo", { ExactMatch(wonderlandId, rue1) }, "fr"), ());
-    TEST(ResultsMatch("av la bar", { ExactMatch(wonderlandId, rue2) }, "fr"), ());
+    TEST(ResultsMatch("avenue la foo", {ExactMatch(wonderlandId, rue1)}, "fr"), ());
+    TEST(ResultsMatch("av la bar", {ExactMatch(wonderlandId, rue2)}, "fr"), ());
   }
 
   {
-    TEST(OrderedResultsMatch("1st north street", { ExactMatch(wonderlandId, st1) }), ());
-    TEST(OrderedResultsMatch("2nd north street", { ExactMatch(wonderlandId, st2) }), ());
+    TEST(OrderedResultsMatch("1st north street", {ExactMatch(wonderlandId, st1)}), ());
+    TEST(OrderedResultsMatch("2nd north street", {ExactMatch(wonderlandId, st2)}), ());
   }
 }
 
@@ -2565,11 +2533,10 @@ UNIT_CLASS_TEST(ProcessorTest, CityPostcodes)
 
   TestBuilding building({0.0, 0.00001}, "", "4", street.GetName("en"), "en");
 
-  auto const worldId = BuildWorld([&](TestMwmBuilder & builder) {
-    builder.Add(moscow);
-  });
+  auto const worldId = BuildWorld([&](TestMwmBuilder & builder) { builder.Add(moscow); });
 
-  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) {
+  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
+  {
     builder.Add(moscow);
     builder.Add(street);
     builder.Add(building);
@@ -2588,10 +2555,7 @@ UNIT_CLASS_TEST(ProcessorTest, StreetNumber)
   TestStreet street({{-1.0, -1.0}, {1.0, 1.0}}, "Симферопольское шоссе", "ru");
   street.SetRoadNumber("M2");
 
-  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(street);
-  });
+  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(street); });
 
   SetViewport(m2::RectD(0.0, 0.0, 1.0, 2.0));
   {
@@ -2605,10 +2569,7 @@ UNIT_CLASS_TEST(ProcessorTest, StreetNumberEnriched)
   TestStreet street({{-1.0, -1.0}, {1.0, 1.0}}, "Нева", "ru");
   street.SetRoadNumber("M-11;ru:national/M-11");
 
-  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(street);
-  });
+  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(street); });
 
   SetViewport(m2::RectD(0.0, 0.0, 1.0, 2.0));
   {
@@ -2629,10 +2590,7 @@ UNIT_CLASS_TEST(ProcessorTest, PostcodesErrorTest)
   TestPOI postbox({0.0, 0.0}, "127001", "default");
   postbox.SetTypes({{"amenity", "post_box"}});
 
-  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(postbox);
-  });
+  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(postbox); });
 
   SetViewport(m2::RectD(0.0, 0.0, 1.0, 1.0));
   {
@@ -2700,8 +2658,8 @@ UNIT_CLASS_TEST(ProcessorTest, OrderCountries)
     TEST(ResultsMatch({results[1]}, {ExactMatch(UkId, wheeling)}), ());
     // (UkId, wheeling) has higher rank but it's second in results because it was not in the first
     // batch.
-    TEST_GREATER(results[1].GetRankingInfo().GetLinearModelRank(),
-                 results[0].GetRankingInfo().GetLinearModelRank(), ());
+    TEST_GREATER(results[1].GetRankingInfo().GetLinearModelRank(), results[0].GetRankingInfo().GetLinearModelRank(),
+                 ());
   }
 }
 
@@ -2751,10 +2709,7 @@ UNIT_CLASS_TEST(ProcessorTest, Suburbs1)
   // The same with neighborhood
   TestSuburb suburb({0, 0}, "les Planes", "default");
 
-  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(suburb);
-  });
+  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(suburb); });
 
   SetViewport(m2::RectD(-1.0, -1.0, 1.0, 1.0));
 
@@ -2768,7 +2723,8 @@ UNIT_CLASS_TEST(ProcessorTest, ViewportFilter)
   TestStreet street23({{0.5, -1.0}, {0.5, 1.0}}, "23rd February street", "en");
   TestStreet street8({{0.0, -1.0}, {0.0, 1.0}}, "8th March street", "en");
 
-  auto const countryId = BuildCountry("Wounderland", [&](TestMwmBuilder & builder) {
+  auto const countryId = BuildCountry("Wounderland", [&](TestMwmBuilder & builder)
+  {
     builder.Add(street23);
     builder.Add(street8);
   });
@@ -2785,7 +2741,7 @@ UNIT_CLASS_TEST(ProcessorTest, ViewportFilter)
 
     // |street23| should not appear in viewport search because it has 2 unmatched tokens.
     // |street8| has 1 unmatched token.
-    //Rules const rules = {ExactMatch(countryId, street8)};
+    // Rules const rules = {ExactMatch(countryId, street8)};
     Rules const rules;
 
     TestSearchRequest request(m_engine, params);
@@ -2802,7 +2758,7 @@ UNIT_CLASS_TEST(ProcessorTest, ViewportFilter)
 
     /// @todo |street23| should be in everywhere search results because everywhere search mode does not
     /// have matched tokens number restriction. Or not?
-    Rules const rules = {ExactMatch(countryId, street8)/*, ExactMatch(countryId, street23) */ };
+    Rules const rules = {ExactMatch(countryId, street8) /*, ExactMatch(countryId, street23) */};
 
     TestSearchRequest request(m_engine, params);
     request.Run();
@@ -2819,7 +2775,8 @@ UNIT_CLASS_TEST(ProcessorTest, FilterStreetPredictions)
   TestStreet lenina2({{2.0, -1.0}, {2.0, 1.0}}, "Lenina", "en");
   TestStreet lenina3({{3.0, -1.0}, {3.0, 1.0}}, "Lenina", "en");
 
-  auto const countryId = BuildCountry("Wounderland", [&](TestMwmBuilder & builder) {
+  auto const countryId = BuildCountry("Wounderland", [&](TestMwmBuilder & builder)
+  {
     builder.Add(lenina0);
     builder.Add(lenina1);
     builder.Add(lenina2);
@@ -2831,12 +2788,12 @@ UNIT_CLASS_TEST(ProcessorTest, FilterStreetPredictions)
   SearchParams defaultParams;
   defaultParams.m_query = "Lenina";
   defaultParams.m_inputLocale = "en";
-  defaultParams.m_viewport = m2::RectD(-1.0, -1.0, 1.0, 1.0); // viewport center is {0, 0}
+  defaultParams.m_viewport = m2::RectD(-1.0, -1.0, 1.0, 1.0);  // viewport center is {0, 0}
   defaultParams.m_mode = Mode::Everywhere;
 
   {
-    Rules const rules = {ExactMatch(countryId, lenina0), ExactMatch(countryId, lenina1),
-                         ExactMatch(countryId, lenina2), ExactMatch(countryId, lenina3)};
+    Rules const rules = {ExactMatch(countryId, lenina0), ExactMatch(countryId, lenina1), ExactMatch(countryId, lenina2),
+                         ExactMatch(countryId, lenina3)};
 
     TestSearchRequest request(m_engine, defaultParams);
     request.Run();
@@ -3029,7 +2986,7 @@ UNIT_CLASS_TEST(ProcessorTest, MatchAroundPivotInMwmWithCity)
   SetViewport(m2::RectD(-1.0, -1.0, 1.0, 1.0));
   {
     // UPD: Of course, we should show Minsk cafe _after_ Minsk city.
-    Rules rules = { ExactMatch(worldId, minsk), ExactMatch(minskId, minskCafe) };
+    Rules rules = {ExactMatch(worldId, minsk), ExactMatch(minskId, minskCafe)};
     TEST(OrderedResultsMatch("Minsk ", rules), ());
     TEST(OrderedResultsMatch("Minsk", rules), ());
   }
@@ -3051,7 +3008,8 @@ UNIT_CLASS_TEST(ProcessorTest, LocalityScorer)
   TestCity spAtacama({5.5, 5.5}, "San Pedro de Atacama", "en", 100 /* rank */);
   TestCity spAlcantara({6.5, 6.5}, "San Pedro de Alcantara", "en", 40 /* rank */);
 
-  auto worldId = BuildWorld([&](TestMwmBuilder & builder) {
+  auto worldId = BuildWorld([&](TestMwmBuilder & builder)
+  {
     builder.Add(sp0);
     builder.Add(sp1);
     builder.Add(sp2);
@@ -3111,7 +3069,8 @@ UNIT_CLASS_TEST(ProcessorTest, StreetWithNumber)
 
 UNIT_CLASS_TEST(ProcessorTest, SimilarLanguage)
 {
-  auto testLanguage = [&](string language, string searchString, bool expectedRes) {
+  auto testLanguage = [&](string language, string searchString, bool expectedRes)
+  {
     auto request = MakeRequest(searchString, language);
     auto const & results = request->Results();
     TEST_EQUAL(results.size(), expectedRes ? 1 : 0, (results, language, searchString, expectedRes));
@@ -3124,10 +3083,7 @@ UNIT_CLASS_TEST(ProcessorTest, SimilarLanguage)
                            {"ja_kana", "じゆうがおか"},
                            {"ko", "지유가오카"}});
 
-  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(poi);
-  });
+  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(poi); });
 
   SetViewport(m2::RectD(-1, -1, 1, 1));
 
@@ -3152,13 +3108,9 @@ UNIT_CLASS_TEST(ProcessorTest, SimilarLanguage)
 
 UNIT_CLASS_TEST(ProcessorTest, AltAndOldName)
 {
-  TestMultilingualPOI poi({0.0, 0.0}, "default",
-                          {{"en", "english"}, {"alt_name", "alternative"}, {"old_name", "old"}});
+  TestMultilingualPOI poi({0.0, 0.0}, "default", {{"en", "english"}, {"alt_name", "alternative"}, {"old_name", "old"}});
 
-  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(poi);
-  });
+  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(poi); });
 
   SetViewport(m2::RectD(-1, -1, 1, 1));
   {
@@ -3184,8 +3136,7 @@ UNIT_CLASS_TEST(ProcessorTest, TestRankingInfo_IsAltOrOldName)
   streetName.AddString("old_name", "проспект Пролетарской Победы");
   TestStreet street({{0.0, -0.5}, {0.0, 0.0}, {0.0, 0.5}}, streetName);
 
-  TestMultilingualPOI poi({0.0, 0.0}, "KFC",
-                          {{"alt_name", "Kentucky Fried Chicken"}, {"old_name", "Ростикс"}});
+  TestMultilingualPOI poi({0.0, 0.0}, "KFC", {{"alt_name", "Kentucky Fried Chicken"}, {"old_name", "Ростикс"}});
 
   auto worldId = BuildWorld([&](TestMwmBuilder & builder) { builder.Add(city); });
 
@@ -3226,11 +3177,9 @@ UNIT_CLASS_TEST(ProcessorTest, TestRankingInfo_IsAltOrOldName)
   checkIsAltOrOldName("Санкт-Петербург проспект Пролетарской Победы KFC", true);
   checkIsAltOrOldName("Питер проспект Пролетарской Победы KFC", true);
   checkIsAltOrOldName("Ленинград проспект Пролетарской Победы KFC", true);
-  checkIsAltOrOldName(
-      "Санкт-Петербург Большой проспект Васильевского Острова Kentucky Fried Chicken", true);
+  checkIsAltOrOldName("Санкт-Петербург Большой проспект Васильевского Острова Kentucky Fried Chicken", true);
   checkIsAltOrOldName("Питер Большой проспект Васильевского Острова Kentucky Fried Chicken", true);
-  checkIsAltOrOldName("Ленинград Большой проспект Васильевского Острова Kentucky Fried Chicken",
-                      true);
+  checkIsAltOrOldName("Ленинград Большой проспект Васильевского Острова Kentucky Fried Chicken", true);
   checkIsAltOrOldName("Санкт-Петербург Большой проспект В. О. Kentucky Fried Chicken", true);
   checkIsAltOrOldName("Питер Большой проспект В. О. Kentucky Fried Chicken", true);
   checkIsAltOrOldName("Ленинград Большой проспект В. О. Kentucky Fried Chicken", true);
@@ -3253,7 +3202,8 @@ UNIT_CLASS_TEST(ProcessorTest, JaKanaNormalizationTest)
   TestPOI poiHiragana({0.0, 0.0}, "とうきょうと", "default");
   TestPOI poiKatakana({1.0, 1.0}, "トウキョウト", "default");
 
-  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) {
+  auto countryId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
+  {
     builder.Add(poiHiragana);
     builder.Add(poiKatakana);
   });
@@ -3277,7 +3227,8 @@ UNIT_CLASS_TEST(ProcessorTest, TestRankingInfo_MultipleOldNames)
 
   SetViewport(m2::RectD(-1, -1, 1, 1));
 
-  auto checkResult = [&](string const & query, string const & expectedName) {
+  auto checkResult = [&](string const & query, string const & expectedName)
+  {
     auto request = MakeRequest(query, "ru");
     auto const & results = request->Results();
 
@@ -3390,10 +3341,10 @@ UNIT_CLASS_TEST(ProcessorTest, PoiStreetCity_FancyMatch)
   TestCity moloCity(FromLatLon(54.3073327, 26.8389111), "Молодечно", "ru", feature::PopulationToRank(100000));
   TestCity minskCity(FromLatLon(53.9024716, 27.5618225), "Минск", "ru", feature::PopulationToRank(2000000));
 
-  TestStreet moloStreet({FromLatLon(54.3082251, 26.8319660), FromLatLon(54.3071611, 26.8379171)},
-                        "улица Льва Толстого", "ru");
-  TestStreet minskStreet({FromLatLon(53.8861373, 27.5492881), FromLatLon(53.8908963, 27.5422647)},
-                         "улица Толстого", "ru");
+  TestStreet moloStreet({FromLatLon(54.3082251, 26.8319660), FromLatLon(54.3071611, 26.8379171)}, "улица Льва Толстого",
+                        "ru");
+  TestStreet minskStreet({FromLatLon(53.8861373, 27.5492881), FromLatLon(53.8908963, 27.5422647)}, "улица Толстого",
+                         "ru");
 
   TestPOI moloBusStop(FromLatLon(54.3082210, 26.8349911), "улица Буховщина", "en");
   moloBusStop.SetTypes({{"highway", "bus_stop"}});
@@ -3418,9 +3369,9 @@ UNIT_CLASS_TEST(ProcessorTest, PoiStreetCity_FancyMatch)
   // moloBusStop (on second place) was matched like:
   // prefix name match = "улица", near street = "Толстого", in city = "Молодечно".
   Rules const rules = {
-    ExactMatch(countryId, moloStreet),
-    ExactMatch(countryId, moloBusStop),
-    ExactMatch(countryId, minskStreet),
+      ExactMatch(countryId, moloStreet),
+      ExactMatch(countryId, moloBusStop),
+      ExactMatch(countryId, minskStreet),
   };
   TEST(OrderedResultsMatch("улица Толстого Молодечно", rules), ());
 }
@@ -3443,10 +3394,7 @@ UNIT_CLASS_TEST(ProcessorTest, ComplexPoi_Rank)
 
   SetViewport({-0.5, -0.5, 0.5, 0.5});
 
-  Rules const rules = {
-    ExactMatch(countryId, telekom),
-    ExactMatch(countryId, poiInMall)
-  };
+  Rules const rules = {ExactMatch(countryId, telekom), ExactMatch(countryId, poiInMall)};
   TEST(OrderedResultsMatch("Telekom shop", rules), ());
 }
 
@@ -3454,10 +3402,7 @@ UNIT_CLASS_TEST(ProcessorTest, Place_Region)
 {
   TestPlace region({1, 1}, "Carthage", "en", classif().GetTypeByPath({"place", "region"}));
 
-  auto const worldId = BuildWorld([&](TestMwmBuilder & builder)
-  {
-    builder.Add(region);
-  });
+  auto const worldId = BuildWorld([&](TestMwmBuilder & builder) { builder.Add(region); });
 
   Rules rules{ExactMatch(worldId, region)};
   TEST(ResultsMatch("carth", rules, "en"), ());
@@ -3528,24 +3473,24 @@ UNIT_CLASS_TEST(ProcessorTest, StreetCategories)
 
   {
     Rules const rules = {
-      ExactMatch(wonderlandId, street),
-      ExactMatch(wonderlandId, bus),
+        ExactMatch(wonderlandId, street),
+        ExactMatch(wonderlandId, bus),
     };
     TEST(OrderedResultsMatch("avenida santa fe ", rules), ());
   }
 
   {
     Rules const rules = {
-      ExactMatch(wonderlandId, street),
-      ExactMatch(wonderlandId, bus),
+        ExactMatch(wonderlandId, street),
+        ExactMatch(wonderlandId, bus),
     };
     TEST(OrderedResultsMatch("avenida santa fe street ", rules), ());
   }
 
   {
     Rules const rules = {
-      ExactMatch(wonderlandId, street),
-      ExactMatch(wonderlandId, bus),
+        ExactMatch(wonderlandId, street),
+        ExactMatch(wonderlandId, bus),
     };
     TEST(OrderedResultsMatch(MakeRequest("avenida santa fe улица ", "ru")->Results(), rules), ());
   }
@@ -3570,9 +3515,9 @@ UNIT_CLASS_TEST(ProcessorTest, BarcelonaStreet)
 
   {
     Rules const rules = {
-      ExactMatch(wonderlandId, street),
-      // 1 token match is discarded for _relaxed_
-      //ExactMatch(wonderlandId, highway),
+        ExactMatch(wonderlandId, street),
+        // 1 token match is discarded for _relaxed_
+        // ExactMatch(wonderlandId, highway),
     };
     TEST(OrderedResultsMatch(MakeRequest("carrer de concordia 59", "en")->Results(), rules), ());
     // Add some misspellings.
@@ -3614,7 +3559,7 @@ UNIT_CLASS_TEST(ProcessorTest, ComplexPoi_Match)
 
   {
     /// @todo Looks like a building can't be matched with name and housenumber at the same time.
-    //Rules const rules = {ExactMatch(wonderlandId, building)};
+    // Rules const rules = {ExactMatch(wonderlandId, building)};
     Rules const rules = {ExactMatch(wonderlandId, street)};
     TEST(ResultsMatch("фрэор задворенская 8", rules), ());
   }
@@ -3648,8 +3593,7 @@ UNIT_CLASS_TEST(ProcessorTest, NonDrawable_Categories)
   SetViewport(m2::RectD(-0.5, -0.5, 0.5, 0.5));
 
   {
-    Rules const rules = {ExactMatch(wonderlandId, noWheelchair),
-                         ExactMatch(wonderlandId, elevator),
+    Rules const rules = {ExactMatch(wonderlandId, noWheelchair), ExactMatch(wonderlandId, elevator),
                          ExactMatch(wonderlandId, yesWheelchair)};
     TEST(ResultsMatch("subway", rules), ());
   }
@@ -3694,10 +3638,7 @@ UNIT_CLASS_TEST(ProcessorTest, Numeric_POI_Name)
   TestPOI kiosk({0, 0}, "365", "default");
   kiosk.SetTypes({{"shop", "kiosk"}});
 
-  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder)
-  {
-    builder.Add(kiosk);
-  });
+  auto wonderlandId = BuildCountry("Wonderland", [&](TestMwmBuilder & builder) { builder.Add(kiosk); });
 
   SetViewport(m2::RectD(-0.5, -0.5, 0.5, 0.5));
 
@@ -3709,4 +3650,4 @@ UNIT_CLASS_TEST(ProcessorTest, Numeric_POI_Name)
   }
 }
 
-} // namespace processor_test
+}  // namespace processor_test

@@ -26,9 +26,8 @@ UNIT_TEST(PointRectMatcher_Smoke)
   for (auto requestType : {PointRectMatcher::RequestType::Any, PointRectMatcher::RequestType::All})
   {
     matcher.Match(vector<PointIdPair>{}, vector<RectIdPair>{}, requestType,
-                  [](size_t /* pointId */, size_t /* rectId */) {
-                    TEST(false, ("This callback should not be called!"));
-                  });
+                  [](size_t /* pointId */, size_t /* rectId */)
+    { TEST(false, ("This callback should not be called!")); });
   }
 }
 
@@ -45,27 +44,23 @@ UNIT_TEST(PointRectMatcher_Simple)
   PointRectMatcher matcher;
 
   {
-    matcher.Match(points, vector<RectIdPair>{}, PointRectMatcher::RequestType::Any,
-                  [](size_t pointId, size_t rectId) {
-                    TEST(false, ("Callback should not be called:", pointId, rectId));
-                  });
+    matcher.Match(points, vector<RectIdPair>{}, PointRectMatcher::RequestType::Any, [](size_t pointId, size_t rectId)
+    { TEST(false, ("Callback should not be called:", pointId, rectId)); });
   }
 
   {
-    matcher.Match(vector<PointIdPair>{}, rects, PointRectMatcher::RequestType::Any,
-                  [](size_t pointId, size_t rectId) {
-                    TEST(false, ("Callback should not be called:", pointId, rectId));
-                  });
+    matcher.Match(vector<PointIdPair>{}, rects, PointRectMatcher::RequestType::Any, [](size_t pointId, size_t rectId)
+    { TEST(false, ("Callback should not be called:", pointId, rectId)); });
   }
 
   {
     vector<size_t> actualMatching(points.size(), kInvalidId);
-    matcher.Match(points, rects, PointRectMatcher::RequestType::Any,
-                  [&](size_t pointId, size_t rectId) {
-                    TEST_LESS(pointId, actualMatching.size(), ());
-                    TEST_EQUAL(actualMatching[pointId], kInvalidId, ());
-                    actualMatching[pointId] = rectId;
-                  });
+    matcher.Match(points, rects, PointRectMatcher::RequestType::Any, [&](size_t pointId, size_t rectId)
+    {
+      TEST_LESS(pointId, actualMatching.size(), ());
+      TEST_EQUAL(actualMatching[pointId], kInvalidId, ());
+      actualMatching[pointId] = rectId;
+    });
 
     vector<size_t> const expectedMatching = {{0, 2, 2, kInvalidId}};
     TEST_EQUAL(actualMatching, expectedMatching, ());
@@ -87,12 +82,12 @@ UNIT_TEST(PointRectMatcher_MultiplePointsInRect)
 
   {
     vector<pair<size_t, size_t>> actualCalls;
-    matcher.Match(points, rects, PointRectMatcher::RequestType::All,
-                  [&](size_t pointId, size_t rectId) {
-                    TEST_LESS(pointId, points.size(), ());
-                    TEST_LESS(rectId, rects.size(), ());
-                    actualCalls.emplace_back(pointId, rectId);
-                  });
+    matcher.Match(points, rects, PointRectMatcher::RequestType::All, [&](size_t pointId, size_t rectId)
+    {
+      TEST_LESS(pointId, points.size(), ());
+      TEST_LESS(rectId, rects.size(), ());
+      actualCalls.emplace_back(pointId, rectId);
+    });
 
     vector<pair<size_t, size_t>> const expectedCalls = {{0, 0}, {0, 2}, {1, 0}, {1, 2}, {2, 1},
                                                         {2, 2}, {3, 1}, {3, 2}, {4, 2}, {5, 2}};

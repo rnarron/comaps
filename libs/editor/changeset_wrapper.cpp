@@ -32,10 +32,9 @@ bool OsmFeatureHasTags(pugi::xml_node const & osmFt)
 
 std::string_view constexpr kVowels = "aeiouy";
 
-std::string_view constexpr kMainTags[] = {
-    "amenity", "shop", "tourism", "historic", "craft", "emergency", "barrier", "highway", "office",
-    "leisure", "waterway",  "natural", "place",  "entrance", "building", "man_made", "healthcare",
-    "attraction"};
+std::string_view constexpr kMainTags[] = {"amenity", "shop",     "tourism",  "historic", "craft",      "emergency",
+                                          "barrier", "highway",  "office",   "leisure",  "waterway",   "natural",
+                                          "place",   "entrance", "building", "man_made", "healthcare", "attraction"};
 
 std::string GetTypeForFeature(editor::XMLFeature const & node)
 {
@@ -83,7 +82,8 @@ std::vector<m2::PointD> NaiveSample(std::vector<m2::PointD> const & source, size
     do
     {
       index = distrib(engine);
-    } while (find(begin(indexes), end(indexes), index) != end(indexes));
+    }
+    while (find(begin(indexes), end(indexes), index) != end(indexes));
     result.push_back(source[index]);
     indexes.push_back(index);
   }
@@ -104,11 +104,10 @@ std::string DebugPrint(xml_document const & doc)
 
 namespace osm
 {
-ChangesetWrapper::ChangesetWrapper(std::string const & keySecret,
-                                   ServerApi06::KeyValueTags comments) noexcept
-  : m_changesetComments(std::move(comments)), m_api(OsmOAuth::ServerAuth(keySecret))
-{
-}
+ChangesetWrapper::ChangesetWrapper(std::string const & keySecret, ServerApi06::KeyValueTags comments) noexcept
+  : m_changesetComments(std::move(comments))
+  , m_api(OsmOAuth::ServerAuth(keySecret))
+{}
 
 ChangesetWrapper::~ChangesetWrapper()
 {
@@ -127,21 +126,18 @@ ChangesetWrapper::~ChangesetWrapper()
   }
 }
 
-void ChangesetWrapper::LoadXmlFromOSM(ms::LatLon const & ll, pugi::xml_document & doc,
-                                      double radiusInMeters)
+void ChangesetWrapper::LoadXmlFromOSM(ms::LatLon const & ll, pugi::xml_document & doc, double radiusInMeters)
 {
   auto const response = m_api.GetXmlFeaturesAtLatLon(ll.m_lat, ll.m_lon, radiusInMeters);
   if (response.first != OsmOAuth::HTTP::OK)
     MYTHROW(HttpErrorException, ("HTTP error", response, "with GetXmlFeaturesAtLatLon", ll));
 
   if (pugi::status_ok != doc.load_string(response.second.c_str()).status)
-    MYTHROW(
-        OsmXmlParseException,
-        ("Can't parse OSM server response for GetXmlFeaturesAtLatLon request", response.second));
+    MYTHROW(OsmXmlParseException,
+            ("Can't parse OSM server response for GetXmlFeaturesAtLatLon request", response.second));
 }
 
-void ChangesetWrapper::LoadXmlFromOSM(ms::LatLon const & min, ms::LatLon const & max,
-                                      pugi::xml_document & doc)
+void ChangesetWrapper::LoadXmlFromOSM(ms::LatLon const & min, ms::LatLon const & max, pugi::xml_document & doc)
 {
   auto const response = m_api.GetXmlFeaturesInRect(min.m_lat, min.m_lon, max.m_lat, max.m_lon);
   if (response.first != OsmOAuth::HTTP::OK)
@@ -266,11 +262,7 @@ std::string ChangesetWrapper::TypeCountToString(TypeCount const & typeCount)
   // Convert map to vector and sort pairs by count, descending.
   std::vector<std::pair<std::string, size_t>> items{typeCount.begin(), typeCount.end()};
 
-  sort(items.begin(), items.end(),
-       [](auto const & a, auto const & b)
-       {
-         return a.second > b.second;
-       });
+  sort(items.begin(), items.end(), [](auto const & a, auto const & b) { return a.second > b.second; });
 
   std::ostringstream ss;
   size_t const limit = std::min(size_t(3), items.size());
@@ -299,16 +291,12 @@ std::string ChangesetWrapper::TypeCountToString(TypeCount const & typeCount)
 
     // Format a count: "a shop" for single shop, "4 shops" for multiple.
     if (currentPair.second == 1)
-    {
       if (kVowels.find(currentPair.first.front()) != std::string::npos)
         ss << "an";
       else
         ss << "a";
-    }
     else
-    {
       ss << currentPair.second;
-    }
     ss << ' ' << currentPair.first;
     if (currentPair.second > 1)
     {

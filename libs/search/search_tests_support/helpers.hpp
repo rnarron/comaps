@@ -29,15 +29,12 @@ public:
   inline void SetViewport(m2::RectD const & viewport) { m_viewport = viewport; }
   void SetViewport(ms::LatLon const & ll, double radiusM);
 
-  bool CategoryMatch(std::string const & query, Rules const & rules,
-                     std::string const & locale = "en");
+  bool CategoryMatch(std::string const & query, Rules const & rules, std::string const & locale = "en");
 
-  bool ResultsMatch(std::string const & query, Rules const & rules,
-                    std::string const & locale = "en",
+  bool ResultsMatch(std::string const & query, Rules const & rules, std::string const & locale = "en",
                     Mode mode = Mode::Everywhere);
 
-  bool OrderedResultsMatch(std::string const & query, Rules const & rules,
-                           std::string const & locale = "en",
+  bool OrderedResultsMatch(std::string const & query, Rules const & rules, std::string const & locale = "en",
                            Mode mode = Mode::Everywhere);
 
   bool ResultsMatch(std::vector<Result> const & results, Rules const & rules);
@@ -69,10 +66,7 @@ protected:
 class SearchTest : public SearchTestBase
 {
 public:
-  explicit SearchTest(base::LogLevel logLevel = base::LDEBUG)
-    : SearchTestBase(logLevel, true /* mockCountryInfo*/)
-  {
-  }
+  explicit SearchTest(base::LogLevel logLevel = base::LDEBUG) : SearchTestBase(logLevel, true /* mockCountryInfo*/) {}
 
   // Registers country in internal records. Note that physical country file may be absent.
   void RegisterCountry(std::string const & name, m2::RectD const & rect);
@@ -84,8 +78,7 @@ protected:
 class TestCafe : public generator::tests_support::TestPOI
 {
 public:
-  TestCafe(m2::PointD const & center, std::string const & name, std::string const & lang)
-    : TestPOI(center, name, lang)
+  TestCafe(m2::PointD const & center, std::string const & name, std::string const & lang) : TestPOI(center, name, lang)
   {
     SetTypes({{"amenity", "cafe"}});
   }
@@ -96,8 +89,7 @@ public:
 class TestHotel : public generator::tests_support::TestPOI
 {
 public:
-  TestHotel(m2::PointD const & center, std::string const & name, std::string const & lang)
-    : TestPOI(center, name, lang)
+  TestHotel(m2::PointD const & center, std::string const & name, std::string const & lang) : TestPOI(center, name, lang)
   {
     SetTypes({{"tourism", "hotel"}});
   }
@@ -105,5 +97,5 @@ public:
   explicit TestHotel(m2::PointD const & center) : TestHotel(center, "hotel", "en") {}
 };
 
-} // namespace tests_support
-} // namespace search
+}  // namespace tests_support
+}  // namespace search

@@ -2,16 +2,15 @@
 
 #include "indexer/classificator.hpp"
 
-
 namespace pedestrian_model
 {
 using namespace routing;
 
 // See model specifics in different countries here:
 //   https://wiki.openstreetmap.org/wiki/OSM_tags_for_routing/Access-Restrictions
-// Document contains proposals for some countries, but we assume that some kinds of roads are ready for pedestrian routing,
-// but not listed in tables in the document. For example, steps are not listed, paths, roads and services features also
-// can be treated as ready for pedestrian routing. These road types were added to lists below.
+// Document contains proposals for some countries, but we assume that some kinds of roads are ready for pedestrian
+// routing, but not listed in tables in the document. For example, steps are not listed, paths, roads and services
+// features also can be treated as ready for pedestrian routing. These road types were added to lists below.
 
 // See road types here:
 //   https://wiki.openstreetmap.org/wiki/Key:highway
@@ -85,8 +84,7 @@ VehicleModel::LimitsInitList const kDefaultOptions = {
     {HighwayType::HighwayPedestrian, true},
     {HighwayType::HighwayFootway, true},
     {HighwayType::ManMadePier, true},
-    {HighwayType::RouteFerry, true}
-};
+    {HighwayType::RouteFerry, true}};
 
 // Same as defaults except bridleway and cycleway are allowed.
 VehicleModel::LimitsInitList AllAllowed()
@@ -103,10 +101,8 @@ VehicleModel::LimitsInitList NoTrunk()
   VehicleModel::LimitsInitList res;
   res.reserve(kDefaultOptions.size() - 2);
   for (auto const & e : kDefaultOptions)
-  {
     if (e.m_type != HighwayType::HighwayTrunk && e.m_type != HighwayType::HighwayTrunkLink)
       res.push_back(e);
-  }
   return res;
 }
 
@@ -133,31 +129,26 @@ HighwayBasedSpeeds IncreasePrimary()
 }
 
 VehicleModel::SurfaceInitList const kPedestrianSurface = {
-  // {{surfaceType}, {weightFactor, etaFactor}}
-  {{"psurface", "paved_good"}, {1.0, 1.0}},
-  {{"psurface", "paved_bad"}, {1.0, 1.0}},
-  {{"psurface", "unpaved_good"}, {1.0, 1.0}},
-  {{"psurface", "unpaved_bad"}, {0.8, 0.8}},
-  // no dedicated sidewalk, doesn't mean that foot is not allowed, just lower weight
-  {{"hwtag", "nosidewalk"}, {0.8, 0.8}},
+    // {{surfaceType}, {weightFactor, etaFactor}}
+    {{"psurface", "paved_good"}, {1.0, 1.0}},
+    {{"psurface", "paved_bad"}, {1.0, 1.0}},
+    {{"psurface", "unpaved_good"}, {1.0, 1.0}},
+    {{"psurface", "unpaved_bad"}, {0.8, 0.8}},
+    // no dedicated sidewalk, doesn't mean that foot is not allowed, just lower weight
+    {{"hwtag", "nosidewalk"}, {0.8, 0.8}},
 };
 }  // namespace pedestrian_model
 
 namespace routing
 {
-PedestrianModel::PedestrianModel() : PedestrianModel(pedestrian_model::kDefaultOptions)
-{
-}
+PedestrianModel::PedestrianModel() : PedestrianModel(pedestrian_model::kDefaultOptions) {}
 
 PedestrianModel::PedestrianModel(VehicleModel::LimitsInitList const & limits)
-: PedestrianModel(limits, pedestrian_model::kDefaultSpeeds)
-{
-}
+  : PedestrianModel(limits, pedestrian_model::kDefaultSpeeds)
+{}
 
-PedestrianModel::PedestrianModel(VehicleModel::LimitsInitList const & limits,
-                                 HighwayBasedSpeeds const & speeds)
-  : VehicleModel(classif(), limits, pedestrian_model::kPedestrianSurface,
-                {speeds, pedestrian_model::kDefaultFactors})
+PedestrianModel::PedestrianModel(VehicleModel::LimitsInitList const & limits, HighwayBasedSpeeds const & speeds)
+  : VehicleModel(classif(), limits, pedestrian_model::kPedestrianSurface, {speeds, pedestrian_model::kDefaultFactors})
 {
   using namespace pedestrian_model;
 
@@ -167,10 +158,10 @@ PedestrianModel::PedestrianModel(VehicleModel::LimitsInitList const & limits,
   std::vector<std::string> hwtagYesFoot = {"hwtag", "yesfoot"};
   auto const & cl = classif();
 
-  m_noType = cl.GetTypeByPath({ "hwtag", "nofoot" });
+  m_noType = cl.GetTypeByPath({"hwtag", "nofoot"});
   m_yesType = cl.GetTypeByPath(hwtagYesFoot);
 
-  AddAdditionalRoadTypes(cl, {{ std::move(hwtagYesFoot), kDefaultSpeeds.Get(HighwayType::HighwayLivingStreet) }});
+  AddAdditionalRoadTypes(cl, {{std::move(hwtagYesFoot), kDefaultSpeeds.Get(HighwayType::HighwayLivingStreet)}});
 
   // Update max pedestrian speed with possible ferry transfer. See EdgeEstimator::CalcHeuristic.
   SpeedKMpH constexpr kMaxPedestrianSpeedKMpH(60.0);
@@ -183,7 +174,10 @@ SpeedKMpH PedestrianModel::GetSpeed(FeatureTypes const & types, SpeedParams cons
   return GetTypeSpeedImpl(types, speedParams, false /* isCar */);
 }
 
-SpeedKMpH const & PedestrianModel::GetOffroadSpeed() const { return pedestrian_model::kSpeedOffroadKMpH; }
+SpeedKMpH const & PedestrianModel::GetOffroadSpeed() const
+{
+  return pedestrian_model::kSpeedOffroadKMpH;
+}
 
 // If one of feature types will be disabled for pedestrian, features of this type will be simplyfied
 // in generator. Look FeatureBuilder1::IsRoad() for more details.
@@ -194,8 +188,7 @@ PedestrianModel const & PedestrianModel::AllLimitsInstance()
   return instance;
 }
 
-PedestrianModelFactory::PedestrianModelFactory(
-    CountryParentNameGetterFn const & countryParentNameGetterFn)
+PedestrianModelFactory::PedestrianModelFactory(CountryParentNameGetterFn const & countryParentNameGetterFn)
   : VehicleModelFactory(countryParentNameGetterFn)
 {
   using namespace pedestrian_model;
@@ -233,4 +226,4 @@ PedestrianModelFactory::PedestrianModelFactory(
   m_models["United Kingdom"] = make_shared<PedestrianModel>(AllAllowed());
   m_models["United States of America"] = make_shared<PedestrianModel>(AllAllowed());
 }
-}  // routing
+}  // namespace routing

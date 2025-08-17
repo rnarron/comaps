@@ -51,9 +51,7 @@ UNIT_TEST(PointDToPointU_Epsilons)
     for (; i < count; ++i)
     {
       m2::PointU p0 = PointDToPointU(arrPt[i].x, arrPt[i].y, kCoordBits);
-      m2::PointU p1 = PointDToPointU(arrPt[i].x + arrD[i].x * eps,
-                                     arrPt[i].y + arrD[i].y * eps,
-                                     kCoordBits);
+      m2::PointU p1 = PointDToPointU(arrPt[i].x + arrD[i].x * eps, arrPt[i].y + arrD[i].y * eps, kCoordBits);
 
       if (p0 != p1)
         break;
@@ -114,8 +112,7 @@ UNIT_TEST(PointToInt64Obsolete_Smoke)
   m2::PointD const arr[] = {{1.25, 1.3}, {180, 90}, {-180, -90}, {0, 0}};
 
   for (size_t i = 0; i < ARRAY_SIZE(arr); ++i)
-    CheckEqualPoints(arr[i],
-                     Int64ToPointObsolete(PointToInt64Obsolete(arr[i], kCoordBits), kCoordBits));
+    CheckEqualPoints(arr[i], Int64ToPointObsolete(PointToInt64Obsolete(arr[i], kCoordBits), kCoordBits));
 }
 
 UNIT_TEST(PointToInt64Obsolete_Grid)
@@ -151,11 +148,9 @@ UNIT_TEST(PointToInt64Obsolete_Bounds)
       for (size_t iY = 0; iY < ARRAY_SIZE(arrEps); ++iY)
       {
         m2::PointD const pt(arrPt[iP].x + arrEps[iX], arrPt[iP].y + arrEps[iY]);
-        m2::PointD const pt1 =
-            Int64ToPointObsolete(PointToInt64Obsolete(pt, kCoordBits), kCoordBits);
+        m2::PointD const pt1 = Int64ToPointObsolete(PointToInt64Obsolete(pt, kCoordBits), kCoordBits);
 
-        TEST(fabs(pt.x - pt1.x) <= (fabs(arrEps[iX]) + kEps) &&
-                 fabs(pt.y - pt1.y) <= (fabs(arrEps[iY]) + kEps),
+        TEST(fabs(pt.x - pt1.x) <= (fabs(arrEps[iX]) + kEps) && fabs(pt.y - pt1.y) <= (fabs(arrEps[iY]) + kEps),
              (pt, pt1));
       }
     }

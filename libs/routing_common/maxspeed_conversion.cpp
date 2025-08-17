@@ -30,9 +30,10 @@ MaxspeedType SpeedInUnits::GetSpeedKmPH() const
 
 // Maxspeed ----------------------------------------------------------------------------------------
 Maxspeed::Maxspeed(Units units, MaxspeedType forward, MaxspeedType backward)
-  : m_units(units), m_forward(forward), m_backward(backward)
-{
-}
+  : m_units(units)
+  , m_forward(forward)
+  , m_backward(backward)
+{}
 
 bool Maxspeed::operator==(Maxspeed const & rhs) const
 {
@@ -49,7 +50,8 @@ MaxspeedType Maxspeed::GetSpeedKmPH(bool forward) const
   auto const speedInUnits = GetSpeedInUnits(forward);
   switch (speedInUnits)
   {
-  case kInvalidSpeed: return kInvalidSpeed; // That means IsValid() returns false.
+  case kInvalidSpeed:
+    return kInvalidSpeed;  // That means IsValid() returns false.
 
   // A feature is marked as a feature without any speed limits (maxspeed=="none").
   // Should be less than CarModel::kMaxCarSpeedKMpH.
@@ -66,9 +68,9 @@ MaxspeedType Maxspeed::GetSpeedKmPH(bool forward) const
 // FeatureMaxspeed ---------------------------------------------------------------------------------
 FeatureMaxspeed::FeatureMaxspeed(uint32_t fid, measurement_utils::Units units, MaxspeedType forward,
                                  MaxspeedType backward /* = kInvalidSpeed */) noexcept
-  : m_featureId(fid), m_maxspeed(units, forward, backward)
-{
-}
+  : m_featureId(fid)
+  , m_maxspeed(units, forward, backward)
+{}
 
 bool FeatureMaxspeed::operator==(FeatureMaxspeed const & rhs) const
 {
@@ -302,7 +304,7 @@ SpeedInUnits MaxspeedConverter::ClosestValidMacro(SpeedInUnits const & speed) co
 // static
 MaxspeedConverter const & MaxspeedConverter::Instance()
 {
-  static const MaxspeedConverter inst;
+  static MaxspeedConverter const inst;
   return inst;
 }
 
@@ -318,8 +320,7 @@ bool HaveSameUnits(SpeedInUnits const & lhs, SpeedInUnits const & rhs)
 
 bool IsNumeric(MaxspeedType speed)
 {
-  return (speed != kInvalidSpeed && speed != kNoneMaxSpeed &&
-          speed != kWalkMaxSpeed && speed != kCommonMaxSpeedValue);
+  return (speed != kInvalidSpeed && speed != kNoneMaxSpeed && speed != kWalkMaxSpeed && speed != kCommonMaxSpeedValue);
 }
 
 namespace
@@ -335,7 +336,7 @@ std::string PrintMaxspeedType(MaxspeedType s)
   }
   return std::to_string(int(s));
 }
-} // namespace
+}  // namespace
 
 string DebugPrint(Maxspeed maxspeed)
 {
@@ -349,8 +350,8 @@ string DebugPrint(Maxspeed maxspeed)
 string DebugPrint(SpeedMacro maxspeed)
 {
   ostringstream oss;
-  oss << "SpeedMacro { " << static_cast<int>(maxspeed) << ", decoded: "
-      << DebugPrint(GetMaxspeedConverter().MacroToSpeed(maxspeed)) << " }";
+  oss << "SpeedMacro { " << static_cast<int>(maxspeed)
+      << ", decoded: " << DebugPrint(GetMaxspeedConverter().MacroToSpeed(maxspeed)) << " }";
   return oss.str();
 }
 

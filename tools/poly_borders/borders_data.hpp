@@ -30,12 +30,10 @@ private:
   /// points and leaves only unique.
   size_t RemoveDuplicatePoints();
 
-  template <class PointsT> static size_t RemoveDuplicatingPointImpl(PointsT & points)
+  template <class PointsT>
+  static size_t RemoveDuplicatingPointImpl(PointsT & points)
   {
-    auto const equalFn = [](auto const & p1, auto const & p2)
-    {
-      return p1.EqualDxDy(p2, kEqualityEpsilon);
-    };
+    auto const equalFn = [](auto const & p1, auto const & p2) { return p1.EqualDxDy(p2, kEqualityEpsilon); };
 
     auto const last = std::unique(points.begin(), points.end(), equalFn);
     size_t count = std::distance(last, points.end());
@@ -53,8 +51,7 @@ private:
   /// \brief Checks whether we can replace points from segment: [curLeftPointId, curRightPointId]
   /// of |curBorderId| to points from another border in order to get rid of empty space
   /// between curBorder and anotherBorder.
-  base::ControlFlow TryToReplace(size_t curBorderId, size_t & curLeftPointId,
-                                 size_t curRightPointId);
+  base::ControlFlow TryToReplace(size_t curBorderId, size_t & curLeftPointId, size_t curRightPointId);
 
   bool HasLinkAt(size_t curBorderId, size_t pointId);
 

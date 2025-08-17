@@ -33,12 +33,15 @@ public:
 
 UNIT_CLASS_TEST(CheckpointPredictorTest, CalculateDeltaMetersTest)
 {
-  TestAlmostEqual(CheckpointPredictor::CalculateDeltaMeters(
-                      {0.0, 0.0} /* from */, {2.0, 0.0} /* to */, {1.0, 0.0} /* between */), 0.0);
-  TestAlmostEqual(CheckpointPredictor::CalculateDeltaMeters(
-                      {0.0, 0.0} /* from */, {2.0, 0.0} /* to */, {3.0, 0.0} /* between */), 222634.0);
-  TestAlmostEqual(CheckpointPredictor::CalculateDeltaMeters(
-                      {0.0, 0.0} /* from */, {2.0, 0.0} /* to */, {-1.0, 0.0} /* between */), 222634.0);
+  TestAlmostEqual(
+      CheckpointPredictor::CalculateDeltaMeters({0.0, 0.0} /* from */, {2.0, 0.0} /* to */, {1.0, 0.0} /* between */),
+      0.0);
+  TestAlmostEqual(
+      CheckpointPredictor::CalculateDeltaMeters({0.0, 0.0} /* from */, {2.0, 0.0} /* to */, {3.0, 0.0} /* between */),
+      222634.0);
+  TestAlmostEqual(
+      CheckpointPredictor::CalculateDeltaMeters({0.0, 0.0} /* from */, {2.0, 0.0} /* to */, {-1.0, 0.0} /* between */),
+      222634.0);
 }
 
 // Zero intermediate point test.
@@ -51,7 +54,6 @@ UNIT_CLASS_TEST(CheckpointPredictorTest, PredictPositionTest1)
   TEST_EQUAL(PredictPosition(intermediatePoints, m2::PointD(3.5, 0.7)), 0, ());
   TEST_EQUAL(PredictPosition(intermediatePoints, m2::PointD(5.0, 0.0)), 0, ());
 }
-
 
 // One intermediate point test.
 UNIT_CLASS_TEST(CheckpointPredictorTest, PredictPositionTest2)

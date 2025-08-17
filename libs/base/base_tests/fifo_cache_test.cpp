@@ -21,10 +21,7 @@ template <typename Key, typename Value>
 class FifoCacheTest
 {
 public:
-  FifoCacheTest(size_t capacity, typename FifoCache<Key, Value>::Loader const & loader)
-      : m_cache(capacity, loader)
-  {
-  }
+  FifoCacheTest(size_t capacity, typename FifoCache<Key, Value>::Loader const & loader) : m_cache(capacity, loader) {}
 
   Value const & GetValue(Key const & key) { return m_cache.GetValue(key); }
   unordered_map<Key, Value> const & GetMap() const { return m_cache.m_map; }
@@ -93,7 +90,8 @@ UNIT_TEST(FifoCache_LoaderCalls)
   using Key = int;
   using Value = int;
   bool shouldLoadBeCalled = true;
-  auto loader = [&shouldLoadBeCalled](Key k, Value & v) {
+  auto loader = [&shouldLoadBeCalled](Key k, Value & v)
+  {
     TEST(shouldLoadBeCalled, ());
     v = k;
   };
