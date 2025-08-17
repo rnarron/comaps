@@ -322,19 +322,19 @@
     <string name="type.cuisine.noodles">Fideos</string>
     <string name="type.cuisine.oriental">Oriental</string>
     <string name="type.cuisine.pancake">Tortitas</string>
-    <string name="type.cuisine.pasta">Pastas</string>
+    <string name="type.cuisine.pasta">Pasta</string>
     <string name="type.cuisine.persian">Persa</string>
     <string name="type.cuisine.peruvian">Peruana</string>
     <string name="type.cuisine.pizza">Pizzas</string>
     <string name="type.cuisine.polish">Polaca</string>
     <string name="type.cuisine.portuguese">Portuguesa</string>
     <string name="type.cuisine.ramen">Ramen</string>
-    <string name="type.cuisine.regional">Cocina regional</string>
+    <string name="type.cuisine.regional">Regional</string>
     <string name="type.cuisine.russian">Rusa</string>
     <string name="type.cuisine.sandwich">Sándwiches</string>
     <string name="type.cuisine.sausage">Salchichas</string>
     <string name="type.cuisine.savory_pancakes">Tortitas saladas</string>
-    <string name="type.cuisine.seafood">Mariscos</string>
+    <string name="type.cuisine.seafood">del mar</string>
     <string name="type.cuisine.soba">Soba</string>
     <string name="type.cuisine.spanish">Española</string>
     <string name="type.cuisine.steak_house">Asador</string>
@@ -373,10 +373,10 @@
     <string name="type.healthcare.speech_therapist">Logopedia</string>
     <!-- SECTION: Types: Roads -->
     <string name="type.highway">Carretera</string>
-    <string name="type.highway.bridleway">Camino de caballos</string>
+    <string name="type.highway.bridleway">Camino ecuestre</string>
     <!-- These translations are used for all type.highway.*.bridge. -->
     <string name="type.highway.bridleway.bridge">Puente</string>
-    <string name="type.highway.bridleway.permissive">Camino de caballos</string>
+    <string name="type.highway.bridleway.permissive">Camino ecuestre</string>
     <!-- These translations are used for all type.highway.*.tunnel. -->
     <string name="type.highway.bridleway.tunnel">Túnel</string>
     <string name="type.highway.busway">Carretera exclusiva para autobuses</string>
@@ -384,7 +384,7 @@
     <string name="type.highway.busway.bridge">Puente</string>
     <!-- These translations are used for all type.highway.*.tunnel. -->
     <string name="type.highway.busway.tunnel">Túnel</string>
-    <string name="type.highway.bus_stop">Parada de autobús</string>
+    <string name="type.highway.bus_stop">Parada de bus</string>
     <string name="type.highway.construction">Vía en construcción</string>
     <string name="type.highway.cycleway">Ciclovía</string>
     <!-- These translations are used for all type.highway.*.bridge. -->
@@ -440,7 +440,7 @@
     <!-- These translations are used for all type.highway.*.bridge. -->
     <string name="type.highway.primary.bridge">Puente</string>
     <!-- These translations are used for all type.highway.*.tunnel. -->
-    <string name="type.highway.primary.tunnel">Túnel de carretera principal</string>
+    <string name="type.highway.primary.tunnel">Túnel</string>
     <string name="type.highway.primary_link">Enlace de carretera principal</string>
     <!-- These translations are used for all type.highway.*.bridge. -->
     <string name="type.highway.primary_link.bridge">Puente</string>
@@ -788,18 +788,18 @@
     <string name="type.power.generator">Generador</string>
     <string name="type.power.generator.solar">Generador solar</string>
     <string name="type.power.generator.wind">Generador de viento</string>
-    <string name="type.power.generator.gas">Planta de energía de turbina de gas</string>
-    <string name="type.power.generator.hydro">Planta de energía hidroeléctrica</string>
+    <string name="type.power.generator.gas">Planta termoeléctrica de gas</string>
+    <string name="type.power.generator.hydro">Planta hidroeléctrica</string>
     <string name="type.power.line">Línea eléctrica</string>
     <string name="type.power.line.underground">Línea eléctrica subterránea</string>
-    <string name="type.power.minor_line">Línea eléctrica de baja tensión</string>
-    <string name="type.power.plant">Planta de energía</string>
+    <string name="type.power.minor_line">Línea eléctrica menor</string>
+    <string name="type.power.plant">Planta eléctrica</string>
     <string name="type.power.plant.coal">Central eléctrica de carbón</string>
-    <string name="type.power.plant.gas">Planta de energía de turbina de gas</string>
-    <string name="type.power.plant.hydro">Planta de energía hidroeléctrica</string>
+    <string name="type.power.plant.gas">Planta termoeléctrica de gas</string>
+    <string name="type.power.plant.hydro">Planta hidroeléctrica</string>
     <string name="type.power.plant.solar">Planta de energía solar</string>
     <string name="type.power.plant.wind">Planta eólica</string>
-    <string name="type.power.substation">Subestación eléctrica</string>
+    <string name="type.power.substation">Subestación</string>
     <!-- A tower or pylon carrying high voltage electricity cables. -->
     <string name="type.power.tower">Torre eléctrica</string>
     <string name="type.public_transport">Transporte público</string>
@@ -813,9 +813,9 @@
     <string name="type.railway.halt">Punto de parada</string>
     <string name="type.railway.level_crossing">Cruce a nivel</string>
     <string name="type.railway.light_rail">Tren ligero</string>
-    <string name="type.railway.monorail">Monorraíl</string>
+    <string name="type.railway.monorail">Monorriel</string>
     <string name="type.railway.narrow_gauge">Vía férrea estrecha</string>
-    <string name="type.railway.platform">Plataforma de vía férrea</string>
+    <string name="type.railway.platform">Plataforma ferroviaria</string>
     <string name="type.railway.rail">Ferrocarril</string>
     <string name="type.railway.rail.highspeed">Ferrocarril de alta velocidad</string>
     <string name="type.railway.rail.tourism">Ferrocarril turístico</string>
@@ -1362,8 +1362,8 @@
     <string name="type.railway.funicular.bridge">Puente de funicular</string>
     <string name="type.railway.funicular.tunnel">Túnel de funicular</string>
     <string name="type.railway.light_rail.tunnel">Túnel de tren ligero</string>
-    <string name="type.railway.monorail.bridge">Puente de monorraíl</string>
-    <string name="type.railway.monorail.tunnel">Túnel de monorraíl</string>
+    <string name="type.railway.monorail.bridge">Puente de monorriel</string>
+    <string name="type.railway.monorail.tunnel">Túnel de monorriel</string>
     <string name="type.railway.narrow_gauge.bridge">Puente de vía férrea estrecha</string>
     <string name="type.railway.preserved">Raíl conservado</string>
     <string name="type.fee.yes">$</string>

@@ -834,7 +834,7 @@
 "unable_to_calc_alert_title" = "Rota hesaplanamıyor";
 "unable_to_calc_alert_subtitle" = "Rota bulunamadı. Bunun nedeni, belirlediğiniz seçenekler ya da eksik OpenStreetMap verisi olabilir. Lütfen rota seçeneklerinizi değiştirin ve yeniden deneyin.";
 "define_to_avoid_btn" = "Kaçınılması gereken yolları tanımlayın";
-"change_driving_options_btn" = "Sürüş seçenekleri etkinleştirildi";
+"change_driving_options_btn" = "Yönlendirme seçenekleri etkin";
 "toll_road" = "Paralı yol";
 "unpaved_road" = "Asfaltsız yol";
 "ferry_crossing" = "Vapur geçişi";

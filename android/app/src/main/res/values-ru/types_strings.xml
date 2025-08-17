@@ -1386,4 +1386,5 @@
     <string name="type.man_made.crane">Кран</string>
     <string name="type.landuse.religious">Церковный двор</string>
     <string name="type.railway.station.subway.qingdao">Станция метро</string>
+    <string name="type.amenity.ranger_station">Пост лесников</string>
 </resources>

@@ -9,7 +9,7 @@
     <string name="delete">Sil</string>
     <string name="download_maps">Harita İndir</string>
     <!-- Settings/Downloader - info for country when download fails -->
-    <string name="download_has_failed">İndirme başarısız. Yeniden denemek için dokun.</string>
+    <string name="download_has_failed">İndirme başarısız olmuştur, yeniden denemek için dokunun.</string>
     <!-- Settings/Downloader - info for country which started downloading -->
     <string name="downloading">İndiriliyor…</string>
     <!-- Choose measurement on first launch alert - choose metric system button -->
@@ -90,7 +90,7 @@
     <!-- Header of settings activity where user defines storage path -->
     <string name="maps_storage">Haritaları şuraya kaydet:</string>
     <!-- Detailed description of Maps Storage settings button -->
-    <string name="maps_storage_summary">Haritaların indirileceği yeri seç.</string>
+    <string name="maps_storage_summary">Haritaların indirileceği klasörü seçin</string>
     <!-- E.g. "Downloaded maps: 500Mb" in Maps Storage settings -->
     <string name="maps_storage_downloaded">Haritalar</string>
     <!-- Internal storage type in Maps Storage settings (not accessible by the user) -->
@@ -681,7 +681,7 @@
     <string name="unable_to_calc_alert_title">Rota hesaplanamıyor</string>
     <string name="unable_to_calc_alert_subtitle">Rota bulunamadı. Bunun nedeni, belirlediğiniz seçenekler ya da eksik OpenStreetMap verisi olabilir. Lütfen rota seçeneklerinizi değiştirin ve yeniden deneyin.</string>
     <string name="define_to_avoid_btn">Kaçınılması gereken yolları tanımlayın</string>
-    <string name="change_driving_options_btn">Sürüş seçenekleri etkinleştirildi</string>
+    <string name="change_driving_options_btn">Yönlendirme seçenekleri etkin</string>
     <string name="toll_road">Paralı yol</string>
     <string name="unpaved_road">Asfaltsız yol</string>
     <string name="ferry_crossing">Vapur geçişi</string>

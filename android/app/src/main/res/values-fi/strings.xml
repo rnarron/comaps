@@ -921,4 +921,6 @@
     <string name="open_now">Auki nyt</string>
     <string name="closed_now">Suljettu nyt</string>
     <string name="at">kello %s</string>
+    <string name="osm_note_toast">Huomio lähetetään OpenStreetMap:iin</string>
+    <string name="osm_note_hint">Vaihtoehtoisesti voit jättää huomion OpenStreetMap yhteisölle, jotta joku muu voi lisätä tai korjata paikan tiedot.</string>
 </resources>

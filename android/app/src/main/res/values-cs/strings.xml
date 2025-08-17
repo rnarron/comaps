@@ -912,4 +912,6 @@
     <string name="open_now">Otevřeno</string>
     <string name="closed_now">Zavřeno</string>
     <string name="at">v %s</string>
+    <string name="osm_note_toast">Poznámka bude odeslána do OpenStreetMap</string>
+    <string name="osm_note_hint">Případně můžete zanechat poznámku komunitě OpenStreetMap, aby zde někdo jiný mohl místo přidat nebo opravit.</string>
 </resources>

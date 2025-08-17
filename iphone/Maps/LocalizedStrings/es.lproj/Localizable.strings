@@ -764,7 +764,7 @@
 /* For iOS message 'alert_reauth_message' should be splitted in two parts: message + link. Here's link part */
 "alert_reauth_link_text_ios" = "aquí";
 "core_entrance" = "Entrada";
-"error_enter_correct_name" = "Por favor, introduzca el nombre correcto";
+"error_enter_correct_name" = "Por favor, introduce un nombre válido";
 "bookmark_lists" = "Listas";
 
 /* Do not display all bookmark lists on the map */
@@ -903,10 +903,10 @@
 "mountains" = "Montañas";
 "animals" = "Animales";
 "hotels" = "Hoteles";
-"buildings" = "Edificios";
+"buildings" = "Edificaciones";
 "money" = "Dinero";
 "shops" = "Tiendas";
-"parkings" = "Estacionamiento";
+"parkings" = "Aparcamiento";
 "fuel_places" = "Gasolineras";
 "medicine" = "Medicina";
 "search_in_the_list" = "Buscar en la lista";
@@ -963,37 +963,37 @@
 "app_tip_00" = "¡Gracias por utilizar nuestros mapas creados por la comunidad!";
 
 /* App tip #01 */
-"app_tip_01" = "¡Con sus donaciones y apoyo, podemos crear los mejores mapas del mundo!";
+"app_tip_01" = "¡Con tus donaciones y apoyo, podemos crear los mejores mapas del mundo!";
 
 /* App tip #02 */
-"app_tip_02" = "¿Le gusta nuestra aplicación? ¡Por favor done para apoyar su desarrollo! ¿Todavía no le gusta? ¡Díganos por qué y lo arreglaremos!";
+"app_tip_02" = "¿Te gusta nuestra aplicación? ¡Por favor dona para apoyar su desarrollo! ¿Todavía no te gusta? ¡Dinos por qué y lo arreglaremos!";
 
 /* App tip #03 */
 "app_tip_03" = "Si conoce a algún desarrollador o desarrolladora de software, le puede pedir que implemente alguna funcionalidad que usted necesite.";
 
 /* App tip #04 */
-"app_tip_04" = "Toque en cualquier lugar del mapa para seleccionar cualquier elemento. Mantenga pulsado para ocultar y volver a mostrar la interfaz.";
+"app_tip_04" = "Toca en cualquier lugar del mapa para seleccionar cualquier elemento. Manten pulsado para ocultar y volver a mostrar la interfaz.";
 
 /* App tip #05 */
-"app_tip_05" = "¿Sabía que su ubicación actual en el mapa se puede seleccionar?";
+"app_tip_05" = "¿Sabías que tu ubicación actual en el mapa se puede seleccionar?";
 
 /* App tip #06 */
-"app_tip_06" = "Puede ayudar a traducir nuestra aplicación a su idioma.";
+"app_tip_06" = "Puedes ayudar a traducir nuestra aplicación a tu idioma.";
 
 /* App tip #07 */
 "app_tip_07" = "Nuestra aplicación está desarrollada por unos pocos entusiastas y la comunidad.";
 
 /* App tip #08 */
-"app_tip_08" = "Puede arreglar y mejorar fácilmente los datos del mapa.";
+"app_tip_08" = "Puedes arreglar y mejorar fácilmente los datos del mapa.";
 
 /* App tip #09 */
-"app_tip_09" = "Nuestro principal objetivo es crear mapas rápidos, centrados en la privacidad y fáciles de utilizar que le encantarán.";
+"app_tip_09" = "Nuestro principal objetivo es crear mapas rápidos, centrados en la privacidad y fáciles de utilizar, que te encantarán.";
 
 /* Text on the Android Auto or CarPlay placeholder screen that maps are displayed on the phone screen */
-"car_used_on_the_phone_screen" = "Ahora usa CoMaps en la pantalla del teléfono";
+"car_used_on_the_phone_screen" = "Ahora estás usando CoMaps en la pantalla del teléfono";
 
 /* Text on the phone placeholder screen that maps are displayed on the car screen */
-"car_used_on_the_car_screen" = "Ahora usa CoMaps en la pantalla del coche";
+"car_used_on_the_car_screen" = "Ahora estás usando CoMaps en la pantalla del coche";
 
 /* Displayed on the phone screen. Button to display maps on the phone screen instead of a car */
 "car_continue_on_the_phone" = "Pasar al teléfono";
@@ -1005,7 +1005,7 @@
 "button_layer_outdoor" = "Senderismo";
 
 /* Bookmark categories screen, button that opens share dialog to export all bookmarks and tracks */
-"bookmarks_export" = "Exportar todos los marcadores y trayectos";
+"bookmarks_export" = "Exportar todos los marcadores y trazas";
 
 /* Text for the editing the Track's color button. */
 "change_color" = "Cambiar color";

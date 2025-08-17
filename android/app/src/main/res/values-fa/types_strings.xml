@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- SECTION: Types -->
-    <string name="type.addr_interpolation">آدرس/بلاک</string>
-    <string name="type.addr_interpolation.even">آدرس/بلاک</string>
-    <string name="type.addr_interpolation.odd">آدرس/بلاک</string>
+    <string name="type.addr_interpolation">نشانی/بست</string>
+    <string name="type.addr_interpolation.even">نشانی/بست</string>
+    <string name="type.addr_interpolation.odd">نشانی/بست</string>
     <string name="type.aeroway.aerodrome">فرودگاه</string>
-    <string name="type.aeroway.aerodrome.international">فرودگاه</string>
-    <string name="type.aeroway.helipad">پد فرود بالگرد</string>
-    <string name="type.amenity">زیر ساخت</string>
-    <string name="type.amenity.arts_centre">مرکز هنری</string>
+    <string name="type.aeroway.aerodrome.international">فرودگاه فرامرزی</string>
+    <string name="type.aeroway.helipad">بالگَردنشین</string>
+    <string name="type.amenity">امکانات آسایشی</string>
+    <string name="type.amenity.arts_centre">کانون هنری</string>
     <string name="type.amenity.atm">خودپرداز</string>
     <string name="type.amenity.bank">بانک</string>
-    <string name="type.amenity.bar">میکده</string>
-    <string name="type.amenity.bbq">منقل کباب</string>
-    <string name="type.amenity.bench">سَکو</string>
-    <string name="type.amenity.bicycle_parking">پارکینگ دوچرخه</string>
-    <string name="type.amenity.bicycle_rental">مکان اجاره دوچرخه</string>
+    <string name="type.amenity.bar">می‌کده</string>
+    <string name="type.amenity.bbq">اَدیشت کباب</string>
+    <string name="type.amenity.bench">نیمکت</string>
+    <string name="type.amenity.bicycle_parking">ایستگاه دوچرخه</string>
+    <string name="type.amenity.bicycle_rental">جایگاه کرایه دوچرخه</string>
     <string name="type.amenity.bicycle_repair_station">ایستگاه تعمیر دوچرخه</string>
     <string name="type.amenity.biergarten">غذا</string>
     <string name="type.amenity.brothel">فاحشه خانه</string>
@@ -1092,8 +1092,13 @@
     <string name="type.leisure.sports_hall">سالن ورزشی</string>
     <string name="type.man_made.silo">سیلو</string>
     <string name="type.man_made.storage_tank">مخازن سیال</string>
-    <string name="type.aerialway.cable_car">ماشین کابلی</string>
-    <string name="type.aerialway.station">ایستگاه راه هوایی</string>
-    <string name="type.aeroway">­زیرساخت هوا و فضا</string>
+    <string name="type.aerialway.cable_car">خودردو کابلی</string>
+    <string name="type.aerialway.station">ایستگاه راه‌هوایی</string>
+    <string name="type.aeroway">زیرساخت مرز‌هوایی</string>
     <string name="type.aerialway">راه هوایی</string>
+    <string name="type.amenity.bicycle_parking.covered">ایستگاه پوشیده‌ی دوچرخه</string>
+    <string name="type.aeroway.apron">پیشگاه</string>
+    <string name="type.aeroway.gate">دروازه</string>
+    <string name="type.aeroway.taxiway">رج وزیگ</string>
+    <string name="type.aeroway.terminal">پایانه</string>
 </resources>
