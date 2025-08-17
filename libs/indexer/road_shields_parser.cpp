@@ -429,6 +429,18 @@ private:
 
 // Implementations of "ref" parses for some countries.
 
+class AustriaRoadShieldParser : public SimpleRoadShieldParser
+{
+public:
+  explicit AustriaRoadShieldParser(std::string const & baseRoadNumber)
+    : SimpleRoadShieldParser(baseRoadNumber, {{"A", RoadShieldType::Generic_Blue},
+                                              {"S", RoadShieldType::Generic_Blue},
+                                              {"B", RoadShieldType::Generic_Blue},
+                                              {"L", RoadShieldType::Generic_White}})
+  {
+  }
+};
+
 class RussiaRoadShieldParser : public DefaultTypeRoadShieldParser
 {
 public:
@@ -641,6 +653,8 @@ RoadShieldsSetT GetRoadShields(std::string const & mwmName, std::string const & 
     return UKRoadShieldParser(roadNumber).GetRoadShields();
   if (mwmName == "India")
     return IndiaRoadShieldParser(roadNumber).GetRoadShields();
+  if (mwmName == "Austria")
+    return AustriaRoadShieldParser(roadNumber).GetRoadShields();
   if (mwmName == "Russia")
     return RussiaRoadShieldParser(roadNumber).GetRoadShields();
   if (mwmName == "France")
