@@ -1241,7 +1241,7 @@ historic-memorial-plaque                            # icon z18- (also has captio
 historic-stone                                      # icon z18- (also has caption(optional) z18-)
 === 210
 
-amenity-post_box                                    # icon z18- (also has caption(optional) z18-)
+amenity-post_box                                    # icon z18-
 amenity-recycling-container                         # icon z17- (also has caption(optional) z19-)
 historic-memorial-stolperstein                      # icon z19- (also has caption(optional) z19-)
 === 200
@@ -2164,7 +2164,6 @@ leisure-swimming_pool-private                       # icon z17- (also has captio
 # historic-stone                                    # caption(optional) z18- (also has icon z18-)
 # === -9790
 
-# amenity-post_box                                  # caption(optional) z18- (also has icon z18-)
 # amenity-recycling-container                       # caption(optional) z19- (also has icon z17-)
 # historic-memorial-stolperstein                    # caption(optional) z19- (also has icon z19-)
 # === -9800
