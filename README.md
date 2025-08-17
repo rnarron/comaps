@@ -20,19 +20,19 @@
 <div align="center">
   <p align="center">
     <a href="https://codeberg.org/comaps/comaps/releases">
-      <img src="https://img.shields.io/github/license/comaps/comaps?style=for-the-badge&logo=opensourceinitiative&logoColor=white&color=588157" alt="License" style="width: 90%; max-width: 150px;"/>
+      <img src="https://img.shields.io/github/license/comaps/comaps?style=for-the-badge&logo=opensourceinitiative&logoColor=white&color=588157" alt="License"/>
     </a>
     <a href="https://github.com/comaps/comaps/actions/workflows/android-check.yaml">
-      <img src="https://img.shields.io/github/actions/workflow/status/comaps/comaps/.github/workflows/android-check.yaml?label=Android%20Build&logo=android&logoColor=white&style=for-the-badge&color=588157" alt="Android Build Status" style="width: 90%; max-width: 170px;"/>
+      <img src="https://img.shields.io/github/actions/workflow/status/comaps/comaps/.github/workflows/android-check.yaml?label=Android%20Build&logo=android&logoColor=white&style=for-the-badge&color=588157" alt="Android Build Status"/>
     </a>
     <a href="https://github.com/comaps/comaps/actions/workflows/ios-check.yaml">
-      <img src="https://img.shields.io/github/actions/workflow/status/comaps/comaps/.github/workflows/ios-check.yaml?label=iOS%20Build&logo=apple&logoColor=white&style=for-the-badge&color=588157" alt="iOS Build Status" style="width: 90%; max-width: 145px;"/>
+      <img src="https://img.shields.io/github/actions/workflow/status/comaps/comaps/.github/workflows/ios-check.yaml?label=iOS%20Build&logo=apple&logoColor=white&style=for-the-badge&color=588157" alt="iOS Build Status"/>
     </a>
     <a href="https://opencollective.com/comaps">
-      <img src="https://img.shields.io/opencollective/all/comaps?label=Open%20Collective%20Donors&logo=opencollective&logoColor=white&style=for-the-badge&color=588157" alt="Open Collective Donors" style="width: 90%; max-width: 191px;"/>
+      <img src="https://img.shields.io/opencollective/all/comaps?label=Open%20Collective%20Donors&logo=opencollective&logoColor=white&style=for-the-badge&color=588157" alt="Open Collective Donors"/>
     </a>
     <a href="https://liberapay.com/CoMaps">
-      <img src="https://img.shields.io/liberapay/patrons/CoMaps.svg?label=Liberapay%20Patrons&logo=liberapay&logoColor=white&style=for-the-badge&color=588157" alt="Liberapay Patrons" style="width: 90%; max-width: 160px;"/>
+      <img src="https://img.shields.io/liberapay/patrons/CoMaps.svg?label=Liberapay%20Patrons&logo=liberapay&logoColor=white&style=for-the-badge&color=588157" alt="Liberapay Patrons"/>
     </a>
   </p>
 </div>
