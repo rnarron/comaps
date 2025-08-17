@@ -74,7 +74,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		270C9C212E16AABF00ABA688 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../editor/module.modulemap; sourceTree = SOURCE_ROOT; };
+		270C9C212E16AABF00ABA688 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; name = module.modulemap; path = ../../libs/editor/module.modulemap; sourceTree = SOURCE_ROOT; };
 		340C20DC1C3E4DFD00111D22 /* osm_auth.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = osm_auth.cpp; sourceTree = "<group>"; };
 		340C20DD1C3E4DFD00111D22 /* osm_auth.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = osm_auth.hpp; sourceTree = "<group>"; };
 		340DC8271C4E71E500EAA2CC /* changeset_wrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = changeset_wrapper.cpp; sourceTree = "<group>"; };
