@@ -130,13 +130,6 @@ public class FeatureCategoryFragment
   @Override
   public void onSendNoteClicked()
   {
-    if (!OsmOAuth.isAuthorized())
-    {
-      final Intent intent = new Intent(requireActivity(), OsmLoginActivity.class);
-      startActivity(intent);
-      return;
-    }
-
     final double[] center = Framework.nativeGetScreenRectCenter();
     final double lat = center[0];
     final double lon = center[1];
@@ -150,6 +143,13 @@ public class FeatureCategoryFragment
       Editor.nativeCreateStandaloneNote(lat, lon, mPendingNoteText);
       mPendingNoteText = "";
       Toast.makeText(requireContext(), R.string.osm_note_toast, Toast.LENGTH_SHORT).show();
+
+      if (!OsmOAuth.isAuthorized())
+      {
+        final Intent intent = new Intent(requireActivity(), OsmLoginActivity.class);
+        startActivity(intent);
+      }
+
       requireActivity().finish();
     }
   }
@@ -170,6 +170,13 @@ public class FeatureCategoryFragment
                              Editor.nativeCreateStandaloneNote(lat, lon, noteText);
                              mPendingNoteText = "";
                              Toast.makeText(requireContext(), R.string.osm_note_toast, Toast.LENGTH_SHORT).show();
+
+                             if (!OsmOAuth.isAuthorized())
+                             {
+                               final Intent intent = new Intent(requireActivity(), OsmLoginActivity.class);
+                               startActivity(intent);
+                             }
+
                              requireActivity().finish();
                            })
         .setNegativeButton(R.string.cancel, null)
