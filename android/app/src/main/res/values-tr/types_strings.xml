@@ -1365,7 +1365,7 @@
     <string name="type.power.pole">Elektrik Direği</string>
     <string name="type.man_made.utility_pole">Hizmet Direği</string>
     <string name="type.amenity.studio">Stüdyo</string>
-    <string name="type.sport.diving">Dalış Sporu</string>
+    <string name="type.sport.diving">Yüksek Dalış Alanı</string>
     <string name="type.man_made.survey_point">Anket Noktası</string>
     <string name="type.highway.ladder">Merdiven</string>
     <string name="type.man_made.crane">Vinç</string>
@@ -1377,4 +1377,8 @@
     <string name="type.natural.wetland.saltmarsh">Tuz Bataklığı</string>
     <string name="type.natural.wetland.saltmarsh.tidal">Gelgit Tuz Bataklığı</string>
     <string name="type.natural.wetland.fen">Bataklık</string>
+    <string name="type.amenity.bicycle_parking.covered">Üstü kapalı bisiklet park alanı</string>
+    <string name="type.natural.wetland.swamp">Bataklık</string>
+    <string name="type.railway.station.subway.qingdao">Metro İstasyonu</string>
+    <string name="type.attraction.big_wheel">Dönme Dolap</string>
 </resources>

@@ -1147,7 +1147,7 @@
     <string name="type.shop.mobile_phone">Tienda de Móviles</string>
     <string name="type.shop.money_lender">Prestamista</string>
     <string name="type.shop.motorcycle">Tienda de motos</string>
-    <string name="type.shop.motorcycle_repair">Reparación de motos</string>
+    <string name="type.shop.motorcycle_repair">Taller de motos</string>
     <string name="type.shop.music">Tienda de discos</string>
     <string name="type.shop.musical_instrument">Instrumentos musicales</string>
     <string name="type.shop.newsagent">Puesto de venta de periódicos</string>
@@ -1165,7 +1165,7 @@
     <string name="type.shop.seafood">Pescadería</string>
     <string name="type.shop.second_hand">Tienda de segunda mano</string>
     <string name="type.shop.shoes">Zapatería</string>
-    <string name="type.shop.sports">Artículos de deporte</string>
+    <string name="type.shop.sports">Tienda deportiva</string>
     <string name="type.shop.stationery">Papelería</string>
     <string name="type.shop.supermarket">Supermercado</string>
     <string name="type.shop.tattoo">Estudio de tatuajes</string>

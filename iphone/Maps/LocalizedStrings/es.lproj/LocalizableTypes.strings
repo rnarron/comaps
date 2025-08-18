@@ -1245,7 +1245,7 @@
 "type.shop.mobile_phone" = "Tienda de Móviles";
 "type.shop.money_lender" = "Prestamista";
 "type.shop.motorcycle" = "Tienda de motos";
-"type.shop.motorcycle_repair" = "Reparación de motos";
+"type.shop.motorcycle_repair" = "Taller de motos";
 "type.shop.music" = "Tienda de discos";
 "type.shop.musical_instrument" = "Instrumentos musicales";
 "type.shop.newsagent" = "Puesto de venta de periódicos";
@@ -1263,7 +1263,7 @@
 "type.shop.seafood" = "Pescadería";
 "type.shop.second_hand" = "Tienda de segunda mano";
 "type.shop.shoes" = "Zapatería";
-"type.shop.sports" = "Artículos de deporte";
+"type.shop.sports" = "Tienda deportiva";
 "type.shop.stationery" = "Papelería";
 "type.shop.supermarket" = "Supermercado";
 "type.shop.tattoo" = "Estudio de tatuajes";

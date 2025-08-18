@@ -924,4 +924,6 @@
     <string name="closed_now">已歇业</string>
     <string name="open_now">营业中</string>
     <string name="at">%s</string>
+    <string name="osm_note_hint">或者，也可以给 OpenStreetMap 社区留言，以便其他人可以在此添加或修复地点。</string>
+    <string name="osm_note_toast">注释将发送至 OpenStreetMap</string>
 </resources>

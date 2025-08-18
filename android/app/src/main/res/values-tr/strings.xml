@@ -183,7 +183,7 @@
     <!-- Alert message that we can't run Map Storage settings due to some reasons. -->
     <string name="cant_change_this_setting">Üzgünüz, Harita Depolama ayarları şu anda devre dışı.</string>
     <!-- Alert message that downloading is in progress. -->
-    <string name="downloading_is_active">Harita indirme işlemi şu anda sürüyor.</string>
+    <string name="downloading_is_active">Harita indiriliyor</string>
     <!-- Share my position using SMS, %1$@ contains om:// and %2$@ https://comaps.app link WITHOUT NAME. @NOTE non-ascii symbols in the link will result in max 70 characters SMS instead of 140. -->
     <string name="my_position_share_sms">Hey, CoMaps’te geçerli konumumu incele! %1$s veya %2$s Çevrimdışı haritalar sende yok mu? Buradan indir: https://www.comaps.app/download/</string>
     <!-- Subject for emailed bookmark -->
@@ -239,9 +239,9 @@
     <!-- Settings «Route» category: «Tts language» title -->
     <string name="pref_tts_language_title">Ses Dili</string>
     <!-- Settings «Route» category: «Test Voice Directions» title -->
-    <string name="pref_tts_test_voice_title">Sesli Yönlendirmeleri Sına (TTS, Text-To-Speech)</string>
+    <string name="pref_tts_test_voice_title">Sesli Navigasyon Testi</string>
     <!-- Settings «Route» category: Pop-up message when clicking «Test Voice Directions» -->
-    <string name="pref_tts_playing_test_voice">Sesi şimdi duymuyorsanız ses düzeyini veya sistem metin okuma ayarlarını denetleyin.</string>
+    <string name="pref_tts_playing_test_voice">Sesi duyamıyorsanız ses seviyesini veya sistem metin okuma ayarlarını kontrol edin.</string>
     <!-- Settings «Route» category: «Tts unavailable» subtitle -->
     <string name="pref_tts_unavailable">Yok</string>
     <string name="pref_map_auto_zoom">Kendiliğinden yaklaştır</string>
@@ -287,7 +287,7 @@
     <string name="downloader_download_all_button">Tümünü İndir</string>
     <string name="downloader_downloading">İndiriliyor:</string>
     <!-- Displayed in a dialog that appears when a user tries to delete a map while the app is in the follow route mode -->
-    <string name="downloader_delete_map_while_routing_dialog">Haritayı silmek için lütfen navigasyonu durdurun.</string>
+    <string name="downloader_delete_map_while_routing_dialog">Haritayı silmek için lütfen navigasyonu kapatın.</string>
     <!-- PointsInDifferentMWM -->
     <string name="routing_failed_cross_mwm_building">Rotalar yalnızca tümüyle tek bir bölgenin haritası içinde oluşturulabilir.</string>
     <!-- Context menu item for downloader. -->
@@ -357,18 +357,18 @@
     <string name="dialog_routing_location_turn_on">Konum hizmetlerini etkinleştir</string>
     <string name="dialog_routing_location_unknown_turn_on">Mevcut GPS koordinatları belirlenemiyor. Rota hesaplamak için konum hizmetlerini etkinleştirin.</string>
     <string name="dialog_routing_unable_locate_route">Rota belirlenemiyor</string>
-    <string name="dialog_routing_cant_build_route">Rota oluşturulamıyor.</string>
+    <string name="dialog_routing_cant_build_route">Rota oluşturulamıyor</string>
     <string name="dialog_routing_change_start_or_end">Lütfen başlangıç noktanızı veya hedefinizi ayarlayın.</string>
     <string name="dialog_routing_change_start">Başlangıç noktasını ayarla</string>
     <string name="dialog_routing_start_not_determined">Rota oluşturulamadı. Başlangıç noktası belirlenemiyor.</string>
     <string name="dialog_routing_select_closer_start">Lütfen yola daha yakın bir başlangıç noktası seçin.</string>
     <string name="dialog_routing_change_end">Hedefinizi ayarlayın</string>
     <string name="dialog_routing_end_not_determined">Rota oluşturulamadı. Hedef belirlenemiyor.</string>
-    <string name="dialog_routing_select_closer_end">Lütfen yola daha yakın hedef noktası seçin.</string>
-    <string name="dialog_routing_change_intermediate">Ara nokta bulunamadı.</string>
-    <string name="dialog_routing_intermediate_not_determined">Lütfen ara noktanızı ayarlayın.</string>
+    <string name="dialog_routing_select_closer_end">Lütfen yola daha yakın hedef noktası seçin</string>
+    <string name="dialog_routing_change_intermediate">Ara nokta bulunamadı</string>
+    <string name="dialog_routing_intermediate_not_determined">Lütfen ara noktanızı ayarlayın</string>
     <string name="dialog_routing_system_error">Sistem hatası</string>
-    <string name="dialog_routing_application_error">Uygulama hatası nedeniyle rota oluşturulamadı.</string>
+    <string name="dialog_routing_application_error">Uygulama hatası nedeniyle rota oluşturulamadı</string>
     <string name="dialog_routing_try_again">Lütfen yeniden deneyin</string>
     <string name="not_now">Şimdi Değil</string>
     <string name="dialog_routing_download_and_build_cross_route">Haritayı indirerek birden çok haritaya uzanan daha uygun bir rota oluşturmak ister misiniz?</string>
@@ -382,11 +382,11 @@
     <string name="hide">Gizle</string>
     <string name="categories">Kategoriler</string>
     <string name="history">Geçmiş</string>
-    <string name="search_not_found">Tüh, sonuç bulunamadı.</string>
+    <string name="search_not_found">Tüh, sonuç bulunamadı</string>
     <!-- The message when user did not find anything in the search. -->
     <string name="search_not_found_query">Arama yapmak istediğiniz bölgenin haritasını indirin veya yakındaki bir yerleşim yeri adını eklemeyi deneyin.</string>
     <string name="search_history_title">Arama Geçmişi</string>
-    <string name="search_history_text">Son aramalarınızı görüntüleyin.</string>
+    <string name="search_history_text">Son aramalarınızı görüntüleyin</string>
     <string name="clear_search">Arama Geçmişini Temizle</string>
     <!-- Place Page link to Wikipedia article (if map object has it). -->
     <string name="read_in_wikipedia">Vikipedi</string>
@@ -394,7 +394,7 @@
     <string name="p2p_start">Başla</string>
     <string name="p2p_from_here">Başlangıç</string>
     <string name="p2p_to_here">Varış yeri</string>
-    <string name="p2p_only_from_current">Navigasyon yalnızca şu anki konumunuzdan kullanılabilir.</string>
+    <string name="p2p_only_from_current">Navigasyon yalnızca mevcut konumunuzdan başlatılabilir.</string>
     <string name="p2p_reroute_from_current">Şu anki konumunuzdan rota planlamamızı ister misiniz?</string>
     <!-- Edit open hours/set time and minutes dialog -->
     <string name="next_button">Sonraki</string>
@@ -466,14 +466,14 @@
     <string name="level">Kat</string>
     <!-- Building level -->
     <string name="level_value_generic">Kat sayısı: %s</string>
-    <string name="downloader_delete_map_dialog">Harita ile birlikte tüm harita değişiklikleri de silinecektir.</string>
+    <string name="downloader_delete_map_dialog">Harita ile birlikte tüm harita değişiklikleri de silinecektir</string>
     <string name="downloader_update_maps">Haritaları güncelle</string>
     <string name="downloader_mwm_migration_dialog">Rota oluşturmak için tüm haritaları güncellemeli ve rotayı yeniden planlamalısınız.</string>
     <string name="downloader_search_field_hint">Harita bul</string>
-    <string name="common_check_internet_connection_dialog">Lütfen aygıtınızın internete bağlandığından emin olun.</string>
+    <string name="common_check_internet_connection_dialog">Lütfen cihazın internete bağlandığından emin olun.</string>
     <string name="downloader_no_space_title">Yeterli alan yok</string>
     <string name="downloader_no_space_message">Lütfen gereksiz verileri silin</string>
-    <string name="editor_login_error_dialog">Giriş hatası.</string>
+    <string name="editor_login_error_dialog">Giriş hatası</string>
     <string name="editor_profile_changes">Doğrulanan Düzenleme</string>
     <string name="editor_focus_map_on_location">Çarpı imini mekân veya işletmenin konumuna yerleştirmek için haritayı sürükleyin.</string>
     <string name="editor_edit_place_title">Düzenleme</string>
@@ -490,16 +490,16 @@
     <string name="osm_presentation">%s tarihine ait topluluk tarafından oluşturulmuş OpenStreetMap verilerini kullanıyorsunuz. OpenStreetMap.org adresinden haritayı nasıl düzenleyebileceğiniz hakkında bilgi edinebilirsiniz</string>
     <!-- OSM explanation on Android login screen -->
     <string name="login_osm_presentation">OpenStreetMap.org (OSM), ücretsiz ve açık harita oluşturmayı amaçlayan bir topluluk projesidir. OSM, CoMaps\'teki harita verilerinin ana kaynağıdır ve Vikipedi\'ye benzer şekilde çalışır. Haritadaki yerleri ekleyebilir veya düzenleyebilirsiniz ve bunlar tüm dünyadaki milyonlarca kullanıcı tarafından kullanılabilir hale gelir. \nTopluluğa katılın ve herkes için daha iyi bir harita oluşturmaya yardımcı olun!</string>
-    <string name="login_to_make_edits_visible">Harita düzenlemelerinizi herkese ulaştırmak için OpenStreetMap hesabı oluşturun veya oturum açın.</string>
+    <string name="login_to_make_edits_visible">Harita düzenlemelerinizi herkese ulaştırmak için OpenStreetMap hesabı oluşturun veya oturum açın</string>
     <!-- Downloaded 10 **of** 20 <- it is that "of" -->
     <string name="downloader_of">%1$d/%2$d</string>
     <string name="download_over_mobile_header">Hücresel bir ağ bağlantısı kullanarak indirilsin mi?</string>
-    <string name="download_over_mobile_message">Bu işlem, bazı planlarda veya dolaşımda oldukça pahalı olabilir.</string>
+    <string name="download_over_mobile_message">Bu işlem, bazı planlarda veya dolaşımda oldukça pahalı olabilir</string>
     <string name="error_enter_correct_house_number">Geçerli bir bina numarası girin</string>
     <!-- Error message in Editor when a user tries to set the number of floors for a building higher than %d floors -->
     <string name="error_enter_correct_storey_number">Kat sayısı %d\'i geçmemelidir</string>
     <string name="editor_zip_code">Posta Kodu</string>
-    <string name="error_enter_correct_zip_code">Geçerli posta kodu gir</string>
+    <string name="error_enter_correct_zip_code">Geçerli bir posta kodu girin</string>
     <!-- Place Page title for long tap -->
     <string name="core_placepage_unknown_place">Harita Noktası</string>
     <!-- Title for OSM note section in the editor -->
@@ -517,8 +517,8 @@
     <string name="editor_category_unsuitable_title">Uygun bir kategori bulamıyor musunuz?</string>
     <string name="editor_category_unsuitable_text">CoMaps yalnızca basit nokta kategorilerini eklemeye izin verir. Yani kasaba, yol, göl, bina vb. çizgi/alan verisi ekleme desteği yoktur. Lütfen bu tür kategorileri doğrudan <a href="https://www.openstreetmap.org">OpenStreetMap.org</a> üzerinden ekleyin. Adım adım ayrıntılı yönergeler için <a href="https://www.comaps.app/support/advanced-map-editing/">rehberimize</a> göz atabilirsiniz.</string>
     <string name="downloader_no_downloaded_maps_title">Hiç harita indirmediniz</string>
-    <string name="downloader_no_downloaded_maps_message">Çevrim dışı olarak adres bulmak ve gezinmek için haritaları indirin.</string>
-    <string name="current_location_unknown_error_title">Geçerli konum bilinmiyor.</string>
+    <string name="downloader_no_downloaded_maps_message">İnternetsiz olarak biyerleri bulmak ve gezinmek için haritaları indirin.</string>
+    <string name="current_location_unknown_error_title">Mevcut konum bilinmiyor.</string>
     <!-- abbreviation for meters -->
     <string name="m">m</string>
     <!-- abbreviation for kilometers -->
@@ -557,8 +557,8 @@
     <!-- Displayed when saving some edits to the map to warn against publishing personal data -->
     <string name="editor_share_to_all_dialog_title">Bunu tüm kullanıcılara göndermek ister misiniz?</string>
     <!-- Dialog before publishing the modifications to the public map. -->
-    <string name="editor_share_to_all_dialog_message_1">Herhangi bir kişisel bilgi girmediğinizden emin olun.</string>
-    <string name="editor_share_to_all_dialog_message_2">OpenStreetMap editörleri değişikliklerinizi denetleyecek ve bir soruları olursa sizinle iletişime geçecek.</string>
+    <string name="editor_share_to_all_dialog_message_1">Herhangi bir kişisel bilgi girmediğinizden emin olun</string>
+    <string name="editor_share_to_all_dialog_message_2">OpenStreetMap editörleri değişikliklerinizi denetleyecek ve bir soruları olursa sizinle iletişime geçecektir</string>
     <string name="navigation_stop_button">Dur</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">GPS iziniz kaydediliyor</string>
@@ -572,10 +572,10 @@
     <string name="mobile_data_option_not_today">Bugün Kullanma</string>
     <string name="mobile_data">Mobil İnternet</string>
     <!-- NOTE to translators: please synchronize your translation with the English one. -->
-    <string name="mobile_data_description">Harita güncelleme bildirimleri ve yapılan düzenlemelerin yüklenmesi için mobil internet gereklidir.</string>
+    <string name="mobile_data_description">Harita güncelleme bildirimleri ve yapılan düzenlemelerin yüklenmesi için mobil internet gereklidir</string>
     <string name="mobile_data_option_never">Asla Kullanma</string>
     <string name="mobile_data_option_ask">Her Zaman Sor</string>
-    <string name="traffic_update_maps_text">Trafik verilerini görüntülemek için haritaların güncellenmesi gerekiyor.</string>
+    <string name="traffic_update_maps_text">Trafik verilerini görüntülemek için haritaların güncellenmesi gerekiyor</string>
     <string name="big_font">Haritadaki yazı tipi boyutunu artır</string>
     <string name="traffic_update_app">Lütfen CoMaps\'i güncelleyin</string>
     <!-- "traffic" as in "road congestion" -->
@@ -585,7 +585,7 @@
     <string name="feedback_general">Genel Geri Bildirim</string>
     <string name="prefs_languages_information">Sesli yönlendirme için TTS sistemini kullanıyoruz. Çoğu Android aygıt, Google TTS\'yi kullanıyor. Uygulamayı, Google Play\'den indirebilir veya güncelleyebilirsiniz (https://play.google.com/store/apps/details?id=com.google.android.tts)</string>
     <string name="prefs_languages_information_off">Bazı diller için uygulama mağazasından (Google Play, Galaxy Store, App Gallery, FDroid) başka konuşma sentezleyici ya da ek dil paketi kurmanız gerekebilir.\nAygıt ayarları → Dil ve Giriş → Konuşma → Metin Okuma seçeneğini açın.\nBuradan konuşma sentezi ayarlarını yönetebilir (örneğin, çevrim dışı kullanım için dil paketini karşıdan yükleyebilir) ve başka metin okuma motorunu seçebilirsiniz.</string>
-    <string name="prefs_languages_information_off_link">Daha fazla bilgi için lütfen bu kılavuzu inceleyin.</string>
+    <string name="prefs_languages_information_off_link">Daha fazla bilgi için lütfen bu kılavuzu inceleyin</string>
     <string name="transliteration_title">Latin alfabesine çevir</string>
     <string name="learn_more">Daha fazla bilgi edinin</string>
     <!-- Subway exits for public transport marks on the map -->
@@ -664,7 +664,7 @@
     <!-- Speed camera settings menu option - Never warn (about speedcams) -->
     <string name="pref_tts_speedcams_never">Hiçbir zaman uyarma</string>
     <string name="power_managment_title">Güç tasarrufu modu</string>
-    <string name="power_managment_description">Kimi işlevler pahasına olsa da güç kullanımını düşürmeyi dener.</string>
+    <string name="power_managment_description">Bazı fonksiyonlardan kısarak güç tüketimini azaltır</string>
     <string name="power_managment_setting_never">Asla</string>
     <string name="power_managment_setting_auto">Pil düşükken</string>
     <string name="power_managment_setting_manual_max">Her zaman</string>
@@ -923,4 +923,6 @@
     <string name="pref_backup_now_summary_folder_unavailable">Yedekleme klasörü kullanılamıyor</string>
     <string name="pref_backup_now_summary_empty_lists">Yedeklenecek yer imi ve parça yok</string>
     <string name="dialog_report_error_missing_folder">Seçilen yedekleme konumu kullanılamıyor veya yazılabilir değil. Lütfen farklı bir konum seçin.</string>
+    <string name="osm_note_hint">Veya alternatif olarak, OpenStreetMap topluluğuna bir not bırakın, böylece başka biri buraya ekleme yapabilir veya hatayı düzeltebilir.</string>
+    <string name="osm_note_toast">Notunuz OpenStreetMap\'e gönderilecektir</string>
 </resources>

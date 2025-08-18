@@ -139,7 +139,7 @@
     <!-- Search category for police; any changes should be duplicated in categories.txt @category_police! -->
     <string name="category_police">Policie</string>
     <!-- Search category for WiFi access; any changes should be duplicated in categories.txt @category_wifi! -->
-    <string name="category_wifi">WiFi</string>
+    <string name="category_wifi">Wi-Fi</string>
     <!-- Search category for recycling; any changes should be duplicated in categories.txt @category_recycling! -->
     <string name="category_recycling">Recyklace</string>
     <!-- Search category for water; any changes should be duplicated in categories.txt @category_water! also used to sort bookmarks by type -->
@@ -340,7 +340,7 @@
     <string name="dialog_routing_disclaimer_beware">Na silnici buďte pozorní a chovejte se bezpečně!</string>
     <string name="dialog_routing_check_gps">Zkontrolovat signál GPS</string>
     <string name="dialog_routing_error_location_not_found">Trasu se nepodařilo vytvořit. Nelze zjistit aktuální souřadnice GPS.</string>
-    <string name="dialog_routing_location_turn_wifi">Zkontrolujte signál GPS. Povolením připojení WiFi zpřesníte určení vaší polohy.</string>
+    <string name="dialog_routing_location_turn_wifi">Zkontrolujte signál GPS. Povolením připojení Wi-Fi zlepšíte přesnost určování vaší polohy.</string>
     <string name="dialog_routing_location_turn_on">Povolit služby určování polohy</string>
     <string name="dialog_routing_location_unknown_turn_on">Aktuální souřadnice GPS se nepodařilo zjistit. Pro výpočet trasy povolte služby určování polohy.</string>
     <string name="dialog_routing_unable_locate_route">Trasu se nepodařilo zjistit</string>

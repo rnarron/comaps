@@ -639,4 +639,6 @@
     <string name="open_now">Jetzt offe</string>
     <string name="closed_now">Jetzt zue</string>
     <string name="at">am %s</string>
+    <string name="osm_note_hint">Oder hinterlaa alternativ en Hiiwiis für d OpenStreetMap Community, sodass öpper andersch en Ort hinzuefüege oder korrigiere cha.</string>
+    <string name="osm_note_toast">En Hiiwiis wird zu OpenStreetMap gschickt</string>
 </resources>

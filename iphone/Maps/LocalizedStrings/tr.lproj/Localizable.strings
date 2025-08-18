@@ -253,7 +253,7 @@
 "pref_tts_language_title" = "Ses Dili";
 
 /* Settings «Route» category: «Test Voice Directions» title */
-"pref_tts_test_voice_title" = "Sesli Yönlendirmeleri Sına (TTS, Text-To-Speech)";
+"pref_tts_test_voice_title" = "Sesli Navigasyon Testi";
 
 /* Title for "Other" section in TTS settings. */
 "pref_tts_other_section_title" = "Diğer";
@@ -623,7 +623,7 @@
 /* Error message in Editor when a user tries to set the number of floors for a building higher than %d floors */
 "error_enter_correct_storey_number" = "Kat sayısı %d'i geçmemelidir";
 "editor_zip_code" = "Posta Kodu";
-"error_enter_correct_zip_code" = "Geçerli posta kodu gir";
+"error_enter_correct_zip_code" = "Geçerli bir posta kodu girin";
 
 /* Place Page title for long tap */
 "core_placepage_unknown_place" = "Harita Noktası";
@@ -1097,7 +1097,7 @@
 "edit_track" = "Kaydı Düzenle";
 "osm_profile_view_edit_history" = "Düzenleme geçmişini görüntüle";
 "osm_profile_view_notes" = "Notları görüntüle";
-"pref_mapappearance_title" = "Map Appearance";
-"pref_maplanguage_title" = "Map Language";
+"pref_mapappearance_title" = "Harita Teması";
+"pref_maplanguage_title" = "Harita Dili";
 "transliteration_title_disabled_summary" = "Disabled when always using the local language for the map";
-"pref_maplanguage_local" = "Local Language";
+"pref_maplanguage_local" = "Uygulama Dili";

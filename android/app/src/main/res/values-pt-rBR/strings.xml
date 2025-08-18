@@ -897,4 +897,6 @@
     <string name="open_now">Aberto agora</string>
     <string name="closed_now">Fechado agora</string>
     <string name="at">às %s</string>
+    <string name="osm_note_hint">Ou, em vez disso, deixe uma nota para a comunidade do OpenStreetMap para que outra pessoa possa adicionar ou corrigir um lugar aqui.</string>
+    <string name="osm_note_toast">A nota será enviada ao OpenStreetMap</string>
 </resources>

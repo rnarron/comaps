@@ -927,4 +927,6 @@
     <string name="dialog_report_error_with_logs">Veuillez nous envoyer un rapport d\'erreur :\n - \"Activer la journalisation\" dans les paramètres\n - reproduire le problème\n - dans l\'écran \"À propos &amp; Help\", appuyez sur le bouton \"SIGNAER UN BUG\" et envoyez-le par e-mail ou par chat\n - désactiver la journalisation</string>
     <string name="pref_backup_now_summary">Créer une sauvegarde immédiatement</string>
     <string name="at">à %s</string>
+    <string name="osm_note_hint">Sinon, laissez une note à la communauté OpenStreetMap pour que quelqu\'un d\'autre puisse ajouter ou corriger ce lieu.</string>
+    <string name="osm_note_toast">La note va être envoyée à OpenStreetMap</string>
 </resources>

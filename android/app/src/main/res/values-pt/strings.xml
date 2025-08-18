@@ -380,8 +380,8 @@
     <string name="read_in_wikipedia">Wikipédia</string>
     <string name="p2p_your_location">Localização atual</string>
     <string name="p2p_start">Iniciar</string>
-    <string name="p2p_from_here">De</string>
-    <string name="p2p_to_here">Itinerário para</string>
+    <string name="p2p_from_here">Rota desde</string>
+    <string name="p2p_to_here">Rota para</string>
     <string name="p2p_only_from_current">Só é possível navegar a partir da sua localização atual</string>
     <string name="p2p_reroute_from_current">Quer planear uma rota a partir da sua localização atual?</string>
     <!-- Edit open hours/set time and minutes dialog -->

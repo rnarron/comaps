@@ -144,7 +144,7 @@
 "category_police" = "Policie";
 
 /* Search category for WiFi access; any changes should be duplicated in categories.txt @category_wifi! */
-"category_wifi" = "WiFi";
+"category_wifi" = "Wi-Fi";
 
 /* Search category for recycling; any changes should be duplicated in categories.txt @category_recycling! */
 "category_recycling" = "Recyklace";
@@ -448,7 +448,7 @@
 "dialog_routing_disclaimer_beware" = "Na silnici buďte pozorní a chovejte se bezpečně!";
 "dialog_routing_check_gps" = "Zkontrolovat signál GPS";
 "dialog_routing_error_location_not_found" = "Trasu se nepodařilo vytvořit. Nelze zjistit aktuální souřadnice GPS.";
-"dialog_routing_location_turn_wifi" = "Zkontrolujte signál GPS. Povolením připojení WiFi zpřesníte určení vaší polohy.";
+"dialog_routing_location_turn_wifi" = "Zkontrolujte signál GPS. Povolením připojení Wi-Fi zlepšíte přesnost určování vaší polohy.";
 "dialog_routing_location_turn_on" = "Povolit služby určování polohy";
 "dialog_routing_location_unknown_turn_on" = "Aktuální souřadnice GPS se nepodařilo zjistit. Pro výpočet trasy povolte služby určování polohy.";
 "dialog_routing_download_files" = "Stáhnout požadované soubory";

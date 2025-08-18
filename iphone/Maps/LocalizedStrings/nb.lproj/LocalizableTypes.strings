@@ -8,7 +8,7 @@
 "type.aerialway.gondola" = "Gondolbane";
 "type.aerialway.mixed_lift" = "Kombibane";
 "type.aerialway.station" = "Taubanestasjon";
-"type.aeroway" = "Airspace Infrastructure";
+"type.aeroway" = "Luftromsinfrastruktur";
 "type.aeroway.aerodrome" = "Flyplass";
 "type.aeroway.aerodrome.international" = "Flyplass";
 "type.aeroway.apron" = "Apron";

@@ -921,4 +921,6 @@
     <string name="open_now">Jetzt geöffnet</string>
     <string name="at">um %s</string>
     <string name="closed_now">Jetzt geschlossen</string>
+    <string name="osm_note_hint">Oder hinterlasse alternativ einen Hinweis für die OpenStreetMap Community, sodass jemand anders einen Ort hinzufügen oder korrigieren kann.</string>
+    <string name="osm_note_toast">Ein Hinweis wird zu OpenStreetMap geschickt</string>
 </resources>
