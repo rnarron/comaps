@@ -347,6 +347,7 @@ dependencies {
   implementation libs.androidx.appcompat
   implementation libs.androidx.car.app
   implementation libs.androidx.car.app.projected
+  implementation libs.androidx.wear
   implementation libs.androidx.constraintlayout
   implementation libs.androidx.fragment
   implementation libs.androidx.preference

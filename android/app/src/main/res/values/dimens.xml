@@ -179,4 +179,6 @@
 
   <!--About Fragment -->
   <dimen name="about_max_button_width">310dp</dimen>
+
+  <dimen name="box_margin">0dp</dimen>
 </resources>
