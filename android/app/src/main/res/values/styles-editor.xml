@@ -9,6 +9,7 @@
     <item name="cardBackgroundColor">?cardBackground</item>
     <item name="android:padding">@dimen/margin_base</item>
     <item name="cardPreventCornerOverlap">false</item>
+    <item name="android:windowSwipeToDismiss">false</item>
   </style>
 
   <style name="MwmWidget.Editor.MetadataBlock">

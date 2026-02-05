@@ -28,6 +28,7 @@
     <item name="fabCustomSize">@dimen/map_button_size</item>
     <item name="maxImageSize">@dimen/map_button_icon_size</item>
     <item name="borderWidth">0dp</item>
+    <item name="android:windowSwipeToDismiss">false</item>
   </style>
 
   <style name="MwmWidget.MapButton.Zoom">
@@ -292,6 +293,7 @@
     <item name="tabIndicatorColor">@color/white_primary</item>
     <item name="tabRippleColor">@android:color/transparent</item>
     <item name="tabSelectedTextColor">@color/white_primary</item>
+    <item name="android:windowSwipeToDismiss">false</item>
   </style>
 
   <style name="MwmWidget.Downloader.ToolbarButton">
@@ -371,6 +373,7 @@
     <item name="android:textSize">14sp</item>
     <item name="textAllCaps">false</item>
     <item name="android:textAllCaps">false</item>
+    <item name="android:windowSwipeToDismiss">false</item>
   </style>
 
 </resources>
