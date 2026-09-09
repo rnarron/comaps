@@ -48,6 +48,8 @@ import androidx.annotation.StyleRes;
 import androidx.annotation.UiThread;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
@@ -1487,11 +1489,17 @@ public class MwmActivity extends BaseMwmFragmentActivity
   {
     if (event.getActionMasked() == MotionEvent.ACTION_SCROLL)
     {
-      int exponent = event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0 ? -1 : 1;
-      Map.onScale(Math.pow(1.7f, exponent), event.getX(), event.getY(), true);
-      return true;
+      int axis = event.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER) ? MotionEventCompat.AXIS_SCROLL
+                                                                          : MotionEvent.AXIS_VSCROLL;
+      float scroll = event.getAxisValue(axis);
+      if (scroll != 0)
+      {
+        int exponent = scroll < 0 ? -1 : 1;
+        Map.onScale(Math.pow(1.7f, exponent), event.getX(), event.getY(), true);
+        return true;
+      }
     }
-    return super.onGenericMotionEvent(event);
+    return super.dispatchGenericMotionEvent(event);
   }
 
   @Override
